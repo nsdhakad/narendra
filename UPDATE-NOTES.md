@@ -1,26 +1,12 @@
-Latest UI refinement package
+# Update notes — October 2026
 
-- Reduced institutional, education, and sponsor logo boxes so they fit alongside text without stretching images.
-- Footer social links are icon-only for LinkedIn, Facebook, X, and Instagram, using the provided profile URLs.
-- Removed “Watch on YouTube” links from the VLSI Resources video cards while keeping embedded previews.
-- Added a persistent light/dark mode toggle to the top navigation on all standard pages.
+- Removed `projects.html` (the standalone Research Projects page) from the complete website bundle. Internal navigation and references now route to surviving pages; no internal links should point to `projects.html`.
+- Rebuilt `chip-gallery.html` around the four entries from the public Chip Gallary source: SoC: IMC + RISC-V (TUM), FlexDCIM (NTU Singapore collaboration), QuadPort (IIT Indore), and D-IMC (Intel Labs). Each image opens its full-size public source asset.
+- Expanded `professional-activities.html` to include all source categories and records: leadership/service, invited talks, peer-review venues, memberships, and courses/seminars/workshops/conferences.
+- Reworked `gallery.html` into a photo-repository album index with the public original-photo archive linked from each album. Added `assets/gallery/README.md` for repository-hosted photos. The actual original photographs are not bundled locally; add photographs you own or may publish to `assets/gallery/`.
+- Updated the home page and interactive preview to feature Chip Gallery and Photo Repository instead of the removed Projects page. Updated the bottom navigation labels.
+- Added responsive styles for chip images, the professional activity record list, and the album index; light/dark styling is included.
 
-Replace matching files in the existing repository while preserving the directory structure.
+## Important for an existing GitHub repository
 
-## Follow-up visual fixes (October 2026)
-- Intel wordmark updated to the matching classic Intel logo from Wikimedia Commons. The supplied PNG All URL is a download webpage, and PNG All asks users not to hotlink its raw PNG, so the site uses the equivalent publicly available SVG rather than the prohibited direct image URL.
-- IGEC logo links now open the supplied Allegiance Educare college page. That URL is a webpage, not a direct image file, so the visible IGEC icon remains sourced from the college domain rather than attempting to load the page as an image.
-- Removed CSS-created white logo backgrounds, borders, padding, and shadows; logos remain contained within their defined rectangular logo areas.
-- Strengthened footer social icon sizing, contrast, and visibility in dark and light themes.
-- Theme control now remembers manual choices across pages/tabs and follows the device's light/dark preference on the first visit when no saved choice exists.
-
-### More to explore layout fix
-- Restored the missing base CSS for the homepage's More to explore link grid, which had caused all link text to run together as plain underlined text.
-- Rebuilt the links as separate responsive cards with labels, titles, summaries, and arrow affordances; three columns on wide screens, two on medium screens, and one on small phones.
-- Matched the standalone interactive preview to the same card layout.
-
-
-## Page navigation styling update
-- Replaced the concatenated, underlined cross-page links at the bottom of subpages with a responsive grid of distinct navigation buttons.
-- Buttons have consistent spacing, readable labels, rounded borders, hover/focus states, and theme-aware contrast.
-- Layout shifts from five columns on wide screens to four, three, and two columns on smaller screens.
+When applying the update-only ZIP, overwrite the files at the repository root and **delete the existing `projects.html` file manually** (or remove it in your GitHub commit). The update-only ZIP cannot delete a file just by omitting it. The complete website ZIP already excludes `projects.html`.

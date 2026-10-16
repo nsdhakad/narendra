@@ -9,7 +9,6 @@ This folder is designed to be committed into **the same Git repository** as the 
 - `experience.html` — industry, research, and teaching experience
 - `education.html` — degrees and thesis details
 - `research.html` — research areas and internal navigation
-- `projects.html` — selected research projects
 - `sponsored-projects.html` — sponsored project records
 - `publications.html` — journal papers, conference papers, poster, and preprints (full author names; titles and venue names link to the associated publisher/repository)
 - `publication.html` — compatibility alias with the same updated publication content
@@ -17,8 +16,8 @@ This folder is designed to be committed into **the same Git repository** as the 
 - `professional-activities.html` — IEEE service, talks, review activities, memberships
 - `awards.html` — awards and fellowships
 - `resources.html` — useful external VLSI and research links
-- `gallery.html` — text index of selected academic/community moments; add owned photos when available
-- `chip-gallery.html` — conceptual index of architecture themes
+- `gallery.html` — photo-repository album index, with links to the original photo archive
+- `chip-gallery.html` — four research chip/design images: SoC IMC + RISC-V, FlexDCIM, QuadPort, and D-IMC
 - `extra-curricular.html` — academic service and outreach
 - `contact.html` — contact information
 
@@ -53,7 +52,7 @@ The 3D chip uses Three.js from a CDN and web fonts use Google Fonts, so an inter
 
 ## Content accuracy
 
-The page copy is based on content in the public biography, experience, education, research, projects, publications, professional activities, awards, resources, and gallery pages. Please proofread details before publishing. Publisher and learning-resource URLs are external links where appropriate; internal portfolio links all stay within this repository.
+The page copy is based on content in the public biography, experience, education, research, publications, professional activities, awards, resources, chip gallery, and photo repository pages. Please proofread details before publishing. Publisher and learning-resource URLs are external links where appropriate; internal portfolio links all stay within this repository.
 
 ## Main public profile sources
 
@@ -61,7 +60,6 @@ The page copy is based on content in the public biography, experience, education
 - Experience: https://www.narendradhakad.com/experience
 - Education: https://www.narendradhakad.com/education
 - Research: https://www.narendradhakad.com/research
-- Projects: https://www.narendradhakad.com/research/projects
 - Publications: https://www.narendradhakad.com/research/publications
 - Professional activities: https://www.narendradhakad.com/professional-activities
 
@@ -72,7 +70,7 @@ The page copy is based on content in the public biography, experience, education
 - The About page contains the expanded biography, teaching appointments, IEEE chapter leadership, and reviewer service.
 - Journey and Experience rows and Education entries include compact institution/company logos with contained dimensions and fallback text when an external logo host fails.
   Logo images are loaded from publicly accessible institution/company and logo-host URLs (rather than bundled local image files), so those image hosts must remain accessible for the graphics to appear.
-- The VLSI Resources page includes embedded YouTube previews and the full set of learning/research links from the original resources page.
+- The VLSI Resources page includes embedded YouTube previews and the full set of learning/research links from the original resources page. The standalone Research Projects page has been removed; the Chip Gallery now contains the four visual entries from the original chip gallery.
 - Sponsored projects list role, host institute, PI/supervisor, funding agency, and amount as separate fields, with sponsor logos and a continuously scrolling funding/research logo strip.
 - The WhatsApp conversation buttons use the supplied number +91 8989458975.
 

@@ -96,7 +96,7 @@
     soc: {
       title: 'SoC for AI',
       text: 'Exploring system-on-chip integration of RISC-V with in-memory computing, alongside emerging memory technologies for AI workloads.',
-      link: 'https://www.narendradhakad.com/research/projects'
+      link: 'chip-gallery.html'
     },
     edge: {
       title: 'Emerging Memory & Edge AI',
