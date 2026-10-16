@@ -2,9 +2,9 @@
   "profileId": "F0ZcWaMAAAAJ",
   "profileUrl": "https://scholar.google.com/citations?hl=en&user=F0ZcWaMAAAAJ",
   "metrics": {
-    "citations": null,
-    "hIndex": null,
-    "i10Index": null
+    "citations": 249,
+    "hIndex": 9,
+    "i10Index": 8
   },
   "lastSuccessfulRefresh": null,
   "refreshCadence": "weekly"
