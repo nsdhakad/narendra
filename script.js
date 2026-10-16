@@ -56,17 +56,17 @@
     memory: {
       title: 'In-/Near-Memory Computing',
       text: 'Exploring 6T SRAM, 10T SRAM, and configurable multi-port memory architectures that support computing where data lives.',
-      link: 'research.html'
+      link: 'https://www.narendradhakad.com/research'
     },
     soc: {
       title: 'SoC for AI',
       text: 'Exploring system-on-chip integration of RISC-V with in-memory computing, alongside emerging memory technologies for AI workloads.',
-      link: 'projects.html'
+      link: 'https://www.narendradhakad.com/research/projects'
     },
     edge: {
       title: 'Emerging Memory & Edge AI',
       text: 'Research interests include emerging memory technologies for in-memory computing and resource-efficient AI algorithm implementation on edge devices.',
-      link: 'research.html'
+      link: 'https://www.narendradhakad.com/research'
     }
   };
   $$('.research-card').forEach(card => card.addEventListener('click', () => {
@@ -77,6 +77,14 @@
     $('#detailText').textContent = data.text;
     $('#detailLink').href = data.link;
   }));
+
+  // External institutional logos: show a readable label when a remote image host is unavailable.
+  $$('.org-logo-mini img, .edu-logo img, .edu-card-logo img, .sponsor-logo img').forEach(img => {
+    const wrapper = img.closest('.org-logo-mini, .edu-logo, .edu-card-logo, .sponsor-logo');
+    const setFallback = () => { if (wrapper) wrapper.classList.add('logo-failed'); };
+    img.addEventListener('error', setFallback, { once: true });
+    if (img.complete && img.naturalWidth === 0) setFallback();
+  });
 
   // Three.js interactive die / package stack. If WebGL or the CDN is unavailable,
   // the CSS chip illustration remains visible and all page content still works.

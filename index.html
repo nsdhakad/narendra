@@ -1,136 +1,126 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#080e18">
-  <meta name="description" content="Narendra Singh Dhakad — EDA Tools Hardware Engineer at Intel Foundry, research background in in-memory computing, AI hardware, and emerging memory architectures.">
-  <title>Narendra Singh Dhakad — Semiconductor Design & AI Hardware</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-  <script src="script.js" defer></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#080e18" name="theme-color"/>
+<meta content="Narendra Singh Dhakad — EDA Tools Hardware Engineer at Intel Foundry, researching in-memory computing, AI hardware, and emerging memory architectures." name="description"/>
+<title>Narendra Singh Dhakad — Semiconductor Design &amp; AI Hardware</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="styles.css" rel="stylesheet"/>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script defer="" src="script.js"></script>
 </head>
 <body>
-  <div class="reading-progress"><span id="readingProgress"></span></div>
-  <header class="header" id="top">
-    <a class="brand" href="#top" aria-label="Narendra Singh Dhakad home"><span class="brand-mark">N<span></span></span><span class="brand-name">NARENDRA <b>DHAKAD</b></span></a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"><i></i><i></i></button>
-    <nav class="nav" id="nav" aria-label="Main navigation">
-      <a href="#about">About</a><a href="#journey">Journey</a><a href="#research">Research</a><a href="#education">Education</a><a class="nav-contact" href="#contact">Contact <span>↗</span></a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero page-grid" id="home">
-      <div class="hero-copy">
-        <div class="eyebrow"><span class="eyebrow-dot"></span> SEMICONDUCTOR DESIGN / AI HARDWARE</div>
-        <p class="intro-line reveal">Researcher by curiosity. Engineer by craft.</p>
-        <h1 class="reveal">Narendra Singh<br><em>Dhakad<span>.</span></em></h1>
-        <p class="hero-role reveal"><strong>EDA Tools Hardware Engineer</strong> <span class="role-at">at</span> Intel Foundry <span class="role-place">/ Bengaluru, India</span></p>
-        <p class="hero-description reveal">Exploring how memory architectures and efficient circuit design can bring computation closer to data — and help build better AI hardware.</p>
-        <div class="hero-actions reveal"><a class="button button-primary" href="#research">Explore research <span>↘</span></a><a class="button button-ghost" href="https://scholar.google.com/citations?hl=en&user=F0ZcWaMAAAAJ" target="_blank" rel="noreferrer">Google Scholar <span>↗</span></a></div>
-        <div class="hero-foot reveal"><span class="mono">01 / 05</span><span class="foot-line"></span><span>DESIGNING AT THE EDGE OF POSSIBILITY</span></div>
-      </div>
-
-      <div class="hero-visual reveal" id="heroVisual">
-        <div class="visual-topline"><span><i class="signal-dot"></i> INTERACTIVE MODEL</span><span class="mono">IMC_CORE_001</span></div>
-        <div class="scene-wrap" id="sceneWrap">
-          <canvas id="chipCanvas" aria-label="Interactive three-dimensional semiconductor chip. Drag to rotate the chip." role="img"></canvas>
-          <div class="scene-fallback" id="sceneFallback" aria-hidden="true"><div class="fallback-chip"><span>AI</span><small>IN-MEMORY COMPUTING</small></div></div>
-          <div class="scene-label label-memory"><span class="label-mark"></span><span>MEMORY ARRAY<small>Data close to compute</small></span></div>
-          <div class="scene-label label-core"><span class="label-mark"></span><span>AI CORE<small>Efficient by design</small></span></div>
-          <div class="scene-hint"><span class="drag-icon">↔</span> DRAG TO ROTATE</div>
-        </div>
-        <div class="scene-controls"><button id="autoRotate" class="control-button" aria-pressed="true"><span class="control-glyph">↻</span><span>Auto-rotate</span></button><button id="resetView" class="control-button"><span class="control-glyph">⌖</span><span>Reset view</span></button><span class="mono scene-version">3D / WEBGL</span></div>
-        <div class="visual-corner corner-tl"></div><div class="visual-corner corner-br"></div>
-      </div>
-      <div class="hero-background-mark" aria-hidden="true">IMC</div>
-      <a class="scroll-cue" href="#about"><span>SCROLL TO EXPLORE</span><span class="scroll-cue-line"></span><span>↓</span></a>
-    </section>
-
-    <section class="section about section-grid" id="about">
-      <div class="section-index reveal"><span>01</span><i></i> ABOUT</div>
-      <div class="about-main">
-        <h2 class="section-heading reveal">Connecting the dots between<br><em>memory, logic & intelligence.</em></h2>
-        <div class="about-columns">
-          <p class="body-copy reveal">I am a semiconductor engineer and researcher interested in efficient computing architectures for AI hardware. My work explores in-/near-memory computing, SRAM-based architectures, SoC integration, and emerging memory technologies.</p>
-          <div class="about-side reveal"><p>My path has moved between research labs and industry — from IIT Indore and Purdue University to the Technical University of Munich, Intel Labs, and Intel Foundry.</p><a class="inline-link" href="about.html">Read the full biography <span>↗</span></a></div>
-        </div>
-        <div class="principles reveal"><div><span class="principle-number">01</span><strong>Architecture-aware</strong><small>Designing with systems in mind</small></div><div><span class="principle-number">02</span><strong>Memory-centric</strong><small>Reducing data movement</small></div><div><span class="principle-number">03</span><strong>Research to silicon</strong><small>Bridging ideas and implementation</small></div></div>
-      </div>
-    </section>
-
-    <section class="section journey section-grid" id="journey">
-      <div class="section-index reveal"><span>02</span><i></i> JOURNEY</div>
-      <div class="journey-main">
-        <div class="section-title-row"><h2 class="section-heading reveal">Different labs.<br><em>One direction.</em></h2><p class="section-aside reveal">A career shaped by circuit design, architecture, teaching, and collaboration.</p></div>
-        <div class="timeline">
-          <article class="timeline-entry reveal"><time>JUN 2025 — PRESENT</time><span class="timeline-dot current"></span><div class="timeline-detail"><div class="entry-title"><h3>EDA Tools Hardware Engineer</h3><span class="entry-type">INDUSTRY</span></div><p class="entry-org">Intel Technology India Pvt. Ltd. · Bengaluru, India</p><p>Working in the process design-kit ecosystem at Intel Foundry.</p></div></article>
-          <article class="timeline-entry reveal"><time>AUG 2024 — JUN 2025</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Postdoctoral Researcher</h3><span class="entry-type">RESEARCH</span></div><p class="entry-org">Chair of AI Processor Design · Technical University of Munich, Germany</p><p>Research with Prof. Hussam Amrouch on AI processor design.</p></div></article>
-          <article class="timeline-entry reveal"><time>JAN — JUL 2024</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Processor Architecture Research Intern</h3><span class="entry-type">INDUSTRY RESEARCH</span></div><p class="entry-org">Intel Labs · Bengaluru, India</p><p>Processor architecture research during doctoral work.</p></div></article>
-          <article class="timeline-entry reveal"><time>2022 — 2023</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Visiting Research Fellow</h3><span class="entry-type">INTERNATIONAL</span></div><p class="entry-org">Nanoelectronics Research Laboratory · Purdue University, USA</p><p>Worked with Prof. Kaushik Roy on nanoelectronics and computing research.</p></div></article>
-          <article class="timeline-entry reveal"><time>JUN 2018 — NOV 2019</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Assistant Professor</h3><span class="entry-type">ACADEMIA</span></div><p class="entry-org">Shri G. S. Institute of Technology and Science · Indore, India</p><p>Teaching and mentoring in electronics, VLSI technology, and VLSI design.</p></div></article>
-          <article class="timeline-entry reveal"><time>JUL 2017 — MAY 2018</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Lecturer</h3><span class="entry-type">ACADEMIA</span></div><p class="entry-org">Indira Gandhi Government Engineering College · Sagar, India</p><p>Teaching microprocessors, VLSI circuits, and systems.</p></div></article>
-        </div>
-        <a class="inline-link timeline-link reveal" href="experience.html">Full experience details <span>↗</span></a>
-      </div>
-    </section>
-
-    <section class="section research section-grid" id="research">
-      <div class="section-index reveal"><span>03</span><i></i> RESEARCH</div>
-      <div class="research-main">
-        <div class="section-title-row"><h2 class="section-heading reveal">The work behind<br><em>the next compute.</em></h2><p class="section-aside reveal">Select a research area to explore its focus.</p></div>
-        <div class="research-cards">
-          <button class="research-card card-memory reveal" data-research="memory" aria-pressed="true"><span class="card-number">01 / ARCHITECTURES</span><div class="card-art memory-art" aria-hidden="true"><div class="array-grid"> <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i> </div><span class="art-center">SRAM</span><span class="art-pulse"></span></div><span class="card-title">In-/Near-Memory Computing <span>↗</span></span><span class="card-summary">SRAM architectures that bring computation closer to stored data.</span><span class="card-chip-list"><i>6T SRAM</i><i>10T SRAM</i><i>Multi-port</i></span></button>
-          <button class="research-card reveal" data-research="soc" aria-pressed="false"><span class="card-number">02 / SYSTEM INTEGRATION</span><div class="card-art system-art" aria-hidden="true"><div class="system-node node-cpu">RISC-V</div><div class="system-flow">↔</div><div class="system-node node-imc">IMC</div><div class="system-flow">↔</div><div class="system-node node-mem">MEM</div><div class="system-base-line"></div></div><span class="card-title">SoC for AI <span>↗</span></span><span class="card-summary">Integration of RISC-V processors with in-memory computing engines.</span><span class="card-chip-list"><i>RISC-V</i><i>SoC</i></span></button>
-          <button class="research-card reveal" data-research="edge" aria-pressed="false"><span class="card-number">03 / EMERGING TECHNOLOGIES</span><div class="card-art edge-art" aria-hidden="true"><svg viewBox="0 0 300 100"><path d="M0 51H38l14-25 15 48 17-35 18 12h36l12-24 17 48 18-30h27l10 9h38" fill="none" stroke="currentColor" stroke-width="2"/><path d="M0 70H300 M0 33H300" stroke="currentColor" opacity=".18" stroke-dasharray="3 6"/><circle cx="84" cy="39" r="3" fill="currentColor"/><circle cx="167" cy="75" r="3" fill="currentColor"/></svg><span class="edge-chip">e·AI</span></div><span class="card-title">Emerging Memory & Edge AI <span>↗</span></span><span class="card-summary">Emerging memory technologies and efficient AI algorithms for edge devices.</span><span class="card-chip-list"><i>RRAM</i><i>Memristors</i><i>Edge AI</i></span></button>
-        </div>
-        <div class="research-detail reveal" id="researchDetail" aria-live="polite"><div class="detail-symbol">↳</div><div><span class="detail-label">SELECTED FOCUS</span><h3 id="detailTitle">In-/Near-Memory Computing</h3><p id="detailText">Exploring 6T SRAM, 10T SRAM, and configurable multi-port memory architectures that support computing where data lives.</p></div><a id="detailLink" href="research.html" aria-label="Explore research page">Explore <span>↗</span></a></div>
-        <a class="button button-outline reveal" href="projects.html">Browse research projects <span>↗</span></a>
-      </div>
-    </section>
-
-    <section class="section education section-grid" id="education">
-      <div class="section-index reveal"><span>04</span><i></i> EDUCATION</div>
-      <div class="education-main">
-        <div class="section-title-row"><h2 class="section-heading reveal">The foundation<br><em>under the silicon.</em></h2><p class="section-aside reveal">A progression from electronics fundamentals to AI computing architectures.</p></div>
-        <div class="education-list">
-          <a class="education-entry reveal" href="https://www.iiti.ac.in/" target="_blank" rel="noreferrer"><span class="edu-year">NOV 2024</span><span class="edu-degree"><strong>Doctor of Philosophy (Ph.D.)</strong><small>Indian Institute of Technology Indore, India</small><small class="edu-thesis">Thesis: SRAM Based In-Memory Computing Architectures for AI Hardware</small></span><span class="edu-arrow">↗</span></a>
-          <a class="education-entry reveal" href="https://www.sgsits.ac.in/" target="_blank" rel="noreferrer"><span class="edu-year">JUN 2017</span><span class="edu-degree"><strong>M.Tech. · Microelectronics and VLSI Design</strong><small>Shri G. S. Institute of Technology and Science, Indore</small><small class="edu-thesis">Thesis: Low-phase-noise, wide-tuning-range VCO based on injection locking</small></span><span class="edu-arrow">↗</span></a>
-          <a class="education-entry reveal" href="https://www.igecsagar.ac.in/" target="_blank" rel="noreferrer"><span class="edu-year">JUN 2015</span><span class="edu-degree"><strong>B.E. · Electronics & Communication Engineering</strong><small>Indira Gandhi Government Engineering College, Sagar</small><small class="edu-thesis">Project: DTMF-based traffic light control system</small></span><span class="edu-arrow">↗</span></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section impact section-grid" id="community">
-      <div class="section-index reveal"><span>05</span><i></i> COMMUNITY</div>
-      <div class="impact-main"><h2 class="section-heading reveal">Engineering is collaborative.<br><em>So is progress.</em></h2><div class="impact-grid"><div class="impact-copy reveal"><p class="body-copy">Alongside research and engineering, I have contributed to IEEE Circuits and Systems Society activities, student chapters, conference organization, and peer review for journals in circuits, systems, and VLSI.</p><a class="inline-link" href="professional-activities.html">Professional activities <span>↗</span></a></div><div class="impact-links reveal"><a href="publications.html"><span class="impact-no">01</span><span><strong>Publications</strong><small>Research papers and scholarly work</small></span><b>↗</b></a><a href="https://scholar.google.com/citations?hl=en&user=F0ZcWaMAAAAJ" target="_blank" rel="noreferrer"><span class="impact-no">02</span><span><strong>Google Scholar</strong><small>Publication record and citations</small></span><b>↗</b></a><a href="resources.html"><span class="impact-no">03</span><span><strong>VLSI resources</strong><small>Learning links and research resources</small></span><b>↗</b></a></div></div></div>
-    </section>
-
-
-    <section class="section pages-hub section-grid" id="pages-hub">
-      <div class="section-index reveal"><span>06</span><i></i> EXPLORE</div>
-      <div class="pages-hub-main">
-        <div class="section-title-row"><h2 class="section-heading reveal">More to <em>explore.</em></h2><p class="section-aside reveal">Research details, professional service, resources, and the work behind the ideas.</p></div>
-        <div class="page-link-grid">
-          <a class="page-link-card reveal" href="about.html"><span>01 / PROFILE</span><strong>Full biography</strong><small>Background, interests, and affiliations</small><b>↗</b></a>
-          <a class="page-link-card reveal" href="projects.html"><span>02 / RESEARCH</span><strong>Research projects</strong><small>Memory architectures, digital logic, and edge AI</small><b>↗</b></a>
-          <a class="page-link-card reveal" href="sponsored-projects.html"><span>03 / FUNDING</span><strong>Sponsored projects</strong><small>Selected funded research initiatives</small><b>↗</b></a>
-          <a class="page-link-card reveal" href="publications.html"><span>04 / SCHOLARSHIP</span><strong>Publications</strong><small>Journal papers, conference papers, and preprints</small><b>↗</b></a>
-          <a class="page-link-card reveal" href="professional-activities.html"><span>05 / COMMUNITY</span><strong>Professional activities</strong><small>IEEE service, invited talks, and reviewing</small><b>↗</b></a>
-          <a class="page-link-card reveal" href="resources.html"><span>06 / LEARNING</span><strong>VLSI resources</strong><small>Tools and learning links for engineers</small><b>↗</b></a>
-          <a class="page-link-card reveal" href="awards.html"><span>07 / RECOGNITION</span><strong>Awards & fellowships</strong><small>Selected fellowships and recognition</small><b>↗</b></a>
-          <a class="page-link-card reveal" href="gallery.html"><span>08 / GALLERY</span><strong>Academic & community moments</strong><small>Conferences, workshops, and collaborations</small><b>↗</b></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact-section" id="contact"><div class="contact-panel"><div class="contact-orb orb-a"></div><div class="contact-orb orb-b"></div><div class="contact-content"><div class="section-index"><span>07</span><i></i> CONTACT</div><p class="contact-kicker reveal">Ideas grow through good conversations.</p><h2 class="reveal">Have a research idea<br>or collaboration in mind<span>?</span></h2><p class="contact-sub reveal">Let’s connect on semiconductor design, in-memory computing, and AI hardware.</p><div class="contact-actions reveal"><a class="button button-primary" href="mailto:nsdhakad93@gmail.com">Start a conversation <span>↗</span></a><a class="button button-ghost" href="contact.html">Contact details <span>↗</span></a></div></div><div class="contact-side mono">MAKE DATA<br>MOVE LESS.<br><span>THINK MORE.</span></div></div></section>
-  </main>
-
-  <footer class="footer"><a class="brand" href="#top"><span class="brand-mark">N<span></span></span><span class="brand-name">NARENDRA <b>DHAKAD</b></span></a><span class="footer-note">Semiconductors · AI hardware · VLSI</span><a class="back-top" href="#top">BACK TO TOP ↑</a><span class="footer-copy">© <span id="year"></span> Narendra Singh Dhakad</span></footer>
+<div class="reading-progress"><span id="readingProgress"></span></div>
+<header class="header" id="top">
+<a aria-label="Narendra Singh Dhakad home" class="brand" href="#top"><span class="brand-mark">N<span></span></span><span class="brand-name">NARENDRA <b>DHAKAD</b></span></a>
+<button aria-expanded="false" aria-label="Open navigation" class="menu-toggle" id="menuToggle"><i></i><i></i></button>
+<nav aria-label="Main navigation" class="nav" id="nav">
+<a href="#about">About</a><a href="#journey">Journey</a><a href="#research">Research</a><a href="#education">Education</a><a class="nav-contact" href="#contact">Contact <span>↗</span></a>
+</nav>
+</header>
+<main>
+<section class="hero page-grid" id="home">
+<div class="hero-copy">
+<div class="eyebrow"><span class="eyebrow-dot"></span> SEMICONDUCTOR DESIGN / AI HARDWARE</div>
+<p class="intro-line reveal">Researcher by curiosity. Engineer by craft.</p>
+<h1 class="reveal">Narendra Singh<br/><em>Dhakad<span>.</span></em></h1>
+<p class="hero-role reveal"><strong>EDA Tools Hardware Engineer</strong> <span class="role-at">at</span> Intel Foundry <span class="role-place">/ Bengaluru, India</span></p>
+<p class="hero-description reveal">Exploring how memory architectures and efficient circuit design can bring computation closer to data — and help build better AI hardware.</p>
+<div class="hero-actions reveal"><a class="button button-primary" href="#research">Explore research <span>↘</span></a><a class="button button-ghost" href="https://scholar.google.com/citations?hl=en&amp;user=F0ZcWaMAAAAJ" rel="noreferrer" target="_blank">Google Scholar <span>↗</span></a></div>
+<div class="hero-foot reveal"><span class="mono">01 / 05</span><span class="foot-line"></span><span>DESIGNING AT THE EDGE OF POSSIBILITY</span></div>
+</div>
+<div class="hero-visual reveal" id="heroVisual">
+<div class="visual-topline"><span><i class="signal-dot"></i> INTERACTIVE MODEL</span><span class="mono">IMC_CORE_001</span></div>
+<div class="scene-wrap" id="sceneWrap">
+<canvas aria-label="Interactive three-dimensional semiconductor chip. Drag to rotate the chip." id="chipCanvas" role="img"></canvas>
+<div aria-hidden="true" class="scene-fallback" id="sceneFallback"><div class="fallback-chip"><span>AI</span><small>IN-MEMORY COMPUTING</small></div></div>
+<div class="scene-label label-memory"><span class="label-mark"></span><span>MEMORY ARRAY<small>Data close to compute</small></span></div>
+<div class="scene-label label-core"><span class="label-mark"></span><span>AI CORE<small>Efficient by design</small></span></div>
+<div class="scene-hint"><span class="drag-icon">↔</span> DRAG TO ROTATE</div>
+</div>
+<div class="scene-controls"><button aria-pressed="true" class="control-button" id="autoRotate"><span class="control-glyph">↻</span><span>Auto-rotate</span></button><button class="control-button" id="resetView"><span class="control-glyph">⌖</span><span>Reset view</span></button><span class="mono scene-version">3D / WEBGL</span></div>
+<div class="visual-corner corner-tl"></div><div class="visual-corner corner-br"></div>
+</div>
+<div aria-hidden="true" class="hero-background-mark">IMC</div>
+<a class="scroll-cue" href="#about"><span>SCROLL TO EXPLORE</span><span class="scroll-cue-line"></span><span>↓</span></a>
+</section>
+<section class="section about section-grid" id="about">
+<div class="section-index reveal"><span>01</span><i></i> ABOUT</div>
+<div class="about-main">
+<h2 class="section-heading reveal">Connecting the dots between<br/><em>memory, logic &amp; intelligence.</em></h2>
+<div class="about-columns">
+<p class="body-copy reveal">I am a semiconductor engineer and researcher interested in efficient computing architectures for AI hardware. My work explores in-/near-memory computing, SRAM-based architectures, SoC integration, and emerging memory technologies.</p>
+<div class="about-side reveal"><p>My path has moved between research labs and industry — from IIT Indore and Purdue University to the Technical University of Munich, Intel Labs, and Intel Foundry.</p><a class="inline-link" href="about.html">Read the full biography <span>↗</span></a></div>
+</div>
+<div class="principles reveal"><div><span class="principle-number">01</span><strong>Architecture-aware</strong><small>Designing with systems in mind</small></div><div><span class="principle-number">02</span><strong>Memory-centric</strong><small>Reducing data movement</small></div><div><span class="principle-number">03</span><strong>Research to silicon</strong><small>Bridging ideas and implementation</small></div></div>
+</div>
+</section>
+<section class="section journey section-grid" id="journey">
+<div class="section-index reveal"><span>02</span><i></i> JOURNEY</div>
+<div class="journey-main">
+<div class="section-title-row"><h2 class="section-heading reveal">Different labs.<br/><em>One direction.</em></h2><p class="section-aside reveal">A career shaped by circuit design, architecture, teaching, and collaboration.</p></div>
+<div class="timeline">
+<article class="timeline-entry reveal"><time>JUN 2025 — PRESENT</time><span class="timeline-dot current"></span><div class="timeline-detail"><div class="entry-title"><h3>EDA Tools Hardware Engineer</h3><span class="entry-type">INDUSTRY</span></div><p class="entry-org">Intel Technology India Pvt. Ltd. · Bengaluru, India</p><p>Working across EDA tools and hardware engineering at Intel Foundry.</p></div><a aria-label="Intel official website" class="org-logo-mini" data-fallback="Intel" href="https://www.intel.com/" rel="noreferrer" target="_blank"><img alt="Intel logo" decoding="async" loading="lazy" referrerpolicy="no-referrer" src="https://upload.wikimedia.org/wikipedia/commons/8/85/Intel_logo_%282020%2C_dark_blue%29.svg"/></a></article>
+<article class="timeline-entry reveal"><time>AUG 2024 — JUN 2025</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Postdoctoral Researcher</h3><span class="entry-type">RESEARCH</span></div><p class="entry-org">Chair of AI Processor Design · Technical University of Munich, Germany</p><p>Research with Prof. Hussam Amrouch on AI processor design.</p></div><a aria-label="Technical University of Munich official website" class="org-logo-mini" data-fallback="Technical University of Munich" href="https://www.tum.de/" rel="noreferrer" target="_blank"><img alt="Technical University of Munich logo" decoding="async" loading="lazy" referrerpolicy="no-referrer" src="https://images.seeklogo.com/logo-png/63/1/tum-technische-universitat-munchen-logo-png_seeklogo-635009.png"/></a></article>
+<article class="timeline-entry reveal"><time>JAN — JUL 2024</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Processor Architecture Research Intern</h3><span class="entry-type">INDUSTRY RESEARCH</span></div><p class="entry-org">Intel Labs · Bengaluru, India</p><p>Processor architecture research during doctoral work.</p></div><a aria-label="Intel official website" class="org-logo-mini" data-fallback="Intel" href="https://www.intel.com/" rel="noreferrer" target="_blank"><img alt="Intel logo" decoding="async" loading="lazy" referrerpolicy="no-referrer" src="https://upload.wikimedia.org/wikipedia/commons/8/85/Intel_logo_%282020%2C_dark_blue%29.svg"/></a></article>
+<article class="timeline-entry reveal"><time>2022 — 2023</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Visiting Research Fellow</h3><span class="entry-type">INTERNATIONAL</span></div><p class="entry-org">Nanoelectronics Research Laboratory · Purdue University, USA</p><p>Worked with Prof. Kaushik Roy on nanoelectronics and computing research.</p></div><a aria-label="Purdue University official website" class="org-logo-mini" data-fallback="Purdue University" href="https://www.purdue.edu/" rel="noreferrer" target="_blank"><img alt="Purdue University logo" decoding="async" loading="lazy" referrerpolicy="no-referrer" src="https://images.squarespace-cdn.com/content/v1/66f9a68396c4073ff2027b82/a3796a07-2c43-4535-95ef-87bbeb2aa402/Purdue-University-Logo.png"/></a></article>
+<article class="timeline-entry reveal"><time>JUN 2018 — NOV 2019</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Assistant Professor</h3><span class="entry-type">ACADEMIA</span></div><p class="entry-org">Shri G. S. Institute of Technology and Science · Indore, India</p><p>Teaching and mentoring in electronics, VLSI technology, and VLSI design.</p></div><a aria-label="Shri G. S. Institute of Technology and Science official website" class="org-logo-mini" data-fallback="Shri G. S. Institute of Technology and Science" href="https://www.sgsits.ac.in/" rel="noreferrer" target="_blank"><img alt="Shri G. S. Institute of Technology and Science logo" decoding="async" loading="lazy" referrerpolicy="no-referrer" src="https://www.sgsits.in/images/3_sgsits_logo.png"/></a></article>
+<article class="timeline-entry reveal"><time>JUL 2017 — MAY 2018</time><span class="timeline-dot"></span><div class="timeline-detail"><div class="entry-title"><h3>Lecturer</h3><span class="entry-type">ACADEMIA</span></div><p class="entry-org">Indira Gandhi Government Engineering College · Sagar, India</p><p>Teaching microprocessors, VLSI circuits, and systems.</p></div><a aria-label="Indira Gandhi Government Engineering College, Sagar official website" class="org-logo-mini" data-fallback="Indira Gandhi Government Engineering College, Sagar" href="https://www.igecsagar.ac.in/" rel="noreferrer" target="_blank"><img alt="Indira Gandhi Government Engineering College, Sagar logo" decoding="async" loading="lazy" referrerpolicy="no-referrer" src="https://www.google.com/s2/favicons?domain=www.igecsagar.ac.in&amp;sz=128"/></a></article>
+</div>
+<a class="inline-link timeline-link reveal" href="experience.html">Full experience details <span>↗</span></a>
+</div>
+</section>
+<section class="section research section-grid" id="research">
+<div class="section-index reveal"><span>03</span><i></i> RESEARCH</div>
+<div class="research-main">
+<div class="section-title-row"><h2 class="section-heading reveal">The work behind<br/><em>the next compute.</em></h2><p class="section-aside reveal">Select a research area to explore its focus.</p></div>
+<div class="research-cards">
+<button aria-pressed="true" class="research-card card-memory reveal" data-research="memory"><span class="card-number">01 / ARCHITECTURES</span><div aria-hidden="true" class="card-art memory-art"><div class="array-grid"> <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i> </div><span class="art-center">SRAM</span><span class="art-pulse"></span></div><span class="card-title">In-/Near-Memory Computing <span>↗</span></span><span class="card-summary">SRAM architectures that bring computation closer to stored data.</span><span class="card-chip-list"><i>6T SRAM</i><i>10T SRAM</i><i>Multi-port</i></span></button>
+<button aria-pressed="false" class="research-card reveal" data-research="soc"><span class="card-number">02 / SYSTEM INTEGRATION</span><div aria-hidden="true" class="card-art system-art"><div class="system-node node-cpu">RISC-V</div><div class="system-flow">↔</div><div class="system-node node-imc">IMC</div><div class="system-flow">↔</div><div class="system-node node-mem">MEM</div><div class="system-base-line"></div></div><span class="card-title">SoC for AI <span>↗</span></span><span class="card-summary">Integration of RISC-V processors with in-memory computing engines.</span><span class="card-chip-list"><i>RISC-V</i><i>SoC</i></span></button>
+<button aria-pressed="false" class="research-card reveal" data-research="edge"><span class="card-number">03 / EMERGING TECHNOLOGIES</span><div aria-hidden="true" class="card-art edge-art"><svg viewbox="0 0 300 100"><path d="M0 51H38l14-25 15 48 17-35 18 12h36l12-24 17 48 18-30h27l10 9h38" fill="none" stroke="currentColor" stroke-width="2"></path><path d="M0 70H300 M0 33H300" opacity=".18" stroke="currentColor" stroke-dasharray="3 6"></path><circle cx="84" cy="39" fill="currentColor" r="3"></circle><circle cx="167" cy="75" fill="currentColor" r="3"></circle></svg><span class="edge-chip">e·AI</span></div><span class="card-title">Emerging Memory &amp; Edge AI <span>↗</span></span><span class="card-summary">Emerging memory technologies and efficient AI algorithms for edge devices.</span><span class="card-chip-list"><i>RRAM</i><i>Memristors</i><i>Edge AI</i></span></button>
+</div>
+<div aria-live="polite" class="research-detail reveal" id="researchDetail"><div class="detail-symbol">↳</div><div><span class="detail-label">SELECTED FOCUS</span><h3 id="detailTitle">In-/Near-Memory Computing</h3><p id="detailText">Exploring 6T SRAM, 10T SRAM, and configurable multi-port memory architectures that support computing where data lives.</p></div><a aria-label="Explore research page" href="research.html" id="detailLink">Explore <span>↗</span></a></div>
+<a class="button button-outline reveal" href="projects.html">Browse research projects <span>↗</span></a>
+</div>
+</section>
+<section class="section education section-grid" id="education">
+<div class="section-index reveal"><span>04</span><i></i> EDUCATION</div>
+<div class="education-main">
+<div class="section-title-row"><h2 class="section-heading reveal">The foundation<br/><em>under the silicon.</em></h2><p class="section-aside reveal">A progression from electronics fundamentals to AI computing architectures.</p></div>
+<div class="education-list">
+<a class="education-entry reveal" href="https://www.iiti.ac.in/" rel="noreferrer" target="_blank"><span class="edu-year">NOV 2024</span><span class="edu-degree"><strong>Doctor of Philosophy (Ph.D.)</strong><small>Indian Institute of Technology Indore, India</small><small class="edu-thesis">Thesis: SRAM Based In-Memory Computing Architectures for AI Hardware</small></span><span aria-label="Indian Institute of Technology Indore official logo" class="edu-logo" data-fallback="Indian Institute of Technology Indore"><img alt="Indian Institute of Technology Indore logo" decoding="async" loading="lazy" referrerpolicy="no-referrer" src="https://www.facultyplus.com/wp-content/uploads/2024/09/update-logo.png"/></span><span class="edu-arrow">↗</span></a>
+<a class="education-entry reveal" href="https://www.sgsits.ac.in/" rel="noreferrer" target="_blank"><span class="edu-year">JUN 2017</span><span class="edu-degree"><strong>M.Tech. · Microelectronics and VLSI Design</strong><small>Shri G. S. Institute of Technology and Science, Indore</small><small class="edu-thesis">Thesis: Low-phase-noise, wide-tuning-range VCO based on injection locking</small></span><span aria-label="Shri G. S. Institute of Technology and Science official logo" class="edu-logo" data-fallback="Shri G. S. Institute of Technology and Science"><img alt="Shri G. S. Institute of Technology and Science logo" decoding="async" loading="lazy" referrerpolicy="no-referrer" src="https://www.sgsits.in/images/3_sgsits_logo.png"/></span><span class="edu-arrow">↗</span></a>
+<a class="education-entry reveal" href="https://www.igecsagar.ac.in/" rel="noreferrer" target="_blank"><span class="edu-year">JUN 2015</span><span class="edu-degree"><strong>B.E. · Electronics &amp; Communication Engineering</strong><small>Indira Gandhi Government Engineering College, Sagar</small><small class="edu-thesis">Project: DTMF-based traffic light control system</small></span><span aria-label="Indira Gandhi Government Engineering College, Sagar official logo" class="edu-logo" data-fallback="Indira Gandhi Government Engineering College, Sagar"><img alt="Indira Gandhi Government Engineering College, Sagar logo" decoding="async" loading="lazy" referrerpolicy="no-referrer" src="https://www.google.com/s2/favicons?domain=www.igecsagar.ac.in&amp;sz=128"/></span><span class="edu-arrow">↗</span></a>
+</div>
+</div>
+</section>
+<section class="section impact section-grid" id="community">
+<div class="section-index reveal"><span>05</span><i></i> COMMUNITY</div>
+<div class="impact-main"><h2 class="section-heading reveal">Engineering is collaborative.<br/><em>So is progress.</em></h2><div class="impact-grid"><div class="impact-copy reveal"><p class="body-copy">Alongside research and engineering, I have contributed to IEEE Circuits and Systems Society activities, student chapters, conference organization, and peer review for journals in circuits, systems, and VLSI.</p><a class="inline-link" href="professional-activities.html">Professional activities <span>↗</span></a></div><div class="impact-links reveal"><a href="publications.html"><span class="impact-no">01</span><span><strong>Publications</strong><small>Research papers and scholarly work</small></span><b>↗</b></a><a href="https://scholar.google.com/citations?hl=en&amp;user=F0ZcWaMAAAAJ" rel="noreferrer" target="_blank"><span class="impact-no">02</span><span><strong>Google Scholar</strong><small>Publication record and citations</small></span><b>↗</b></a><a href="resources.html"><span class="impact-no">03</span><span><strong>VLSI resources</strong><small>Learning links and research resources</small></span><b>↗</b></a></div></div></div>
+</section>
+<section class="section pages-hub section-grid" id="pages-hub">
+<div class="section-index reveal"><span>06</span><i></i> EXPLORE</div>
+<div class="pages-hub-main">
+<div class="section-title-row"><h2 class="section-heading reveal">More to <em>explore.</em></h2><p class="section-aside reveal">Research details, professional service, resources, and the work behind the ideas.</p></div>
+<div class="page-link-grid">
+<a class="page-link-card reveal" href="about.html"><span>01 / PROFILE</span><strong>Full biography</strong><small>Background, interests, and affiliations</small><b>↗</b></a>
+<a class="page-link-card reveal" href="projects.html"><span>02 / RESEARCH</span><strong>Research projects</strong><small>Memory architectures, digital logic, and edge AI</small><b>↗</b></a>
+<a class="page-link-card reveal" href="sponsored-projects.html"><span>03 / FUNDING</span><strong>Sponsored projects</strong><small>Selected funded research initiatives</small><b>↗</b></a>
+<a class="page-link-card reveal" href="publications.html"><span>04 / SCHOLARSHIP</span><strong>Publications</strong><small>Journal papers, conference papers, and preprints</small><b>↗</b></a>
+<a class="page-link-card reveal" href="professional-activities.html"><span>05 / COMMUNITY</span><strong>Professional activities</strong><small>IEEE service, invited talks, and reviewing</small><b>↗</b></a>
+<a class="page-link-card reveal" href="resources.html"><span>06 / LEARNING</span><strong>VLSI resources</strong><small>Tools and learning links for engineers</small><b>↗</b></a>
+<a class="page-link-card reveal" href="awards.html"><span>07 / RECOGNITION</span><strong>Awards &amp; fellowships</strong><small>Selected fellowships and recognition</small><b>↗</b></a>
+<a class="page-link-card reveal" href="gallery.html"><span>08 / GALLERY</span><strong>Academic &amp; community moments</strong><small>Conferences, workshops, and collaborations</small><b>↗</b></a>
+</div>
+</div>
+</section>
+<section class="contact-section" id="contact"><div class="contact-panel"><div class="contact-orb orb-a"></div><div class="contact-orb orb-b"></div><div class="contact-content"><div class="section-index"><span>07</span><i></i> CONTACT</div><p class="contact-kicker reveal">Ideas grow through good conversations.</p><h2 class="reveal">Have a research idea<br/>or collaboration in mind<span>?</span></h2><p class="contact-sub reveal">Let’s connect on semiconductor design, in-memory computing, and AI hardware.</p><div class="contact-actions reveal"><a aria-label="Start a conversation with Narendra on WhatsApp" class="button whatsapp-cta button-primary" href="https://wa.me/918989458975?text=Hello%20Narendra%2C%20I%27d%20like%20to%20start%20a%20conversation." rel="noopener noreferrer" target="_blank">Start a conversation <span>↗</span></a><a class="button button-ghost" href="contact.html">Contact details <span>↗</span></a></div></div><div class="contact-side mono">MAKE DATA<br/>MOVE LESS.<br/><span>THINK MORE.</span></div></div></section>
+</main>
+<footer class="footer"><a class="brand" href="index.html#top" aria-label="Narendra Singh Dhakad home"><span class="brand-mark">N<span></span></span><span class="brand-name">NARENDRA <b>DHAKAD</b></span></a><span class="footer-note">Semiconductors · AI hardware · VLSI</span><div class="footer-socials" aria-label="Social links"><a href="https://www.linkedin.com/in/ndhakad/" target="_blank" rel="noreferrer" aria-label="LinkedIn profile">LinkedIn <span>↗</span></a></div><a class="back-top" href="#top">BACK TO TOP ↑</a><span class="footer-copy">© <span id="year"></span> Narendra Singh Dhakad</span></footer>
 </body>
 </html>

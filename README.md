@@ -1,4 +1,4 @@
-# Narendra Singh Dhakad — Interactive 3D Portfolio 
+# Narendra Singh Dhakad — Interactive 3D Portfolio (multi-page GitHub Pages site)
 
 This folder is designed to be committed into **the same Git repository** as the Interactive 3D Portfolio. `index.html` remains the landing page, and profile links that previously pointed to the old personal website now resolve to local HTML pages in this repo.
 
@@ -64,3 +64,16 @@ The page copy is based on content in the public biography, experience, education
 - Projects: https://www.narendradhakad.com/research/projects
 - Publications: https://www.narendradhakad.com/research/publications
 - Professional activities: https://www.narendradhakad.com/professional-activities
+
+
+## Latest profile updates
+
+- Current role wording is **EDA Tools Hardware Engineer** throughout the portfolio.
+- The About page contains the expanded biography, teaching appointments, IEEE chapter leadership, and reviewer service.
+- Journey and Experience rows and Education entries include compact institution/company logos with contained dimensions and fallback text when an external logo host fails.
+  Logo images are loaded from publicly accessible institution/company and logo-host URLs (rather than bundled local image files), so those image hosts must remain accessible for the graphics to appear.
+- The VLSI Resources page includes embedded YouTube previews and the full set of learning/research links from the original resources page.
+- Sponsored projects list role, host institute, PI/supervisor, funding agency, and amount as separate fields, with sponsor logos and a continuously scrolling funding/research logo strip.
+- The WhatsApp conversation buttons use the supplied number +91 8989458975.
+
+Social links currently include the verified LinkedIn profile. Personal Twitter/X, Facebook, and Instagram profile URLs were not available on the supplied public profile; add the exact profile URLs before linking them in the footer rather than guessing accounts.
