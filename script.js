@@ -3,25 +3,37 @@
   // Theme preference is shared across every page in this GitHub Pages site.
   const themeButton = document.getElementById('themeToggle');
   const themeRoot = document.documentElement;
-  let savedTheme = 'dark';
-  try { savedTheme = localStorage.getItem('narendra-portfolio-theme') || 'dark'; } catch (_) {}
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem('narendra-portfolio-theme'); } catch (_) {}
+  const systemPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  const initialTheme = savedTheme === 'light' || savedTheme === 'dark'
+    ? savedTheme
+    : (systemPrefersLight ? 'light' : 'dark');
   const applyTheme = theme => {
-    themeRoot.dataset.theme = theme;
+    const safeTheme = theme === 'light' ? 'light' : 'dark';
+    themeRoot.dataset.theme = safeTheme;
+    if (themeMeta) themeMeta.setAttribute('content', safeTheme === 'light' ? '#f5f7fb' : '#080e18');
     if (themeButton) {
-      const lightMode = theme === 'light';
+      const lightMode = safeTheme === 'light';
       themeButton.setAttribute('aria-label', lightMode ? 'Switch to dark mode' : 'Switch to light mode');
       themeButton.setAttribute('title', lightMode ? 'Switch to dark mode' : 'Switch to light mode');
+      themeButton.setAttribute('aria-pressed', String(lightMode));
       const icon = themeButton.querySelector('.theme-toggle-icon');
       const label = themeButton.querySelector('.theme-toggle-label');
       if (icon) icon.textContent = lightMode ? '☾' : '☼';
       if (label) label.textContent = lightMode ? 'Dark mode' : 'Light mode';
     }
   };
-  applyTheme(savedTheme === 'light' ? 'light' : 'dark');
+  applyTheme(initialTheme);
   if (themeButton) themeButton.addEventListener('click', () => {
     const next = themeRoot.dataset.theme === 'light' ? 'dark' : 'light';
     applyTheme(next);
     try { localStorage.setItem('narendra-portfolio-theme', next); } catch (_) {}
+  });
+  window.addEventListener('storage', event => {
+    if (event.key !== 'narendra-portfolio-theme') return;
+    if (event.newValue === 'light' || event.newValue === 'dark') applyTheme(event.newValue);
   });
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];

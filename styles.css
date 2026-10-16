@@ -153,3 +153,133 @@ html[data-theme="light"] .page-nav-footer a{color:#526176;border-color:#d5deea}
 html[data-theme="light"] .page-nav-footer a:hover{color:var(--teal)}
 html[data-theme="light"] .button-ghost{color:#26374c;border-color:#c5d0de}
 html[data-theme="light"] .theme-toggle{background:#fff;border-color:#c5d0de;color:#172335}
+
+
+/* Final fixes: transparent logo frames, high-contrast social icons, and dependable theme controls. */
+.org-logo-mini,
+.edu-logo,
+.edu-card-logo,
+.sponsor-logo {
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden;
+}
+.org-logo-mini img,
+.edu-logo img,
+.edu-card-logo img,
+.sponsor-logo img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center;
+  background: transparent !important;
+}
+/* PNG All's supplied Intel asset uses dark lettering; invert only in dark theme. */
+html:not([data-theme="light"]) .intel-logo { filter: brightness(0) invert(1); object-fit: contain !important; }
+html[data-theme="light"] .intel-logo { filter: none; object-fit: contain !important; }
+
+.footer-socials {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+  min-height: 34px;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.footer-socials .social-icon {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 34px;
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  min-height: 34px;
+  padding: 0;
+  color: var(--ink) !important;
+  background: var(--panel) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 7px;
+  text-decoration: none;
+  line-height: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible;
+}
+.footer-socials .social-icon svg {
+  display: block !important;
+  flex: 0 0 18px;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px;
+  min-height: 18px;
+  overflow: visible;
+  color: currentColor;
+  fill: currentColor;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.footer-socials .social-icon svg path { fill: currentColor; }
+.footer-socials .social-icon svg rect,
+.footer-socials .social-icon svg circle { stroke: currentColor; }
+.footer-socials .social-icon svg rect[fill="none"],
+.footer-socials .social-icon svg circle[fill="none"] { fill: none !important; }
+.footer-socials .social-icon svg circle:last-child { fill: currentColor; stroke: none; }
+.footer-socials .social-icon:hover {
+  color: var(--teal) !important;
+  border-color: var(--teal) !important;
+  transform: translateY(-2px);
+}
+html[data-theme="light"] .footer-socials .social-icon {
+  color: #172335 !important;
+  background: #ffffff !important;
+  border-color: #c5d0de !important;
+}
+html[data-theme="light"] .footer-socials .social-icon:hover {
+  color: var(--teal) !important;
+  border-color: var(--teal) !important;
+}
+
+/* Additional light-mode contrast for cards and subpage components with formerly fixed dark colors. */
+html[data-theme="light"] .pages-hub,
+html[data-theme="light"] .journey { background: linear-gradient(180deg, #edf2f8, transparent); }
+html[data-theme="light"] .page-link-card,
+html[data-theme="light"] .gallery-item,
+html[data-theme="light"] .subpage-callout,
+html[data-theme="light"] .subpage-card .card-meta {
+  background: #ffffff;
+  border-color: #d5deea;
+  color: #172335;
+}
+html[data-theme="light"] .page-link-card strong,
+html[data-theme="light"] .gallery-item strong,
+html[data-theme="light"] .subpage-card h3 { color: #172335; }
+html[data-theme="light"] .page-link-card small,
+html[data-theme="light"] .gallery-item small,
+html[data-theme="light"] .subpage-card p,
+html[data-theme="light"] .paper-entry p,
+html[data-theme="light"] .subpage-section .subtle,
+html[data-theme="light"] .subpage-list-item .meta,
+html[data-theme="light"] .subpage-list-item .tags span { color: #526176; }
+html[data-theme="light"] .page-link-card:hover,
+html[data-theme="light"] .subpage-card:hover { background: #f7fafc; border-color: var(--teal); }
+html[data-theme="light"] .subpage-section,
+html[data-theme="light"] .subpage-list,
+html[data-theme="light"] .paper-entry,
+html[data-theme="light"] .stat-strip,
+html[data-theme="light"] .stat-strip > div { border-color: #d5deea; }
+html[data-theme="light"] .subpage-callout { background: #f7fafc; }
+html[data-theme="light"] .sponsored-project-card .project-fields p { color: #526176; }
+html[data-theme="light"] .sponsored-project-card .project-fields strong { color: #172335; }
+html[data-theme="light"] .subpage-list-item .tags span { border-color: #d5deea; }
