@@ -77,3 +77,10 @@ The page copy is based on content in the public biography, experience, education
 - The WhatsApp conversation buttons use the supplied number +91 8989458975.
 
 Social links currently include the verified LinkedIn profile. Personal Twitter/X, Facebook, and Instagram profile URLs were not available on the supplied public profile; add the exact profile URLs before linking them in the footer rather than guessing accounts.
+
+
+## Latest UI refinements
+- Institutional and sponsor logos are compact, proportionally contained, and sized to sit beside text.
+- Footer social icons link to LinkedIn, Facebook, X, and Instagram.
+- VLSI Resources embeds videos without the extra “Watch on YouTube” lines.
+- A light/dark theme toggle appears in the top header on each standard page and remembers the preference across pages.

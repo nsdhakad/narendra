@@ -1,5 +1,28 @@
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Theme preference is shared across every page in this GitHub Pages site.
+  const themeButton = document.getElementById('themeToggle');
+  const themeRoot = document.documentElement;
+  let savedTheme = 'dark';
+  try { savedTheme = localStorage.getItem('narendra-portfolio-theme') || 'dark'; } catch (_) {}
+  const applyTheme = theme => {
+    themeRoot.dataset.theme = theme;
+    if (themeButton) {
+      const lightMode = theme === 'light';
+      themeButton.setAttribute('aria-label', lightMode ? 'Switch to dark mode' : 'Switch to light mode');
+      themeButton.setAttribute('title', lightMode ? 'Switch to dark mode' : 'Switch to light mode');
+      const icon = themeButton.querySelector('.theme-toggle-icon');
+      const label = themeButton.querySelector('.theme-toggle-label');
+      if (icon) icon.textContent = lightMode ? '☾' : '☼';
+      if (label) label.textContent = lightMode ? 'Dark mode' : 'Light mode';
+    }
+  };
+  applyTheme(savedTheme === 'light' ? 'light' : 'dark');
+  if (themeButton) themeButton.addEventListener('click', () => {
+    const next = themeRoot.dataset.theme === 'light' ? 'dark' : 'light';
+    applyTheme(next);
+    try { localStorage.setItem('narendra-portfolio-theme', next); } catch (_) {}
+  });
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
 
