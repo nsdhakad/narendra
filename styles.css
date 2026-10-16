@@ -419,3 +419,129 @@ html[data-theme="light"] .activity-record small,html[data-theme="light"] .photo-
 .photo-album-captions li{padding:2px 0}
 html[data-theme="light"] .photo-album-captions{border-color:#d5deea}
 html[data-theme="light"] .photo-album-captions ul{color:#526176}
+
+
+/* 2026-10 portfolio enhancements: biography portrait, profiles, education abstracts, and Scholar metrics. */
+.bio-intro-layout{display:grid;grid-template-columns:minmax(170px,220px) minmax(0,1fr);gap:25px;align-items:start;margin:5px 0 22px}
+.bio-portrait-frame{display:flex;align-items:flex-end;justify-content:center;min-height:230px;padding:9px 9px 0;border:1px solid var(--line);border-radius:12px;background:radial-gradient(ellipse at 50% 35%,#17384d 0,transparent 68%),linear-gradient(145deg,var(--panel),var(--bg-soft));overflow:hidden}
+.bio-portrait{display:block;max-width:100%;width:205px;height:250px;object-fit:contain;object-position:center bottom}
+.bio-intro-copy p{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.95}
+.education-page .subpage-list-item{grid-template-columns:150px minmax(0,1fr) 120px;gap:18px;align-items:start}
+.education-page .subpage-list-item>.org-logo-mini{grid-column:3;grid-row:1;width:114px;height:78px;max-width:114px;align-self:center;justify-self:end;margin:0;padding:0;border:0;border-radius:0;background:transparent;overflow:visible}
+.education-page .subpage-list-item>.org-logo-mini img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center}
+.education-page .education-line{margin:7px 0 0!important;font-size:12px!important;color:var(--muted);line-height:1.8}
+.education-page .education-label{color:var(--teal);font:10px var(--mono);letter-spacing:.015em}
+.education-page .education-line em{font-style:italic;color:var(--ink)}
+.abstract-wrap{position:relative;display:inline-flex;margin-top:12px;z-index:2}
+.abstract-button{display:inline-flex;align-items:center;gap:8px;border:1px solid #38536c;background:var(--panel2);color:var(--teal);border-radius:5px;padding:7px 11px;font:700 10px var(--mono);cursor:pointer;transition:border-color .2s,background .2s,transform .2s}
+.abstract-button:hover,.abstract-button:focus-visible{border-color:var(--teal);background:var(--panel);outline:none;transform:translateY(-1px)}
+.abstract-button span{font-size:14px;line-height:1}
+.abstract-popover{position:absolute;left:0;top:calc(100% + 8px);width:min(420px,76vw);padding:14px 16px;background:var(--panel2);border:1px solid #3b526a;border-radius:8px;box-shadow:0 15px 42px #0008;color:var(--ink);font-size:11px;line-height:1.9;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .18s,transform .18s,visibility .18s;pointer-events:none}
+.abstract-wrap:hover .abstract-popover,.abstract-wrap:focus-within .abstract-popover,.abstract-wrap.is-open .abstract-popover{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+.abstract-popover a{display:inline-block;color:var(--teal);font-weight:800;margin-top:6px;text-decoration:none}
+.abstract-note{display:block;color:var(--muted);font-size:10px;margin-top:7px}
+.academic-profile-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:17px;max-width:450px}
+.academic-profile-card{display:grid;grid-template-columns:36px minmax(0,1fr) 14px;align-items:center;gap:10px;min-height:60px;padding:9px 10px;border:1px solid #2c4055;border-radius:7px;background:#0d1725a8;text-decoration:none;transition:transform .2s,border-color .2s,background .2s}
+.academic-profile-card:hover{transform:translateY(-2px);border-color:var(--teal);background:#122033}
+.academic-profile-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:7px;background:#16273a;color:var(--teal);font:800 12px var(--mono)}
+.academic-profile-icon svg{width:29px;height:29px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.scholar-icon svg{fill:#4285f4;stroke:#4285f4}.scholar-icon svg path:nth-child(2){fill:none;stroke:#fbbc04}.scholar-icon svg circle{fill:#34a853;stroke:#34a853}
+.researchgate-icon{background:#eaf7f3;color:#08795b;font-size:13px;letter-spacing:-.08em;border-radius:50%}
+.orcid-icon{background:#a6ce39;color:#fff;border-radius:50%}.orcid-icon svg{stroke:#fff;stroke-width:2.6}
+.academic-profile-text{display:flex;flex-direction:column;gap:1px;min-width:0}.academic-profile-text strong{color:#eaf2fb;font-size:10px;line-height:1.45}.academic-profile-text small{color:#94a7bd;font-size:9px;line-height:1.4}.academic-profile-arrow{color:var(--teal);font-size:13px;align-self:start}
+.scholar-metrics-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:17px}
+.scholar-metric-card{padding:17px 18px;background:var(--panel);border:1px solid var(--line);border-radius:7px;display:flex;flex-direction:column;gap:8px}
+.scholar-metric-card span{font:10px var(--mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.scholar-metric-card strong{font-size:clamp(26px,3vw,36px);line-height:1.1;letter-spacing:-.04em;color:var(--teal);font-variant-numeric:tabular-nums}
+.scholar-metric-status{font-size:10px!important;color:var(--muted)!important;line-height:1.7!important;margin:12px 0 0!important}
+.scholar-profile-link{flex:0 0 auto;color:var(--teal);font-size:10px;font-weight:800;text-decoration:none;border-bottom:1px solid #75e3d355;white-space:nowrap}
+.scholar-profile-link:hover{border-color:var(--teal)}
+.poster-actions{margin-top:14px}
+.poster-actions .button{padding:9px 13px;gap:12px}
+.paper-entry .impact-factor-label{cursor:default;border-bottom:0;text-decoration:none}
+html[data-theme="light"] .academic-profile-card{background:#fff;border-color:#d5deea}
+html[data-theme="light"] .academic-profile-card:hover{background:#f4faf9;border-color:#2c9e92}
+html[data-theme="light"] .academic-profile-text strong{color:#172335}
+html[data-theme="light"] .academic-profile-text small{color:#526176}
+html[data-theme="light"] .scholar-metric-card{background:#fff;border-color:#d5deea}
+html[data-theme="light"] .abstract-button{background:#fff;border-color:#c4d4e1;color:#137f78}
+html[data-theme="light"] .abstract-popover{background:#fff;border-color:#ccd8e5;color:#172335;box-shadow:0 15px 42px #0b20301a}
+html[data-theme="light"] .bio-portrait-frame{background:radial-gradient(ellipse at 50% 35%,#d7e7ed 0,transparent 68%),linear-gradient(145deg,#f7fafd,#eef3f8);border-color:#d5deea}
+@media(max-width:900px){.education-page .subpage-list-item{grid-template-columns:120px minmax(0,1fr) 120px}.education-page .subpage-list-item>.org-logo-mini{width:108px;height:74px;max-width:108px}}
+@media(max-width:650px){.bio-intro-layout{grid-template-columns:minmax(0,1fr);gap:16px}.bio-portrait-frame{min-height:0;width:min(100%,230px);margin:0 auto}.bio-portrait{width:190px;height:215px}.education-page .subpage-list-item{grid-template-columns:minmax(0,1fr) 94px;gap:8px 10px;align-items:start}.education-page .subpage-list-item>.date{grid-column:1;grid-row:1}.education-page .subpage-list-item>.education-details{grid-column:1;grid-row:2}.education-page .subpage-list-item>.org-logo-mini{grid-column:2;grid-row:2;width:88px;height:64px;max-width:88px;align-self:start;margin-top:5px}.abstract-popover{width:min(340px,82vw)}.academic-profile-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.academic-profile-card{grid-template-columns:30px minmax(0,1fr) 10px;gap:7px;padding:8px;min-height:56px}.academic-profile-icon{width:30px;height:30px}.academic-profile-icon svg{width:25px;height:25px}.academic-profile-text strong{font-size:9px}.academic-profile-text small{font-size:8px}.scholar-metrics-grid{gap:7px}.scholar-metric-card{padding:13px 11px}.scholar-metric-card span{font-size:8px}.publication-section-head{flex-wrap:wrap}}
+@media(max-width:380px){.academic-profile-card{grid-template-columns:28px minmax(0,1fr);}.academic-profile-arrow{display:none}.scholar-metric-card{padding:11px 8px}}
+
+/* Logo enlargement requested: approximately 3x the compact legacy dimensions,
+   with transparent frames and responsive grid columns to preserve alignment. */
+.org-logo-mini,
+.edu-logo,
+.edu-card-logo,
+.sponsor-logo {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  overflow: visible;
+}
+.org-logo-mini img,
+.edu-logo img,
+.edu-card-logo img,
+.sponsor-logo img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center;
+  background: transparent !important;
+}
+.timeline-entry { grid-template-columns: 150px 12px minmax(0,1fr) 124px; align-items: center; }
+.timeline-entry .org-logo-mini { grid-column: 4; grid-row: 1; width: 114px; height: 78px; max-width: 114px; justify-self: end; align-self: center; }
+.subpage-list-item { grid-template-columns: 150px minmax(0,1fr) 124px; }
+.subpage-list-item > .org-logo-mini { grid-column: 3; grid-row: 1; width: 114px; height: 78px; max-width: 114px; justify-self: end; align-self: center; }
+.education-page .subpage-list-item { grid-template-columns: 150px minmax(0,1fr) 124px; }
+.education-page .subpage-list-item > .org-logo-mini { width: 114px; height: 78px; max-width: 114px; }
+.education-entry { grid-template-columns: 100px minmax(0,1fr) 86px 18px; }
+.edu-logo { width: 78px; height: 78px; justify-self: end; align-self: center; }
+.edu-card-logo { width: 102px; height: 90px; }
+.sponsor-logo { width: 114px; height: 81px; }
+.sponsor-logo-group { gap: 18px; padding-right: 18px; }
+.sponsor-logo-group .sponsor-logo { width: 156px; height: 84px; }
+@media (max-width: 900px) {
+  .timeline-entry { grid-template-columns: 118px 12px minmax(0,1fr) 116px; }
+  .timeline-entry .org-logo-mini { width: 108px; height: 74px; max-width: 108px; }
+  .subpage-list-item { grid-template-columns: 120px minmax(0,1fr) 116px; }
+  .subpage-list-item > .org-logo-mini { width: 108px; height: 74px; max-width: 108px; }
+  .education-page .subpage-list-item { grid-template-columns: 120px minmax(0,1fr) 116px; }
+  .education-page .subpage-list-item > .org-logo-mini { width: 108px; height: 74px; max-width: 108px; }
+  .education-entry { grid-template-columns: 80px minmax(0,1fr) 82px 16px; }
+  .edu-logo { width: 74px; height: 74px; }
+  .sponsor-logo-group .sponsor-logo { width: 132px; height: 76px; }
+}
+@media (max-width: 650px) {
+  .timeline-entry { grid-template-columns: minmax(0,1fr) 98px 10px; gap: 9px; }
+  .timeline-entry .org-logo-mini { grid-column: 2; grid-row: 2; width: 94px; height: 66px; max-width: 94px; align-self: start; margin-top: 4px; }
+  .subpage-list-item { grid-template-columns: minmax(0,1fr) 98px; gap: 8px 10px; }
+  .subpage-list-item > .date { grid-column: 1; grid-row: 1; }
+  .subpage-list-item > div:nth-child(2) { grid-column: 1; grid-row: 2; }
+  .subpage-list-item > .org-logo-mini { grid-column: 2; grid-row: 2; width: 94px; height: 66px; max-width: 94px; justify-self: end; align-self: start; margin-top: 4px; }
+  .education-page .subpage-list-item { grid-template-columns: minmax(0,1fr) 98px; gap: 8px 10px; }
+  .education-page .subpage-list-item > .date { grid-column: 1; grid-row: 1; }
+  .education-page .subpage-list-item > .education-details { grid-column: 1; grid-row: 2; }
+  .education-page .subpage-list-item > .org-logo-mini { grid-column: 2; grid-row: 2; width: 94px; height: 66px; max-width: 94px; margin-top: 5px; }
+  .education-entry { grid-template-columns: 70px minmax(0,1fr) 74px 12px; gap: 8px; }
+  .edu-logo { width: 68px; height: 68px; }
+  .edu-card-logo { width: 90px; height: 78px; }
+  .sponsor-logo { width: 96px; height: 68px; }
+  .sponsor-logo-group .sponsor-logo { width: 114px; height: 68px; }
+}
+@media (max-width: 480px) {
+  .education-entry { grid-template-columns: 62px minmax(0,1fr) 66px 12px; gap: 7px; }
+  .edu-logo { width: 62px; height: 62px; }
+  .timeline-entry { grid-template-columns: minmax(0,1fr) 82px 10px; }
+  .timeline-entry .org-logo-mini { width: 78px; height: 56px; max-width: 78px; }
+  .subpage-list-item, .education-page .subpage-list-item { grid-template-columns: minmax(0,1fr) 84px; }
+  .subpage-list-item > .org-logo-mini, .education-page .subpage-list-item > .org-logo-mini { width: 80px; height: 58px; max-width: 80px; }
+  .sponsor-logo-group .sponsor-logo { width: 100px; height: 60px; }
+}

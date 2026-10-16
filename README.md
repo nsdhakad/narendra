@@ -18,7 +18,7 @@ This folder is designed to be committed into **the same Git repository** as the 
 - `resources.html` — useful external VLSI and research links
 - `gallery.html` — photo-repository album index, with links to the original photo archive
 - `chip-gallery.html` — four research chip/design images: SoC IMC + RISC-V, FlexDCIM, QuadPort, and D-IMC
-- `extra-curricular.html` — academic service and outreach
+- Academic and community activities are integrated into `professional-activities.html`
 - `contact.html` — contact information
 
 ## Important: update the existing repository
@@ -68,17 +68,26 @@ The page copy is based on content in the public biography, experience, education
 
 - Current role wording is **EDA Tools Hardware Engineer** throughout the portfolio.
 - The About page contains the expanded biography, teaching appointments, IEEE chapter leadership, and reviewer service.
-- Journey and Experience rows and Education entries include compact institution/company logos with contained dimensions and fallback text when an external logo host fails.
+- Journey and Experience rows and Education entries include enlarged, proportionally contained institution/company logos with fallback text when an external logo host fails.
   Logo images are loaded from publicly accessible institution/company and logo-host URLs (rather than bundled local image files), so those image hosts must remain accessible for the graphics to appear.
 - The VLSI Resources page includes embedded YouTube previews and the full set of learning/research links from the original resources page. The standalone Research Projects page has been removed; the Chip Gallery now contains the four visual entries from the original chip gallery.
 - Sponsored projects list role, host institute, PI/supervisor, funding agency, and amount as separate fields, with sponsor logos and a continuously scrolling funding/research logo strip.
 - The WhatsApp conversation buttons use the supplied number +91 8989458975.
 
-Social links currently include the verified LinkedIn profile. Personal Twitter/X, Facebook, and Instagram profile URLs were not available on the supplied public profile; add the exact profile URLs before linking them in the footer rather than guessing accounts.
+Social links currently include the verified LinkedIn profile. Footer social links use the profile URLs configured in the site pages; verify each destination before publishing any account changes.
 
 
 ## Latest UI refinements
-- Institutional and sponsor logos are compact, proportionally contained, and sized to sit beside text.
+- Institutional, employer, education, and sponsor logos are enlarged to approximately three times their compact legacy dimensions; images remain proportional, transparent, and border-free, with responsive sizing on tablets and phones.
 - Footer social icons link to LinkedIn, Facebook, X, and Instagram.
 - VLSI Resources embeds videos without the extra “Watch on YouTube” lines.
 - A light/dark theme toggle appears in the top header on each standard page and remembers the preference across pages.
+
+
+#### Chip gallery images
+The Chip Gallery uses four locally stored, lossless WebP images in `assets/chip-gallery/`, ordered as SoC: IMC + RISC-V, FlexDCIM, QuadPort, and D-IMC. Keep this folder in place when deploying the site.
+
+
+## Google Scholar metrics
+
+`publications.html` displays citation count, h-index, and i10-index from `scholar-metrics.json`. The `.github/workflows/update-scholar-metrics.yml` workflow checks the public Scholar profile every Monday and commits a refreshed timestamp and metric values whenever a successful refresh completes. Google Scholar may rate-limit or challenge automated requests; on a blocked fetch the script preserves existing values rather than inventing numbers. Use the workflow's manual dispatch option to request an immediate refresh.

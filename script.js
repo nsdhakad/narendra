@@ -355,3 +355,29 @@
   }
   animate();
 })();
+
+
+// Education abstract previews: hover/focus on desktop; tap to toggle on touch devices.
+document.querySelectorAll('.abstract-button').forEach((button) => {
+  const wrap = button.closest('.abstract-wrap');
+  if (!wrap) return;
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    const opening = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(opening));
+    wrap.classList.toggle('is-open', opening);
+  });
+  document.addEventListener('click', (event) => {
+    if (!wrap.contains(event.target)) {
+      button.setAttribute('aria-expanded', 'false');
+      wrap.classList.remove('is-open');
+    }
+  });
+  button.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      button.setAttribute('aria-expanded', 'false');
+      wrap.classList.remove('is-open');
+      button.focus();
+    }
+  });
+});

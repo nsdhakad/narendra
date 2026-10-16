@@ -1,0 +1,5 @@
+When applying this overlay to an older repository, delete these obsolete pages if they still exist:
+- projects.html
+- extra-curricular.html
+
+Their content is already handled in chip-gallery.html and professional-activities.html, respectively. The complete ZIP is the easiest way to apply the whole current project.
