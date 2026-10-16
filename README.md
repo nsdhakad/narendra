@@ -11,7 +11,8 @@ This folder is designed to be committed into **the same Git repository** as the 
 - `research.html` — research areas and internal navigation
 - `projects.html` — selected research projects
 - `sponsored-projects.html` — sponsored project records
-- `publications.html` — journal papers, conference papers, and preprints
+- `publications.html` — journal papers, conference papers, poster, and preprints (full author names; titles and venue names link to the associated publisher/repository)
+- `publication.html` — compatibility alias with the same updated publication content
 - `collaborators.html` — institutions and research collaborators
 - `professional-activities.html` — IEEE service, talks, review activities, memberships
 - `awards.html` — awards and fellowships
@@ -29,6 +30,14 @@ This folder is designed to be committed into **the same Git repository** as the 
 4. Do **not** create a second repository unless you separately want another copy.
 5. Keep GitHub Pages configured for the existing repository's `main` branch and `/(root)` folder.
 6. After the commit deploys, all local links such as `research.html` and `publications.html` will use the same GitHub Pages site and repository.
+
+## Automated publisher Impact Factor updates
+
+`publication.html` and `publications.html` display journal-level Impact Factors from `impact-factors.json`. The values are seeded from publisher information and the visible label **Impact Factor** links to the official journal metrics page. The browser reads the local JSON cache because most publishers prevent client-side cross-origin requests.
+
+The workflow at `.github/workflows/update-impact-factors.yml` runs monthly and can also be launched manually from **GitHub → Actions → Refresh publisher Impact Factors → Run workflow**. It fetches official journal/publisher pages, updates the cache only when it can recognize a plausible metric, and preserves the last cached value if a publisher is unavailable or its page structure changes. Publisher page markup is not standardized, so review the Actions log if a journal remains marked as cached. GitHub Actions must be allowed to write repository contents for automatic commits; check **Settings → Actions → General → Workflow permissions** and enable read/write access if commits are denied.
+
+This is a best-effort automated refresh—not an API-backed guarantee. Impact Factors are publisher journal-level metrics, may be reported for different metric years, and do not describe an individual paper. When a publisher changes the metric display format, update its parser pattern in `scripts/update_impact_factors.py`.
 
 ## Preview locally
 
