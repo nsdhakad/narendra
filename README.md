@@ -91,3 +91,6 @@ The Chip Gallery uses four locally stored, lossless WebP images in `assets/chip-
 ## Google Scholar metrics
 
 `publications.html` displays citation count, h-index, and i10-index from `scholar-metrics.json`. The `.github/workflows/update-scholar-metrics.yml` workflow checks the public Scholar profile every Monday and commits a refreshed timestamp and metric values whenever a successful refresh completes. Google Scholar may rate-limit or challenge automated requests; on a blocked fetch the script preserves existing values rather than inventing numbers. Use the workflow's manual dispatch option to request an immediate refresh.
+
+## Latest refinements
+See `UPDATE-NOTES.md` for the latest Education abstracts, About portrait link, Intel logo source, Impact Factor label styling, and footer academic-profile icons. If the Drive portrait does not load, ensure the image link is public; the site includes a local fallback portrait.

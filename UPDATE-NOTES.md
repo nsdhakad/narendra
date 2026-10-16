@@ -13,3 +13,13 @@
 ## GitHub Actions note
 
 After the package is committed to GitHub, open Actions and run “Refresh Google Scholar metrics” using `workflow_dispatch` to attempt an immediate refresh. Weekly runs occur on Mondays at 07:17 UTC. The workflow requires Actions to be enabled and the repository's `GITHUB_TOKEN` to be allowed to write contents. Google Scholar may block unattended readers; the job keeps the last known values in that case.
+
+
+## Latest refinements (October 2026)
+- Education page: Ph.D., M.Tech., and B.E. abstracts updated to the user-provided wording; thesis/project and supervisor rows have explicit block styling.
+- About page: the provided Google Drive portrait URL is the primary image source, with the existing bundled portrait as a local fallback if Drive is inaccessible.
+- Intel logo imagery now uses the direct PNG asset from the requested Seeklogo Intel listing.
+- Publication "Impact Factor" labels inherit ordinary detail text color and no longer carry accent/link styling.
+- CV, Google Scholar, ResearchGate, and ORCID icon links have been moved from the homepage profile-card block into the footer icon row across pages.
+
+Note: The Google Drive image could not be downloaded in this environment to bundle locally. The About page points to the Drive image directly and falls back to the existing local portrait if it does not load. Ensure the Drive file is shared as "Anyone with the link" for the direct image to display to site visitors.

@@ -181,7 +181,7 @@ html[data-theme="light"] .theme-toggle{background:#fff;border-color:#c5d0de;colo
   object-position: center;
   background: transparent !important;
 }
-/* PNG All's supplied Intel asset uses dark lettering; invert only in dark theme. */
+/* Seeklogo Intel asset uses dark lettering; invert only in dark theme. */
 html:not([data-theme="light"]) .intel-logo { filter: brightness(0) invert(1); object-fit: contain !important; }
 html[data-theme="light"] .intel-logo { filter: none; object-fit: contain !important; }
 
@@ -545,3 +545,24 @@ html[data-theme="light"] .bio-portrait-frame{background:radial-gradient(ellipse 
   .subpage-list-item > .org-logo-mini, .education-page .subpage-list-item > .org-logo-mini { width: 80px; height: 58px; max-width: 80px; }
   .sponsor-logo-group .sponsor-logo { width: 100px; height: 60px; }
 }
+
+
+/* Explicit thesis/project and supervisor rows on the Education page. */
+.education-page .education-thesis-line,
+.education-page .education-supervisor-line { display: block !important; width: 100%; }
+.education-page .education-thesis-line { margin-top: 7px !important; }
+.education-page .education-supervisor-line { margin-top: 3px !important; }
+.education-page .education-supervisor-line .education-label { color: var(--muted); }
+
+/* Treat Impact Factor as ordinary publication detail text, not a link or accent label. */
+.paper-entry .impact-factor-label { color: inherit !important; background: none !important; border: 0 !important; text-decoration: none !important; cursor: text !important; }
+
+/* Academic profile logos use the same icon-button treatment as social profiles. */
+.footer-socials .academic-social-icon { color: var(--ink) !important; }
+.footer-socials .academic-social-icon .academic-glyph { display: block; font: 800 10px/1 Arial, sans-serif; letter-spacing: -.05em; }
+.footer-socials .academic-social-icon .rg-glyph { font-size: 10px; letter-spacing: -.09em; }
+.footer-socials .academic-social-icon .orcid-glyph { color: #a6ce39; font-size: 12px; letter-spacing: -.08em; }
+.footer-socials .academic-social-icon svg.outline-svg path { fill: none !important; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.footer-socials .scholar-social-icon svg path { fill: currentColor; }
+html[data-theme="light"] .footer-socials .academic-social-icon { color: #172335 !important; }
+html[data-theme="light"] .footer-socials .academic-social-icon .orcid-glyph { color: #6b9c20; }
