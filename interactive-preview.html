@@ -15,13 +15,13 @@
 
 /* Multi-page portfolio content */
 .pages-hub{background:linear-gradient(180deg,#0b1422,transparent)}
-.page-link-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:26px}
-.page-link-card{min-height:145px;padding:17px 16px;border:1px solid #26384d;background:linear-gradient(145deg,#101e30,#0d1726);border-radius:5px;text-decoration:none;position:relative;display:flex;flex-direction:column;transition:transform .25s,border-color .25s,background .25s}
+.page-link-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:30px}
+.page-link-card{min-width:0;min-height:154px;padding:20px;border:1px solid #26384d;background:linear-gradient(145deg,#101e30,#0d1726);border-radius:8px;text-decoration:none!important;position:relative;display:flex;flex-direction:column;align-items:flex-start;overflow:hidden;transition:transform .22s,border-color .22s,background .22s;gap:0}
 .page-link-card:hover{transform:translateY(-4px);border-color:#5ebdb2;background:linear-gradient(145deg,#13283a,#0d1726)}
-.page-link-card>span{font:8px var(--mono);letter-spacing:.08em;color:#70a6a8}
-.page-link-card strong{font-size:12px;line-height:1.5;margin-top:16px}
-.page-link-card small{font-size:9px;line-height:1.65;color:#8596ad;margin-top:5px;max-width:95%}
-.page-link-card b{position:absolute;right:15px;top:13px;font-size:15px;color:var(--teal);font-weight:400}
+.page-link-card>span{display:block;font:9px/1.5 var(--mono);letter-spacing:.075em;color:var(--teal);max-width:calc(100% - 20px)}
+.page-link-card strong{display:block;font-size:14px;line-height:1.45;margin-top:17px;letter-spacing:-.025em;overflow-wrap:anywhere}
+.page-link-card small{display:block;font-size:10px;line-height:1.7;color:var(--muted);margin-top:6px;max-width:100%;overflow-wrap:anywhere}
+.page-link-card b{position:absolute;right:17px;top:15px;font-size:16px;line-height:1;color:var(--teal);font-weight:400}
 .subpage-main{max-width:var(--max);margin:0 auto;padding:70px 30px 95px;min-height:65vh}
 .subpage-hero{position:relative;padding:43px 0 38px;border-bottom:1px solid var(--line);overflow:hidden}
 .subpage-hero:after{content:attr(data-code);position:absolute;right:0;top:-25px;z-index:-1;font:800 clamp(120px,20vw,250px)/1 var(--mono);letter-spacing:-.1em;color:#14223758;pointer-events:none}
@@ -88,9 +88,9 @@ a.subpage-card:hover{transform:translateY(-3px);border-color:#5ebdb2}
 .page-nav-footer{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
 .page-nav-footer a{font:8px var(--mono);letter-spacing:.05em;text-decoration:none;color:#8297af;border:1px solid #25394d;padding:8px 10px;border-radius:3px}
 .page-nav-footer a:hover{color:var(--teal);border-color:var(--teal)}
-@media(max-width:1020px){.page-link-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.subpage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1020px){.page-link-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.subpage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.nav{gap:0}.subpage-main{padding:45px 20px 70px}.subpage-hero{padding-top:30px}.page-link-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.subpage-grid,.subpage-grid.two{grid-template-columns:1fr}.subpage-list-item{grid-template-columns:1fr;gap:6px}.subpage-list-item .date{padding:0}.resource-links{grid-template-columns:1fr}.subpage-hero:after{top:0;font-size:135px}.stat-strip strong{font-size:22px}.stat-strip>div{padding:15px 10px 15px 0}}
-@media(max-width:480px){.page-link-grid{grid-template-columns:1fr 1fr;gap:7px}.page-link-card{padding:13px;min-height:140px}.page-link-card strong{font-size:11px;margin-top:14px}.page-link-card small{font-size:8px}.gallery-items{grid-template-columns:1fr}.gallery-item{min-height:100px}.subpage-hero h1{font-size:38px}.stat-strip{grid-template-columns:1fr}.stat-strip>div{padding:12px 0;border-bottom:1px solid #1d2c40}.stat-strip>div:last-child{border-bottom:0}}
+@media(max-width:480px){.page-link-grid{grid-template-columns:1fr;gap:10px}.page-link-card{padding:17px 18px;min-height:0}.page-link-card strong{font-size:13px;margin-top:12px}.page-link-card small{font-size:10px}.gallery-items{grid-template-columns:1fr}.gallery-item{min-height:100px}.subpage-hero h1{font-size:38px}.stat-strip{grid-template-columns:1fr}.stat-strip>div{padding:12px 0;border-bottom:1px solid #1d2c40}.stat-strip>div:last-child{border-bottom:0}}
 
 
 /* Institution/company logos in the downloadable standalone preview */

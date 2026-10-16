@@ -13,3 +13,8 @@ Replace matching files in the existing repository while preserving the directory
 - Removed CSS-created white logo backgrounds, borders, padding, and shadows; logos remain contained within their defined rectangular logo areas.
 - Strengthened footer social icon sizing, contrast, and visibility in dark and light themes.
 - Theme control now remembers manual choices across pages/tabs and follows the device's light/dark preference on the first visit when no saved choice exists.
+
+### More to explore layout fix
+- Restored the missing base CSS for the homepage's More to explore link grid, which had caused all link text to run together as plain underlined text.
+- Rebuilt the links as separate responsive cards with labels, titles, summaries, and arrow affordances; three columns on wide screens, two on medium screens, and one on small phones.
+- Matched the standalone interactive preview to the same card layout.
