@@ -181,7 +181,7 @@ html[data-theme="light"] .theme-toggle{background:#fff;border-color:#c5d0de;colo
   object-position: center;
   background: transparent !important;
 }
-/* Seeklogo Intel asset uses dark lettering; invert only in dark theme. */
+/* Intel logo asset has dark lettering; invert only in dark theme. */
 html:not([data-theme="light"]) .intel-logo { filter: brightness(0) invert(1); object-fit: contain !important; }
 html[data-theme="light"] .intel-logo { filter: none; object-fit: contain !important; }
 
@@ -566,3 +566,121 @@ html[data-theme="light"] .bio-portrait-frame{background:radial-gradient(ellipse 
 .footer-socials .scholar-social-icon svg path { fill: currentColor; }
 html[data-theme="light"] .footer-socials .academic-social-icon { color: #172335 !important; }
 html[data-theme="light"] .footer-socials .academic-social-icon .orcid-glyph { color: #6b9c20; }
+
+
+/* 2026-10-16 final polish: contact cards, wider education abstracts, and reliable Intel logo rendering. */
+.subpage-section .contact-method {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  width: min(820px, 100%);
+  min-height: 82px;
+  margin: 12px 0 0;
+  padding: 17px 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(115deg, var(--panel), color-mix(in srgb, var(--panel2) 65%, transparent));
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: 0 8px 25px #0000000b;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.subpage-section .contact-method > div {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.subpage-section .contact-method strong {
+  display: block;
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  text-decoration: none;
+}
+.subpage-section .contact-method small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.65;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.subpage-section .contact-method > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--teal);
+  font-size: 16px;
+  line-height: 1;
+  transition: transform .2s ease, border-color .2s ease;
+}
+.subpage-section .contact-method:hover,
+.subpage-section .contact-method:focus-visible {
+  border-color: var(--teal2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px #00000020;
+  outline: none;
+}
+.subpage-section .contact-method:hover > span,
+.subpage-section .contact-method:focus-visible > span {
+  border-color: var(--teal);
+  transform: translateX(2px);
+}
+.subpage-section .contact-method.whatsapp-contact strong { color: #65dda0; }
+html[data-theme="light"] .subpage-section .contact-method {
+  background: linear-gradient(115deg, #ffffff, #f4f8fc);
+  border-color: #d7e1ec;
+  box-shadow: 0 8px 22px #162a4408;
+}
+html[data-theme="light"] .subpage-section .contact-method strong { color: #172335; }
+html[data-theme="light"] .subpage-section .contact-method small { color: #596b81; }
+html[data-theme="light"] .subpage-section .contact-method > span { border-color: #d7e1ec; color: #0b8f83; }
+html[data-theme="light"] .subpage-section .contact-method.whatsapp-contact strong { color: #16864d; }
+
+/* Make Abstract popovers comfortably readable without clipping the thesis summaries. */
+.education-page .abstract-wrap { z-index: 12; }
+.education-page .abstract-popover {
+  z-index: 30;
+  width: min(680px, calc(100vw - 48px));
+  max-width: min(680px, calc(100vw - 48px));
+  padding: 17px 20px;
+  font-size: 12px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+
+/* Keep Intel's external PNGAll asset visible, with a local wordmark fallback for hotlink failures. */
+.org-logo-mini img.intel-logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain !important;
+  object-position: center;
+  background: transparent;
+}
+html:not([data-theme="light"]) .org-logo-mini img.intel-logo { filter: brightness(0) invert(1); }
+html[data-theme="light"] .org-logo-mini img.intel-logo { filter: none; }
+
+@media (max-width: 760px) {
+  .subpage-section .contact-method { min-height: 76px; padding: 15px 15px; gap: 14px; }
+  .subpage-section .contact-method strong { font-size: 13px; }
+  .subpage-section .contact-method small { font-size: 10px; }
+  .education-page .abstract-popover { width: min(600px, calc(100vw - 36px)); max-width: min(600px, calc(100vw - 36px)); }
+}
+@media (max-width: 420px) {
+  .subpage-section .contact-method { padding: 13px 12px; }
+  .subpage-section .contact-method > span { width: 29px; height: 29px; flex-basis: 29px; }
+  .education-page .abstract-popover { width: calc(100vw - 28px); max-width: calc(100vw - 28px); }
+}

@@ -23,3 +23,13 @@ After the package is committed to GitHub, open Actions and run “Refresh Google
 - CV, Google Scholar, ResearchGate, and ORCID icon links have been moved from the homepage profile-card block into the footer icon row across pages.
 
 Note: The Google Drive image could not be downloaded in this environment to bundle locally. The About page points to the Drive image directly and falls back to the existing local portrait if it does not load. Ensure the Drive file is shared as "Anyone with the link" for the direct image to display to site visitors.
+
+
+## 2026-10-16 Contact, abstracts, photo, and Intel logo fix
+
+- Styled Contact page methods as separate responsive cards with clear title, subtitle, and arrow placement.
+- Increased the Education Abstract popover width to up to 680px on desktop with responsive viewport-safe sizing.
+- Updated the About portrait to use the publicly shared Google Drive thumbnail endpoint and retain `assets/narendra-portrait.png` as fallback.
+- Switched Intel logos to PNGAll's direct image asset (`Intel-Logo-PNG-Image.webp`) instead of using the download landing page as an image URL; added a local SVG fallback to keep the logo visible if the external host blocks hotlinking. The image still links to Intel's official site.
+
+Note: the Google Drive photo must be shared as “Anyone with the link” for external embeds to work.
