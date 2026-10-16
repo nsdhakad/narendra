@@ -12,7 +12,7 @@
         const date = new Date(data.lastSuccessfulRefresh + 'T00:00:00Z');
         status.textContent = 'Last successful Scholar metrics snapshot: ' + date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }) + '. The updater checks weekly.';
       } else {
-        status.textContent = 'Metrics are awaiting the first successful weekly GitHub Actions refresh. Use “View Google Scholar” for the live profile.';
+        status.textContent = 'Use “View Google Scholar” for the live profile.';
       }
     })
     .catch(() => { if (status) status.textContent = 'Google Scholar metrics could not be loaded. Visit the live profile for current counts.'; });
