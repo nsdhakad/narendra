@@ -1,4 +1,4 @@
-# Narendra Singh Dhakad — Interactive 3D Portfolio (multi-page GitHub Pages site)
+# Narendra Singh Dhakad — Interactive 3D Portfolio 
 
 This folder is designed to be committed into **the same Git repository** as the Interactive 3D Portfolio. `index.html` remains the landing page, and profile links that previously pointed to the old personal website now resolve to local HTML pages in this repo.
 
