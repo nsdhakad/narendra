@@ -252,7 +252,7 @@
   // System package: independent IMC array, RISC-V control core, image input and output display.
   const imcGroup=new THREE.Group(),riscvGroup=new THREE.Group(),inputGroup=new THREE.Group(),outputGroup=new THREE.Group();
   boardGroup.add(imcGroup,riscvGroup,inputGroup,outputGroup);
-  imcGroup.position.set(-.53,.448,0);riscvGroup.position.set(.54,.448,0);inputGroup.position.set(-1.57,.12,0);outputGroup.position.set(1.57,.12,0);
+  imcGroup.position.set(-.53,.448,0);riscvGroup.position.set(.54,.448,0);inputGroup.position.set(-1.95,.12,0);outputGroup.position.set(1.95,.12,0);inputGroup.scale.setScalar(2);outputGroup.scale.setScalar(2);
   const imcBaseMat=mat(0x102a37,.25,.48,0x092c31,.22),riscvBaseMat=mat(0x221f43,.25,.5,0x2a1f6c,.22),inputBaseMat=mat(0x102333,.3,.42,0x0e3a4a,.28),outputBaseMat=mat(0x1b2835,.3,.48,0x123a4c,.28);
   const imcFrameMat=mat(0x1b4b52,.25,.45,0x176b70,.35),riscvFrameMat=mat(0x463b7c,.25,.45,0x5544b7,.38),inputFrameMat=mat(0x2c6674,.25,.4,0x217a84,.48),outputFrameMat=mat(0x2d5c67,.25,.4,0x267f80,.5);
   const imcFrame=box(.99,.065,1.29,imcBaseMat,0,0,0,imcGroup);box(.95,.025,1.25,imcFrameMat,0,.045,0,imcGroup);
@@ -387,7 +387,7 @@
   outputBars.forEach(bar=>{bar.visible=false;});
 
   const busMat=mat(0x3d9eac,.22,.35,0x2bc4c5,.9);
-  lineBar(-1.25,0,-1.03,0,.22,.035,busMat,boardGroup);lineBar(-.02,0,.035,0,.50,.04,busMat,boardGroup);lineBar(1.05,0,1.27,0,.22,.035,busMat,boardGroup);
+  lineBar(-1.37,0,-1.03,0,.22,.035,busMat,boardGroup);lineBar(-.02,0,.035,0,.50,.04,busMat,boardGroup);lineBar(1.03,0,1.37,0,.22,.035,busMat,boardGroup);
   const dataPackets=[];for(let i=0;i<3;i++){const packet=new THREE.Mesh(new THREE.SphereGeometry(.045,12,10),i===1?violetMat:glowMat);packet.visible=false;boardGroup.add(packet);dataPackets.push(packet);}
   const basePositions={input:inputGroup.position.clone(),imc:imcGroup.position.clone(),riscv:riscvGroup.position.clone(),output:outputGroup.position.clone()};
   let selectedModule='imc',demoStep=-1,exploded=false,visualizationMode='architecture';
