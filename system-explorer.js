@@ -460,7 +460,11 @@
       (step === 2 && button.dataset.component === 'riscv') ||
       (step === 3 && button.dataset.component === 'output')
     ));
-    if (weights) cells.forEach((cell, index) => paintCell(cell, weights.flat()[index], step === 1));
+    if (weights) {
+      const flatWeights = weights.flat();
+      const maxAbsWeight = Math.max(...flatWeights.map(Math.abs), 0.01);
+      cells.forEach((cell, index) => paintCell(cell, flatWeights[index] / maxAbsWeight, step === 1));
+    }
     if (step === 3) {
       scores = calculateScores();
       renderScores(scores);
