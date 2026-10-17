@@ -89,10 +89,14 @@
   let imageElement = null;
   let objectUrl = null;
   let weights = null;
+  let weightTemplate = null;
+  let weightSetNumber = 0;
+  let lastWeightSignature = '';
   let features = null;
   let scores = null;
   let pipelineStep = -1;
   let running = false;
+  let pipelinePaused = false;
   let runToken = 0;
 
   const setStatus = value => { status.textContent = value; };
@@ -292,14 +296,51 @@
     cell.style.boxShadow = active ? '0 0 10px hsla(' + hue + ',78%,65%,.55)' : '';
   };
 
+  function generateFreshWeights(reason = 'test') {
+    if (!weightTemplate) return false;
+
+    // Retain a small template influence while randomizing every one of the 64 weights.
+    // A new matrix is installed for each test run (and every manual Load weights click).
+    let nextWeights = weightTemplate.map(row => row.map(value => {
+      const randomValue = Math.random() * 2 - 1;
+      const blended = Number(value) * 0.15 + randomValue * 0.85;
+      return Math.round(Math.max(-1, Math.min(1, blended)) * 10000) / 10000;
+    }));
+    let signature = nextWeights.map(row => row.join(',')).join(';');
+    if (signature === lastWeightSignature) {
+      nextWeights[0][0] = Math.round((nextWeights[0][0] + 0.1379 > 1
+        ? nextWeights[0][0] - 0.1379
+        : nextWeights[0][0] + 0.1379) * 10000) / 10000;
+      signature = nextWeights.map(row => row.join(',')).join(';');
+    }
+
+    weights = nextWeights;
+    lastWeightSignature = signature;
+    weightSetNumber += 1;
+
+    const flat = weights.flat();
+    const maxAbs = Math.max(...flat.map(Math.abs), 0.01);
+    cells.forEach((cell, index) => paintCell(cell, flat[index] / maxAbs));
+    paintFlowWeights();
+    panel('weightState', 'RANDOM SET #' + weightSetNumber, true);
+    flowWeightState.textContent = 'Random set #' + weightSetNumber + ' · 64 values';
+    flowTransferState.textContent = 'Set #' + weightSetNumber + ' transferred to IMC';
+    setFlowStage('weights');
+    setStatus('RANDOM WEIGHTS #' + weightSetNumber + ' READY');
+    readout.textContent = reason === 'load'
+      ? 'Fresh randomized demo weights loaded. Each new inference test will generate another matrix.'
+      : 'Inference test #' + weightSetNumber + ' started with a fresh randomized 8 × 8 weight matrix.';
+    return true;
+  }
+
   async function loadWeights() {
     weightButton.disabled = true;
-    panel('weightState', 'FETCHING');
-    flowWeightState.textContent = 'Fetching 8 × 8 matrix…';
-    flowTransferState.textContent = 'Reading the weight file';
+    panel('weightState', 'FETCHING TEMPLATE');
+    flowWeightState.textContent = 'Fetching template matrix…';
+    flowTransferState.textContent = 'Reading the weight template';
     setFlowStage('weights');
     all('[data-flow-edge="weights-imc"]').forEach(edge=>edge.classList.add('is-flowing'));
-    readout.textContent = 'Fetching demo weights…';
+    readout.textContent = 'Fetching the weight template before generating a fresh random matrix…';
     try {
       const response = await fetch(new URL('demo-weights.json', document.baseURI), { cache: 'no-store' });
       if (!response.ok) throw new Error('HTTP ' + response.status);
@@ -308,27 +349,19 @@
           data.weights.some(row => !Array.isArray(row) || row.length !== 8)) {
         throw new Error('Weight file must contain an 8 × 8 matrix.');
       }
-      weights = data.weights.map(row => row.map(value => {
+      weightTemplate = data.weights.map(row => row.map(value => {
         const number = Number(value);
         if (!Number.isFinite(number)) throw new Error('Invalid weight value.');
         return Math.max(-1, Math.min(1, number));
       }));
-      const flat = weights.flat();
-      const maxAbs = Math.max(...flat.map(Math.abs), 0.01);
-      cells.forEach((cell, index) => paintCell(cell, flat[index] / maxAbs));
-      panel('weightState', '64 CELLS LOADED', true);
-      paintFlowWeights();
-      flowWeightState.textContent = '64 values loaded · synthetic demo';
-      flowTransferState.textContent = '64 values ready for memory transfer';
-      setFlowStage('weights');
-      readout.textContent = '64 synthetic demo weights are loaded. Run the pipeline or step through each stage.';
-      setStatus('WEIGHTS LOADED · READY');
+      if (!generateFreshWeights('load')) throw new Error('Could not generate randomized demo weights.');
+      setStatus('RANDOM WEIGHTS #' + weightSetNumber + ' LOADED');
     } catch (error) {
       panel('weightState', 'FETCH ERROR');
-      flowWeightState.textContent = 'Weight file not available';
-      flowTransferState.textContent = 'Could not fetch weights';
+      flowWeightState.textContent = 'Weight template unavailable';
+      flowTransferState.textContent = 'Could not fetch weight template';
       setFlowStage(imageElement ? 'input' : 'idle');
-      readout.textContent = 'Could not load the demo weights (' + (error.message || 'fetch failed') + '). Refresh the page and try again.';
+      readout.textContent = 'Could not load the demo weight template (' + (error.message || 'fetch failed') + '). Refresh the page and try again.';
       setStatus('WEIGHT FETCH ERROR');
     } finally {
       weightButton.disabled = false;
@@ -427,7 +460,11 @@
       (step === 2 && button.dataset.component === 'riscv') ||
       (step === 3 && button.dataset.component === 'output')
     ));
-    if (weights) cells.forEach((cell, index) => paintCell(cell, weights.flat()[index], step === 1));
+    if (weights) {
+      const flatWeights = weights.flat();
+      const maxAbsWeight = Math.max(...flatWeights.map(Math.abs), 0.01);
+      cells.forEach((cell, index) => paintCell(cell, flatWeights[index] / maxAbsWeight, step === 1));
+    }
     if (step === 3) {
       scores = calculateScores();
       renderScores(scores);
@@ -449,22 +486,30 @@
     if (running) {
       ++runToken;
       running = false;
+      pipelinePaused = true;
       runButton.innerHTML = 'Resume pipeline <span aria-hidden="true">▶</span>';
-      readout.textContent = 'Pipeline paused. Resume to continue, or use Step to advance manually.';
+      readout.textContent = 'Pipeline paused. Resume to continue with the same weight set, or use Step to advance manually.';
       setStatus('PIPELINE PAUSED');
       updateReady();
       return;
     }
-    if (!imageElement || !weights) {
-      readout.textContent = 'Load an image and demo weights before starting the pipeline.';
+    if (!imageElement || !weightTemplate || !weights) {
+      readout.textContent = 'Load an image and click Load demo weights before starting the pipeline.';
       return;
     }
-    if (pipelineStep >= 3) resetOutput();
+
+    // A paused or manually stepped test keeps its current matrix. Only a new
+    // sequence (before step 1 or after a completed test) gets fresh random weights.
+    if (!pipelinePaused) {
+      if (pipelineStep >= 3) resetOutput();
+      if (pipelineStep < 0 && !generateFreshWeights('test')) return;
+    }
+    pipelinePaused = false;
     running = true;
     const token = ++runToken;
     updateReady();
     runButton.innerHTML = 'Pause pipeline <span aria-hidden="true">Ⅱ</span>';
-    setStatus('PIPELINE RUNNING');
+    setStatus('PIPELINE RUNNING · RANDOM SET #' + weightSetNumber);
     try {
       while (pipelineStep < 3 && token === runToken) {
         executeStep();
@@ -473,6 +518,7 @@
     } finally {
       if (token === runToken) {
         running = false;
+        pipelinePaused = false;
         runButton.innerHTML = pipelineStep >= 3
           ? 'Run again <span aria-hidden="true">↻</span>'
           : 'Resume pipeline <span aria-hidden="true">▶</span>';
@@ -480,11 +526,26 @@
       }
     }
   }
-  stepButton.addEventListener('click', () => { if (!running) executeStep(); });
+  stepButton.addEventListener('click', () => {
+    if (running) return;
+    if (!imageElement || !weightTemplate) {
+      executeStep();
+      return;
+    }
+    // The first Step starts a new test; subsequent Steps keep the same weights.
+    if (pipelineStep < 0 || pipelineStep >= 3) {
+      if (pipelineStep >= 3) resetOutput();
+      if (!generateFreshWeights('test')) return;
+      pipelinePaused = false;
+      runButton.innerHTML = 'Run pipeline <span aria-hidden="true">▶</span>';
+    }
+    executeStep();
+  });
   runButton.addEventListener('click', runPipeline);
   resetButton.addEventListener('click', () => {
     ++runToken;
     running = false;
+    pipelinePaused = false;
     resetOutput();
     setStatus('READY · IMC + RISC-V');
     callout.textContent = 'Select a component or run the pipeline';
@@ -499,6 +560,7 @@
     if (!initializing && previousMode !== normalizedMode) {
       ++runToken;
       running = false;
+      pipelinePaused = false;
       resetOutput(); // Keep image and weights; clear stale pipeline/result highlights.
       runButton.innerHTML = 'Run pipeline <span aria-hidden="true">▶</span>';
     }
