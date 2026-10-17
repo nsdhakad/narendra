@@ -256,35 +256,17 @@
 
   sampleButton.addEventListener('click', () => {
     try {
-      const canvas = document.createElement('canvas');
-      canvas.width = canvas.height = 224;
-      const context = canvas.getContext('2d');
-      if (!context) throw new Error('2D canvas is unavailable in this browser.');
-      const gradient = context.createLinearGradient(0, 0, 224, 224);
-      gradient.addColorStop(0, '#13384b');
-      gradient.addColorStop(0.5, '#48c9b6');
-      gradient.addColorStop(1, '#a59bff');
-      context.fillStyle = gradient;
-      context.fillRect(0, 0, 224, 224);
-      context.fillStyle = '#081522';
-      for (let i = 0; i < 7; i++) context.fillRect(25 + i * 25, 36 + (i % 3) * 8, 12, 148 - (i % 3) * 10);
-      context.strokeStyle = '#c7fff6';
-      context.lineWidth = 3;
-      for (let i = 0; i < 5; i++) {
-        context.beginPath();
-        context.moveTo(22, 25 + i * 42);
-        context.lineTo(202, 25 + i * 42);
-        context.stroke();
-      }
-      context.fillStyle = '#f0c98f';
-      context.fillRect(92, 85, 42, 54);
-      context.fillStyle = '#0b1c2a';
-      context.font = 'bold 17px monospace';
-      context.fillText('IMC', 94, 117);
-      loadImageSource(canvas.toDataURL('image/png'), 'Sample IMC image', false);
+      // Resolve from this controller script so the repository asset works on GitHub
+      // Pages project paths as well as local previews, regardless of the current page URL.
+      const controllerScript = document.querySelector('script[src$="system-explorer.js"]');
+      const assetBase = controllerScript && controllerScript.src
+        ? controllerScript.src
+        : document.baseURI;
+      const sampleImageUrl = new URL('NSD.png', assetBase).href;
+      loadImageSource(sampleImageUrl, 'NSD.png · Sample image', false);
     } catch (error) {
       panel('inputState', 'SAMPLE ERROR');
-      readout.textContent = 'Could not create the sample image: ' + (error.message || 'unknown canvas error');
+      readout.textContent = 'Could not load NSD.png: ' + (error.message || 'unknown browser error');
       setStatus('SAMPLE IMAGE ERROR');
     }
   });
