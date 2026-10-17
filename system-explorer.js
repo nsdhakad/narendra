@@ -19,6 +19,55 @@
   if (missing.length) {
     console.error('[System Explorer] Missing controls:', missing.join(', '));
     const readout = id('executionReadout');
+  const flowOverlay = id('systemFlowOverlay');
+  const flowImage = id('systemFlowImage');
+  const flowImagePlaceholder = id('systemFlowImagePlaceholder');
+  const flowMemoryCells = all('[data-flow-mem-cell]');
+  const flowWeightCells = all('[data-flow-weight-cell]');
+  const flowOutputBars = all('[data-flow-output-bar]');
+  const flowStateText = id('systemFlowInputState');
+  const flowWeightState = id('systemFlowWeightState');
+  const flowTransferState = id('systemFlowTransferState');
+  const flowOutputLabel = id('systemFlowOutputLabel');
+  const flowOutputState = id('systemFlowOutputState');
+
+  const stageOrder = ['input','weights','imc','riscv','output'];
+  function setFlowStage(stage) {
+    if (!flowOverlay) return;
+    flowOverlay.dataset.flowState = stage || 'idle';
+    const stageIndex = stageOrder.indexOf(stage);
+    all('[data-flow-node]').forEach(node => {
+      const nodeIndex = stageOrder.indexOf(node.dataset.flowNode);
+      node.classList.toggle('is-flow-active', node.dataset.flowNode === stage);
+      node.classList.toggle('is-flow-done', nodeIndex >= 0 && stageIndex > nodeIndex);
+    });
+    const activeEdges = {
+      'input': ['input-imc'],
+      'weights': ['weights-imc'],
+      'imc': ['input-imc','weights-imc','imc-riscv'],
+      'riscv': ['imc-riscv','riscv-output'],
+      'output': ['riscv-output']
+    }[stage] || [];
+    all('[data-flow-edge]').forEach(edge => edge.classList.toggle('is-flowing', activeEdges.includes(edge.dataset.flowEdge)));
+  }
+
+  function paintFlowWeights() {
+    if (!weights) return;
+    const flat = weights.flat();
+    const sampleIndexes = [0,7,16,23,32,39,48,63];
+    flowWeightCells.forEach((cell,index) => {
+      const n = Math.max(0,Math.min(1,(flat[sampleIndexes[index]]+1)/2));
+      cell.style.background = 'hsl(' + (245-n*70) + ' 58% ' + (18+n*38) + '%)';
+      cell.style.borderColor = n > .68 ? '#a59bff' : n > .34 ? '#4db9af' : '#365568';
+    });
+    flowMemoryCells.forEach((cell,index) => {
+      const value = flat[(Math.floor(index/4)*2)*8 + (index%4)*2];
+      const n = Math.max(0,Math.min(1,(value+1)/2));
+      cell.style.background = 'hsl(' + (245-n*70) + ' 58% ' + (18+n*38) + '%)';
+      cell.style.boxShadow = '0 0 5px hsla(' + (245-n*70) + ',78%,65%,.18)';
+    });
+  }
+
     if (readout) readout.textContent = 'The system explorer is missing required controls. Refresh the page after the latest site deployment.';
     return;
   }
@@ -75,6 +124,10 @@
     });
     components.forEach(button => button.classList.remove('is-pulsing'));
     scoresNode.innerHTML = '<div class="output-empty">Run the pipeline to generate illustrative scores.</div>';
+    flowOutputLabel.textContent = 'Display ready';
+    flowOutputState.textContent = 'Awaiting result';
+    flowOutputBars.forEach((bar,i)=>{bar.style.height = [25,48,34][i]+'%';bar.style.background='';});
+    setFlowStage(imageElement ? (weights ? 'weights' : 'input') : 'idle');
     panel('executionState', imageElement && weights ? 'READY' : 'IDLE', Boolean(imageElement && weights));
     panel('outputState', 'NO RESULT');
     if (window.systemArchitectureScene && window.systemArchitectureScene.setStep) window.systemArchitectureScene.setStep(-1);
@@ -110,6 +163,15 @@
       };
       preview.src = img.src;
       preview.hidden = false;
+      flowImage.src = img.src;
+      flowImage.hidden = false;
+      flowImagePlaceholder.hidden = true;
+      id('systemFlowInputLabel').textContent = fileName || 'Image ready';
+      flowStateText.textContent = '256 px features sampled';
+      flowOutputLabel.textContent = 'Display ready';
+      flowOutputState.textContent = 'Awaiting result';
+      flowOutputBars.forEach((bar,i)=>{bar.style.height = [25,48,34][i]+'%'; bar.style.background='';});
+      setFlowStage('input');
       id('imageDropTitle').textContent = fileName || 'Image ready';
       id('imageDropMeta').textContent = img.naturalWidth + ' × ' + img.naturalHeight + ' px · sampled locally';
       id('pixelSummary').textContent = '256 sampled pixels';
@@ -146,6 +208,9 @@
       features = null;
       panel('inputState', 'IMAGE ERROR');
       readout.textContent = 'The browser could not decode this file. Try PNG, JPEG, or WebP.';
+      id('systemFlowInputLabel').textContent = 'Image unavailable';
+      flowStateText.textContent = 'Decode failed';
+      setFlowStage('idle');
       setStatus('IMAGE DECODE ERROR');
       updateReady();
     };
@@ -241,6 +306,10 @@
   async function loadWeights() {
     weightButton.disabled = true;
     panel('weightState', 'FETCHING');
+    flowWeightState.textContent = 'Fetching 8 × 8 matrix…';
+    flowTransferState.textContent = 'Reading the weight file';
+    setFlowStage('weights');
+    all('[data-flow-edge="weights-imc"]').forEach(edge=>edge.classList.add('is-flowing'));
     readout.textContent = 'Fetching demo weights…';
     try {
       const response = await fetch(new URL('demo-weights.json', document.baseURI), { cache: 'no-store' });
@@ -259,10 +328,17 @@
       const maxAbs = Math.max(...flat.map(Math.abs), 0.01);
       cells.forEach((cell, index) => paintCell(cell, flat[index] / maxAbs));
       panel('weightState', '64 CELLS LOADED', true);
+      paintFlowWeights();
+      flowWeightState.textContent = '64 values loaded · synthetic demo';
+      flowTransferState.textContent = '64 values ready for memory transfer';
+      setFlowStage('weights');
       readout.textContent = '64 synthetic demo weights are loaded. Run the pipeline or step through each stage.';
       setStatus('WEIGHTS LOADED · READY');
     } catch (error) {
       panel('weightState', 'FETCH ERROR');
+      flowWeightState.textContent = 'Weight file not available';
+      flowTransferState.textContent = 'Could not fetch weights';
+      setFlowStage(imageElement ? 'input' : 'idle');
       readout.textContent = 'Could not load the demo weights (' + (error.message || 'fetch failed') + '). Refresh the page and try again.';
       setStatus('WEIGHT FETCH ERROR');
     } finally {
@@ -291,6 +367,9 @@
 
   function renderScores(items) {
     scoresNode.replaceChildren();
+    items.forEach((item,index)=>{ if(flowOutputBars[index]) { flowOutputBars[index].style.height = Math.max(12,Math.round(item.score*100))+'%'; flowOutputBars[index].style.background = ['#3d908e','#7d70dc','#c69b65'][index]; } });
+    if(flowOutputLabel && items[0]) flowOutputLabel.textContent = items[0].label;
+    if(flowOutputState) flowOutputState.textContent = 'Top score ' + (items[0] ? Math.round(items[0].score*100) + '%' : 'ready');
     items.forEach(item => {
       const row = document.createElement('div');
       row.className = 'score-row';
@@ -339,6 +418,11 @@
     readout.textContent = stepData[step][1];
     setStatus(stepData[step][0]);
     callout.textContent = stepData[step][0] + ' · ' + stepData[step][1];
+    setFlowStage(['input','imc','riscv','output'][step]);
+    flowStateText.textContent = step===0 ? 'Features prepared' : 'Image features sent';
+    if(step===1) flowTransferState.textContent = 'Weights held in IMC cells';
+    if(step===2) flowTransferState.textContent = 'IMC features → RISC-V';
+    if(step===3) { flowOutputLabel.textContent = scores && scores[0] ? scores[0].label : 'Result ready'; flowOutputState.textContent = 'Demo scores displayed'; }
     components.forEach(button => button.classList.toggle('is-pulsing',
       (step === 1 && button.dataset.component === 'imc') ||
       (step === 2 && button.dataset.component === 'riscv') ||
