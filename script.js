@@ -90,7 +90,7 @@
   const topics = {
     memory: {
       title: 'In-/Near-Memory Computing',
-      text: 'Exploring 6T SRAM, 10T SRAM, and configurable multi-port memory architectures that support computing where data lives.',
+      text: 'Exploring 6T/8T/10T SRAM, and configurable multi-port memory architectures that support computing where data lives.',
       link: 'https://www.narendradhakad.com/research'
     },
     soc: {
