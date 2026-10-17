@@ -866,3 +866,19 @@ html[data-theme="light"] .system-howto-body strong{color:#243950}
 html[data-theme="light"] .system-howto-body kbd{background:#fff;border-color:#cbdce6;color:#167e77}
 @media(max-width:900px){.featured-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featured-project-card:last-child{grid-column:1/-1;min-height:220px}}
 @media(max-width:760px){.featured-project-grid{grid-template-columns:1fr}.featured-project-card,.featured-project-card:last-child{grid-column:auto;min-height:0}.featured-work-heading{display:block}.featured-work-heading p{margin-top:7px}.system-demo-note,.system-howto{margin-left:8px;margin-right:8px}.hero-profile-links{gap:8px 15px}}
+
+
+/* Keep research contribution and supporting evidence easy to scan in featured project cards. */
+.featured-project-proof .proof-subhead {
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+.system-stage-hint {
+  padding-inline: 10px;
+  line-height: 1.35;
+  white-space: normal;
+}
+@media (max-width: 420px) {
+  .system-stage-hint { font-size: 5.5px; letter-spacing: .02em; }
+}

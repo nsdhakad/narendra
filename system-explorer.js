@@ -620,5 +620,21 @@
     });
   });
 
+  // Restore live inputs, outputs, and selected mode if the 3D engine loads after the controls.
+  window.addEventListener('system-scene-ready', () => {
+    const scene = window.systemArchitectureScene;
+    if (!scene) return;
+    if (scene.setMode) scene.setMode(explorer.dataset.mode || 'architecture');
+    if (scene.setInputImage) scene.setInputImage(imageElement || null);
+    if (scene.setScores) scene.setScores(scores);
+    if (pipelineStep >= 0 && scene.setStep) {
+      scene.setStep(pipelineStep);
+    } else {
+      const selected = components.find(button => button.getAttribute('aria-pressed') === 'true');
+      if (selected && scene.highlight) scene.highlight(selected.dataset.component);
+    }
+    if (scene.explode) scene.explode(explorer.dataset.exploded === 'true');
+  });
+
   window.addEventListener('pagehide', releaseObjectUrl);
 })();
