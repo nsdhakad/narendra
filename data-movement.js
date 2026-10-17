@@ -99,7 +99,7 @@
         '<div class="dm-result" id="dmResult" aria-live="polite">Choose a matrix size, then press <b>Run comparison</b>. Watch the transfer phase finish before CPU computation starts.</div>' +
         '<p class="dm-note" id="dmNote">Illustrative model only—not measured silicon data. This simplified model counts N² weights plus 2N input/output words for the conventional path, and 2N input/output words for in-memory computing. Relative energy uses compute = 1, word transfer = 20, in-array MAC = 1.5, and readout = 6 per output. Real results depend on architecture, precision, data reuse, and peripheral circuits.</p>' +
       '</div>';
-    anchor.insertAdjacentElement('afterend', sec);
+    anchor.insertAdjacentElement('beforebegin', sec);
 
     var $ = function (id) { return document.getElementById(id); };
     var size = $('dmSize'), sizeOut = $('dmSizeOut');
