@@ -66,7 +66,7 @@
   }
 
   function build() {
-    var anchor = document.getElementById('system-showcase');
+    var anchor = document.getElementById('research');
     if (!anchor || document.getElementById('data-movement')) return;
     var style = el('style');
     style.textContent = css;
