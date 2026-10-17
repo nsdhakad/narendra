@@ -782,8 +782,22 @@ html[data-theme="light"] .architecture-spec small{color:#748a9c}
 .hero{min-height:auto;grid-template-columns:minmax(0,1fr);align-items:center;padding-top:68px;padding-bottom:58px}
 .hero-copy{max-width:780px}
 .system-showcase{padding-top:8px;padding-bottom:76px}
-.system-showcase .hero-visual{width:100%;min-height:510px}
-@media(max-width:760px){.hero{padding-top:48px;padding-bottom:42px}.system-showcase{padding-bottom:52px}.system-showcase .hero-visual{min-height:470px}}
+.system-showcase .hero-visual{width:100%;min-height:0}
+.system-showcase .visual-topline{height:36px;padding:0 13px;font-size:8px}
+.system-showcase .system-explorer{padding:7px 9px 0}
+.system-showcase .system-toolbar{margin-bottom:7px}
+.system-showcase .system-tab,.system-showcase .system-small-button{padding:6px 8px;font-size:8px}
+.system-showcase .system-mode-description{font-size:10px;line-height:1.5;margin:0 0 7px}
+.system-showcase .system-demo-note{font-size:8px;line-height:1.5;margin:0 9px 6px}
+.system-showcase .system-howto{font-size:8px;margin:0 9px 7px}
+.system-showcase .system-stage{height:270px}
+.system-showcase .system-component-bar{margin:7px 0 9px;gap:6px}
+.system-showcase .system-component{padding:6px;gap:6px}
+.system-showcase .system-workbench{gap:7px}
+.system-showcase .workbench-panel{padding:8px}
+.system-showcase .system-controls{padding:7px 1px 9px}
+@media(max-width:760px){.hero{padding-top:48px;padding-bottom:42px}.system-showcase{padding-bottom:52px}.system-showcase .hero-visual{min-height:0}.system-showcase .system-stage{height:240px}}
+@media(max-width:420px){.system-showcase .system-stage{height:215px}}
 
 
 /* Compact the hardware-inspection canvas when the inference pipeline is hidden. */
