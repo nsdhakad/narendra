@@ -14,11 +14,11 @@
   var RUN_MS = 5200;
 
   var css = '\
-.dm-section{max-width:1180px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(16px,4vw,32px)}\
-.dm-kicker{font:500 12px/1 "DM Mono",monospace;letter-spacing:.14em;opacity:.7;margin:0 0 14px}\
-.dm-title{font-size:clamp(26px,4vw,42px);line-height:1.1;margin:0 0 12px;font-weight:700}\
-.dm-title em{font-style:italic;opacity:.85}\
-.dm-sub{max-width:68ch;opacity:.8;margin:0 0 28px}\
+.dm-section{max-width:1180px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(16px,4vw,32px);color:var(--text,inherit);font-family:inherit}\
+.dm-kicker{font:500 12px/1 "DM Mono",monospace;letter-spacing:.14em;color:var(--muted,#8ea3b9);margin:0 0 14px}\
+.dm-title{font-family:inherit;font-size:clamp(26px,4vw,42px);line-height:1.1;margin:0 0 12px;font-weight:700;letter-spacing:-.035em;color:inherit}\
+.dm-title em{font-style:italic;color:var(--accent,#3dd6c6);opacity:1}\
+.dm-sub{max-width:68ch;color:var(--muted,inherit);margin:0 0 28px;line-height:1.7}\
 .dm-card{border:1px solid rgba(127,140,160,.35);border-radius:18px;padding:clamp(14px,3vw,26px);background:rgba(127,140,160,.07)}\
 .dm-controls{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;margin-bottom:20px}\
 .dm-controls label{font:500 12px/1 "DM Mono",monospace;letter-spacing:.08em}\
