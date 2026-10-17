@@ -100,7 +100,7 @@
     },
     edge: {
       title: 'Emerging Memory & Edge AI',
-      text: 'Research interests include emerging memory technologies for in-memory computing and resource-efficient AI algorithm implementation on edge devices.',
+      text: 'Exploring emerging memory technologies (RRAM, FeFET) for in-memory computing and resource-efficient AI algorithm implementation on edge devices.',
       link: 'https://www.narendradhakad.com/research'
     }
   };
