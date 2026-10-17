@@ -791,3 +791,32 @@ html[data-theme="light"] .architecture-spec small{color:#748a9c}
 @media(max-width:1180px){.system-explorer[data-mode="architecture"] .system-stage{height:280px}}
 @media(max-width:760px){.system-explorer[data-mode="architecture"] .system-stage{height:255px}}
 @media(max-width:420px){.system-explorer[data-mode="architecture"] .system-stage{height:230px}}
+
+
+/* Keep education abstracts in normal document flow so open text pushes later entries down. */
+.abstract-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 100%;
+  vertical-align: top;
+}
+.abstract-wrap .abstract-popover {
+  position: static;
+  inset: auto;
+  display: none;
+  width: min(680px, calc(100vw - 48px));
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+.abstract-wrap:hover .abstract-popover,
+.abstract-wrap:focus-within .abstract-popover,
+.abstract-wrap.is-open .abstract-popover {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
