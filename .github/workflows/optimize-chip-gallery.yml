@@ -1,0 +1,53 @@
+name: Optimize chip gallery images
+
+on:
+  push:
+    paths:
+      - "chip-gallery.html"
+      - "03-quadport.webp"
+      - "04-d-imc.webp"
+      - "scripts/optimize_chip_gallery.py"
+      - ".github/workflows/optimize-chip-gallery.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: optimize-chip-gallery-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out current branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install image tooling
+        run: python -m pip install --disable-pip-version-check Pillow
+
+      - name: Generate responsive WebP variants
+        run: python scripts/optimize_chip_gallery.py
+
+      - name: Commit generated variants to this branch
+        env:
+          TARGET_BRANCH: ${{ github.ref_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/gallery/*.webp
+          if git diff --cached --quiet; then
+            echo "Optimized gallery images are already up to date."
+          else
+            git commit -m "Generate optimized chip-gallery thumbnails"
+            git push origin "HEAD:${TARGET_BRANCH}"
+          fi
