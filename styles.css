@@ -690,3 +690,16 @@ html[data-theme="light"] .org-logo-mini img.intel-logo { filter: none; }
 
 /* Keep the headline aligned with the top of the expanded system explorer on wide screens. */
 @media (min-width: 1021px) { .hero { align-items: start; } .hero-copy { padding-top: 88px; } }
+
+
+/* Reliable, explicit image-picker controls for the IMC system workbench. */
+.system-file-input { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); clip-path:inset(50%); white-space:nowrap; border:0; }
+.image-input-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:8px; }
+.image-input-actions .system-action { width:100%; min-height:36px; padding:8px 7px; white-space:normal; }
+.image-dropzone.is-dragover { border-color:var(--teal); background:#102737; }
+.image-dropzone:focus-within { outline:2px solid var(--teal); outline-offset:3px; }
+@media(max-width:420px) { .image-input-actions { grid-template-columns:1fr; } }
+html[data-theme="light"] .image-dropzone { background:#f4f8fc; border-color:#b8cbd7; }
+html[data-theme="light"] .image-drop-copy strong { color:#243950; }
+html[data-theme="light"] .image-drop-copy small { color:#63788e; }
+

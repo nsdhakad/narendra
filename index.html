@@ -13,6 +13,7 @@
 <link href="styles.css" rel="stylesheet"/>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script defer="" src="script.js"></script>
+<script defer="" src="system-explorer.js"></script>
 </head>
 <body>
 <div class="reading-progress"><span id="readingProgress"></span></div>
@@ -63,12 +64,15 @@
       <h3 id="inputPanelTitle">Image input</h3>
       <p>Upload an image to inspect pixels and prepare a compact feature vector for the architecture demo.</p>
       <label class="image-dropzone" id="imageDropzone" for="systemImageInput">
-        <input id="systemImageInput" type="file" accept="image/*">
         <span class="image-drop-icon" aria-hidden="true">＋</span>
         <img id="systemInputPreview" alt="Uploaded input preview" hidden>
         <span class="image-drop-copy"><strong id="imageDropTitle">Choose an image</strong><small id="imageDropMeta">PNG, JPEG, WebP · processed locally</small></span>
       </label>
-      <button type="button" class="system-action system-action-secondary" id="sampleImageButton">Use sample image</button>
+      <input id="systemImageInput" class="system-file-input" type="file" accept="image/*" aria-label="Choose an input image">
+      <div class="image-input-actions">
+        <button type="button" class="system-action system-action-secondary" id="chooseImageButton"><span aria-hidden="true">↑</span> Choose image</button>
+        <button type="button" class="system-action system-action-secondary" id="sampleImageButton">Use sample image</button>
+      </div>
       <div class="pixel-summary"><span>Sampled input</span><strong id="pixelSummary">No image loaded</strong></div>
     </section>
     <section class="workbench-panel memory-panel" aria-labelledby="memoryPanelTitle">
