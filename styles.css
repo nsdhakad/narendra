@@ -959,3 +959,23 @@ html[data-theme="light"] .pdk-die-mark{background:#f7f6ff;border-color:#d0c9f4;b
 html[data-theme="light"] .pdk-die-mark span{color:#4c438f;border-color:#d8d1f7}
 @media(max-width:760px){.pdk-die-mark{right:4%;bottom:7%;transform:scale(.88);transform-origin:bottom right}.tag-pdk{right:2%;top:9%}.tag-edge{bottom:24%}}
 @media(max-width:420px){.pdk-die-mark{bottom:7%;right:2%;gap:2px;padding:4px}.pdk-die-mark span{font-size:5px;padding:3px}.tag-pdk{top:8%}}
+
+
+/* Always-on motion: animated chip hover, orbital rings, flowing signal traces and cursor depth. */
+.hero-visual.hero-parallax .hero-chip-wrap{animation:heroChipFloat 6s ease-in-out infinite;will-change:transform}
+.hero-visual.hero-parallax .hero-orbit.orbit-one{animation:heroOrbitDrift 18s linear infinite}
+.hero-visual.hero-parallax .hero-orbit.orbit-two{animation:heroOrbitDriftReverse 24s linear infinite}
+.hero-visual.hero-parallax .hero-visual-grid{animation:heroGridPulse 8s ease-in-out infinite}
+.hero-visual.hero-parallax .memory-cell.cell-active{animation:heroCellPulse 2.8s ease-in-out infinite}
+.hero-visual.hero-parallax .memory-cell.cell-active:nth-child(3n){animation-delay:.6s}
+.hero-visual.hero-parallax .memory-cell.cell-active:nth-child(2n){animation-delay:1.2s}
+.hero-visual.hero-parallax .tag-pdk{animation:heroTagFloat 5.5s ease-in-out infinite}
+.hero-visual.hero-parallax .pdk-die-mark{animation:heroDieFloat 7s ease-in-out infinite}
+@keyframes heroChipFloat{0%,100%{margin-top:0}50%{margin-top:-9px}}
+@keyframes heroOrbitDrift{from{rotate:0deg}to{rotate:360deg}}
+@keyframes heroOrbitDriftReverse{from{rotate:360deg}to{rotate:0deg}}
+@keyframes heroGridPulse{0%,100%{opacity:.15}50%{opacity:.3}}
+@keyframes heroCellPulse{0%,100%{filter:brightness(.8);box-shadow:0 0 5px #6fe6d055}50%{filter:brightness(1.4);box-shadow:0 0 15px #6fe6d0cc}}
+@keyframes heroTagFloat{0%,100%{margin-top:0}50%{margin-top:-7px}}
+@keyframes heroDieFloat{0%,100%{margin-bottom:0}50%{margin-bottom:8px}}
+@media(prefers-reduced-motion:reduce){.hero-visual.hero-parallax .hero-chip-wrap,.hero-visual.hero-parallax .hero-orbit,.hero-visual.hero-parallax .hero-visual-grid,.hero-visual.hero-parallax .memory-cell,.hero-visual.hero-parallax .tag-pdk,.hero-visual.hero-parallax .pdk-die-mark{animation:none!important}}
