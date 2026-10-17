@@ -50,6 +50,51 @@
     <div aria-hidden="true" class="scene-fallback" id="sceneFallback"><div class="fallback-chip"><span>IMC</span><small>+ RISC-V</small></div></div>
     <div class="system-stage-badge stage-badge-imc"><span class="system-badge-dot"></span><span><strong>IMC ARRAY</strong><small>Weight storage + MAC demo</small></span></div>
     <div class="system-stage-badge stage-badge-risc"><span class="system-badge-dot system-badge-violet"></span><span><strong>RISC-V CORE</strong><small>Control + orchestration</small></span></div>
+    <div class="system-flow-overlay" id="systemFlowOverlay" data-flow-state="idle" aria-label="Visual system pipeline">
+      <div class="system-flow-main">
+        <div class="flow-node flow-image-node" data-flow-node="input">
+          <div class="flow-node-head"><span class="flow-node-index">01</span><span>INPUT IMAGE</span></div>
+          <div class="flow-image-visual">
+            <img id="systemFlowImage" alt="Current input image preview" hidden>
+            <div id="systemFlowImagePlaceholder" class="flow-image-placeholder" aria-hidden="true"><span>IMG</span><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <strong class="flow-node-title" id="systemFlowInputLabel">Waiting for image</strong>
+          <small class="flow-node-subtitle" id="systemFlowInputState">Upload or choose sample</small>
+        </div>
+        <div class="flow-connector" data-flow-edge="input-imc" aria-hidden="true"><span>PIXELS</span><i></i></div>
+        <div class="flow-node flow-imc-node" data-flow-node="imc">
+          <div class="flow-node-head"><span class="flow-node-index">02</span><span>IMC ARRAY</span></div>
+          <div class="flow-memory-visual" aria-hidden="true"><div class="flow-mini-matrix"><i data-flow-mem-cell="0"></i><i data-flow-mem-cell="1"></i><i data-flow-mem-cell="2"></i><i data-flow-mem-cell="3"></i><i data-flow-mem-cell="4"></i><i data-flow-mem-cell="5"></i><i data-flow-mem-cell="6"></i><i data-flow-mem-cell="7"></i><i data-flow-mem-cell="8"></i><i data-flow-mem-cell="9"></i><i data-flow-mem-cell="10"></i><i data-flow-mem-cell="11"></i><i data-flow-mem-cell="12"></i><i data-flow-mem-cell="13"></i><i data-flow-mem-cell="14"></i><i data-flow-mem-cell="15"></i></div></div>
+          <strong class="flow-node-title">Weight + MAC</strong>
+          <small class="flow-node-subtitle">8 × 8 memory</small>
+        </div>
+        <div class="flow-connector" data-flow-edge="imc-riscv" aria-hidden="true"><span>FEATURES</span><i></i></div>
+        <div class="flow-node flow-riscv-node" data-flow-node="riscv">
+          <div class="flow-node-head"><span class="flow-node-index">03</span><span>RISC-V</span></div>
+          <div class="flow-riscv-visual" aria-hidden="true"><span>RV</span><i></i><i></i></div>
+          <strong class="flow-node-title">Control core</strong>
+          <small class="flow-node-subtitle">Orchestrate</small>
+        </div>
+        <div class="flow-connector" data-flow-edge="riscv-output" aria-hidden="true"><span>RESULT</span><i></i></div>
+        <div class="flow-node flow-output-node" data-flow-node="output">
+          <div class="flow-node-head"><span class="flow-node-index">04</span><span>OUTPUT</span></div>
+          <div class="flow-output-visual" aria-hidden="true"><i data-flow-output-bar="0"></i><i data-flow-output-bar="1"></i><i data-flow-output-bar="2"></i></div>
+          <strong class="flow-node-title" id="systemFlowOutputLabel">Display ready</strong>
+          <small class="flow-node-subtitle" id="systemFlowOutputState">Awaiting result</small>
+        </div>
+      </div>
+      <div class="flow-weight-lane">
+        <div class="flow-weight-file" data-flow-node="weights">
+          <span class="flow-json-icon">JSON</span>
+          <span class="flow-weight-copy"><strong>demo-weights.json</strong><small id="systemFlowWeightState">8 × 8 synthetic weights · not loaded</small></span>
+        </div>
+        <div class="flow-weight-transfer" data-flow-edge="weights-imc">
+          <span class="flow-transfer-caption">FETCH WEIGHTS <b>→</b> TRANSFER TO IMC MEMORY</span>
+          <span class="flow-weight-packets" aria-hidden="true"><i data-flow-weight-cell="0"></i><i data-flow-weight-cell="1"></i><i data-flow-weight-cell="2"></i><i data-flow-weight-cell="3"></i><i data-flow-weight-cell="4"></i><i data-flow-weight-cell="5"></i><i data-flow-weight-cell="6"></i><i data-flow-weight-cell="7"></i></span>
+          <span class="flow-transfer-status" id="systemFlowTransferState">Waiting for weight file</span>
+        </div>
+      </div>
+    </div>
     <div class="system-stage-callout" id="systemStageCallout" aria-live="polite">Select a component or run the pipeline</div>
     <div class="system-stage-hint"><span aria-hidden="true">↔</span> DRAG TO ROTATE · SCROLL TO ZOOM</div>
   </div>
