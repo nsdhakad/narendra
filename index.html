@@ -37,7 +37,7 @@
 </div>
 <div class="hero-visual reveal" id="heroVisual">
 <div class="visual-topline"><span><i class="signal-dot"></i> INTERACTIVE SYSTEM EXPLORER</span><span class="mono" id="systemStatus">STANDBY · IMC + RISC-V</span></div>
-<div class="system-explorer">
+<div class="system-explorer" data-mode="architecture">
   <div class="system-toolbar">
     <div class="system-view-tabs" role="tablist" aria-label="System visualization mode">
       <button type="button" class="system-tab is-active" id="architectureMode" role="tab" aria-selected="true">Architecture</button>
@@ -45,6 +45,7 @@
     </div>
     <button type="button" class="system-small-button" id="explodeSystem" aria-pressed="false">Exploded view <span aria-hidden="true">↗</span></button>
   </div>
+  <p class="system-mode-description" id="systemModeDescription">Explore the hardware: select a component below or use Exploded view to inspect the package.</p>
   <div class="system-stage" id="systemStage">
     <canvas aria-label="Interactive three-dimensional IMC memory array, RISC-V core, image input and output display. Drag to rotate." id="chipCanvas" role="img"></canvas>
     <div aria-hidden="true" class="scene-fallback" id="sceneFallback"><div class="fallback-chip"><span>IMC</span><small>+ RISC-V</small></div></div>
@@ -98,11 +99,24 @@
     <div class="system-stage-callout" id="systemStageCallout" aria-live="polite">Select a component or run the pipeline</div>
     <div class="system-stage-hint"><span aria-hidden="true">↔</span> DRAG TO ROTATE · SCROLL TO ZOOM</div>
   </div>
-  <div class="system-component-bar" role="group" aria-label="Inspect system component">
+  <div class="system-component-bar" role="group" aria-label="Inspect hardware component">
+    <button type="button" class="system-component" data-component="input" aria-pressed="false"><span class="component-token token-input">I</span><span><strong>Image input</strong><small>Pixel feature source</small></span></button>
     <button type="button" class="system-component is-selected" data-component="imc" aria-pressed="true"><span class="component-token token-imc">M</span><span><strong>IMC array</strong><small>8 × 8 demo matrix</small></span></button>
     <button type="button" class="system-component" data-component="riscv" aria-pressed="false"><span class="component-token token-riscv">R</span><span><strong>RISC-V core</strong><small>Control &amp; data path</small></span></button>
     <button type="button" class="system-component" data-component="output" aria-pressed="false"><span class="component-token token-out">O</span><span><strong>Output display</strong><small>Illustrative scores</small></span></button>
   </div>
+  <section class="architecture-details" id="architectureDetails" aria-live="polite" aria-labelledby="architectureDetailTitle">
+    <div class="architecture-detail-intro">
+      <span class="step-kicker">ARCHITECTURE INSPECTOR</span>
+      <h3 id="architectureDetailTitle">IMC memory array</h3>
+      <p id="architectureDetailCopy">64 synthetic signed weights in an 8 × 8 array. The browser demo illustrates storage and multiply-accumulate processing.</p>
+    </div>
+    <div class="architecture-specs">
+      <div class="architecture-spec"><small>ROLE</small><strong id="architectureFact1">Memory + MAC</strong></div>
+      <div class="architecture-spec"><small>CONFIGURATION</small><strong id="architectureFact2">8 × 8 demo matrix</strong></div>
+      <div class="architecture-spec"><small>IMPLEMENTATION</small><strong id="architectureFact3">Illustrative values</strong></div>
+    </div>
+  </section>
   <div class="system-workbench">
     <section class="workbench-panel input-panel" aria-labelledby="inputPanelTitle">
       <div class="workbench-panel-head"><span class="step-kicker">01 / INPUT</span><span class="panel-state" id="inputState">WAITING</span></div>
