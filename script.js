@@ -289,7 +289,7 @@
   const defaultRot = { x: -0.18, y: -0.5, z: 0.02 };
   root.rotation.set(defaultRot.x, defaultRot.y, defaultRot.z);
   // Scale the complete assembly and lift it into the unobstructed area above the pipeline overlay.
-  root.scale.setScalar(0.82);
+  root.scale.setScalar(0.60);
   let autoRotate = !reduceMotion;
   let dragging = false, moved = false, pointerX = 0, pointerY = 0;
   let targetRotX = defaultRot.x, targetRotY = defaultRot.y;
@@ -346,7 +346,7 @@
     root.rotation.x += (targetRotX - root.rotation.x) * .065;
     root.rotation.y += (targetRotY - root.rotation.y) * .065;
     root.rotation.z += (defaultRot.z - root.rotation.z) * .035;
-    root.position.y = 0.62 + Math.sin(elapsed * .7) * .025;
+    root.position.y = 0.92 + Math.sin(elapsed * .7) * .018;
     camera.position.z += (targetCamZ - camera.position.z) * .06;
     camera.lookAt(0,0,0);
     particles.rotation.y=elapsed*.012;particles.position.y=Math.sin(elapsed*.23)*.08;
