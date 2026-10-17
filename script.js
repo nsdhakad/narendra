@@ -328,8 +328,9 @@
     new THREE.PlaneGeometry(.43,.50),
     new THREE.MeshBasicMaterial({map:inputScreenTexture,side:THREE.DoubleSide,toneMapped:false})
   );
-  inputScreenMesh.rotation.x=-Math.PI/2;
-  inputScreenMesh.position.set(0,.077,0);
+  // Tilt the monitor toward the viewer so it reads as a separate display, not a flat tile.
+  inputScreenMesh.rotation.x=-.48;
+  inputScreenMesh.position.set(0,.27,0);
   inputGroup.add(inputScreenMesh);
   inputPixels.forEach(pixel=>{pixel.visible=false;});
 
@@ -380,8 +381,8 @@
     new THREE.PlaneGeometry(.37,.34),
     new THREE.MeshBasicMaterial({map:outputScreenTexture,side:THREE.DoubleSide,toneMapped:false})
   );
-  outputScreenMesh.rotation.x=-Math.PI/2;
-  outputScreenMesh.position.set(0,.077,-.08);
+  outputScreenMesh.rotation.x=-.48;
+  outputScreenMesh.position.set(0,.25,-.03);
   outputGroup.add(outputScreenMesh);
   outputBars.forEach(bar=>{bar.visible=false;});
 
