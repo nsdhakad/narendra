@@ -522,6 +522,9 @@
     id('explodeSystem').setAttribute('aria-pressed', 'false');
     id('explodeSystem').innerHTML = 'Exploded view <span aria-hidden="true">↗</span>';
     explorer.dataset.exploded = 'false';
+    if (window.systemArchitectureScene && window.systemArchitectureScene.explode) {
+      window.systemArchitectureScene.explode(false);
+    }
 
     if (architecture) {
       setStatus('ARCHITECTURE · EXPLORE HARDWARE');
