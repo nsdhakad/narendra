@@ -35,18 +35,69 @@
 <div class="hero-actions reveal"><a class="button button-primary" href="#research">Explore research <span>↘</span></a><a class="button button-ghost" href="contact.html">Contact me <span>↗</span></a></div>
 </div>
 <div class="hero-visual reveal" id="heroVisual">
-<div class="visual-topline"><span><i class="signal-dot"></i> INTERACTIVE MODEL</span><span class="mono"></span></div>
-<div class="scene-wrap" id="sceneWrap">
-<canvas aria-label="Interactive three-dimensional semiconductor chip. Drag to rotate the chip." id="chipCanvas" role="img"></canvas>
-<div aria-hidden="true" class="scene-fallback" id="sceneFallback"><div class="fallback-chip"><span>AI</span><small>IN-MEMORY COMPUTING</small></div></div>
-<div class="scene-label label-memory"><span class="label-mark"></span><span>In-MEMORY COMPUTE ARRAY<small>Data close to compute</small></span></div>
-<div class="scene-label label-core"><span class="label-mark"></span><span>AI ALGORITHM<small>Inference at edge</small></span></div>  
-<div class="scene-hint"><span class="drag-icon">↔</span> DRAG TO ROTATE</div>
+<div class="visual-topline"><span><i class="signal-dot"></i> INTERACTIVE SYSTEM EXPLORER</span><span class="mono" id="systemStatus">STANDBY · IMC + RISC-V</span></div>
+<div class="system-explorer">
+  <div class="system-toolbar">
+    <div class="system-view-tabs" role="tablist" aria-label="System visualization mode">
+      <button type="button" class="system-tab is-active" id="architectureMode" role="tab" aria-selected="true">Architecture</button>
+      <button type="button" class="system-tab" id="inferenceMode" role="tab" aria-selected="false">Inference</button>
+    </div>
+    <button type="button" class="system-small-button" id="explodeSystem" aria-pressed="false">Exploded view <span aria-hidden="true">↗</span></button>
+  </div>
+  <div class="system-stage" id="systemStage">
+    <canvas aria-label="Interactive three-dimensional IMC memory array, RISC-V core, image input and output display. Drag to rotate." id="chipCanvas" role="img"></canvas>
+    <div aria-hidden="true" class="scene-fallback" id="sceneFallback"><div class="fallback-chip"><span>IMC</span><small>+ RISC-V</small></div></div>
+    <div class="system-stage-badge stage-badge-imc"><span class="system-badge-dot"></span><span><strong>IMC ARRAY</strong><small>Weight storage + MAC demo</small></span></div>
+    <div class="system-stage-badge stage-badge-risc"><span class="system-badge-dot system-badge-violet"></span><span><strong>RISC-V CORE</strong><small>Control + orchestration</small></span></div>
+    <div class="system-stage-callout" id="systemStageCallout" aria-live="polite">Select a component or run the pipeline</div>
+    <div class="system-stage-hint"><span aria-hidden="true">↔</span> DRAG TO ROTATE · SCROLL TO ZOOM</div>
+  </div>
+  <div class="system-component-bar" role="group" aria-label="Inspect system component">
+    <button type="button" class="system-component is-selected" data-component="imc" aria-pressed="true"><span class="component-token token-imc">M</span><span><strong>IMC array</strong><small>8 × 8 demo matrix</small></span></button>
+    <button type="button" class="system-component" data-component="riscv" aria-pressed="false"><span class="component-token token-riscv">R</span><span><strong>RISC-V core</strong><small>Control &amp; data path</small></span></button>
+    <button type="button" class="system-component" data-component="output" aria-pressed="false"><span class="component-token token-out">O</span><span><strong>Output display</strong><small>Illustrative scores</small></span></button>
+  </div>
+  <div class="system-workbench">
+    <section class="workbench-panel input-panel" aria-labelledby="inputPanelTitle">
+      <div class="workbench-panel-head"><span class="step-kicker">01 / INPUT</span><span class="panel-state" id="inputState">WAITING</span></div>
+      <h3 id="inputPanelTitle">Image input</h3>
+      <p>Upload an image to inspect pixels and prepare a compact feature vector for the architecture demo.</p>
+      <label class="image-dropzone" id="imageDropzone" for="systemImageInput">
+        <input id="systemImageInput" type="file" accept="image/*">
+        <span class="image-drop-icon" aria-hidden="true">＋</span>
+        <img id="systemInputPreview" alt="Uploaded input preview" hidden>
+        <span class="image-drop-copy"><strong id="imageDropTitle">Choose an image</strong><small id="imageDropMeta">PNG, JPEG, WebP · processed locally</small></span>
+      </label>
+      <button type="button" class="system-action system-action-secondary" id="sampleImageButton">Use sample image</button>
+      <div class="pixel-summary"><span>Sampled input</span><strong id="pixelSummary">No image loaded</strong></div>
+    </section>
+    <section class="workbench-panel memory-panel" aria-labelledby="memoryPanelTitle">
+      <div class="workbench-panel-head"><span class="step-kicker">02 / MEMORY</span><span class="panel-state" id="weightState">NOT LOADED</span></div>
+      <h3 id="memoryPanelTitle">IMC weight array</h3>
+      <p>Fetch the synthetic 8 × 8 matrix and move its values into the memory-cell visualization.</p>
+      <div class="weight-matrix" id="weightMatrix" role="img" aria-label="8 by 8 demo weight matrix. Load weights to populate cells."><span class="weight-cell" data-cell="0" aria-hidden="true"></span><span class="weight-cell" data-cell="1" aria-hidden="true"></span><span class="weight-cell" data-cell="2" aria-hidden="true"></span><span class="weight-cell" data-cell="3" aria-hidden="true"></span><span class="weight-cell" data-cell="4" aria-hidden="true"></span><span class="weight-cell" data-cell="5" aria-hidden="true"></span><span class="weight-cell" data-cell="6" aria-hidden="true"></span><span class="weight-cell" data-cell="7" aria-hidden="true"></span><span class="weight-cell" data-cell="8" aria-hidden="true"></span><span class="weight-cell" data-cell="9" aria-hidden="true"></span><span class="weight-cell" data-cell="10" aria-hidden="true"></span><span class="weight-cell" data-cell="11" aria-hidden="true"></span><span class="weight-cell" data-cell="12" aria-hidden="true"></span><span class="weight-cell" data-cell="13" aria-hidden="true"></span><span class="weight-cell" data-cell="14" aria-hidden="true"></span><span class="weight-cell" data-cell="15" aria-hidden="true"></span><span class="weight-cell" data-cell="16" aria-hidden="true"></span><span class="weight-cell" data-cell="17" aria-hidden="true"></span><span class="weight-cell" data-cell="18" aria-hidden="true"></span><span class="weight-cell" data-cell="19" aria-hidden="true"></span><span class="weight-cell" data-cell="20" aria-hidden="true"></span><span class="weight-cell" data-cell="21" aria-hidden="true"></span><span class="weight-cell" data-cell="22" aria-hidden="true"></span><span class="weight-cell" data-cell="23" aria-hidden="true"></span><span class="weight-cell" data-cell="24" aria-hidden="true"></span><span class="weight-cell" data-cell="25" aria-hidden="true"></span><span class="weight-cell" data-cell="26" aria-hidden="true"></span><span class="weight-cell" data-cell="27" aria-hidden="true"></span><span class="weight-cell" data-cell="28" aria-hidden="true"></span><span class="weight-cell" data-cell="29" aria-hidden="true"></span><span class="weight-cell" data-cell="30" aria-hidden="true"></span><span class="weight-cell" data-cell="31" aria-hidden="true"></span><span class="weight-cell" data-cell="32" aria-hidden="true"></span><span class="weight-cell" data-cell="33" aria-hidden="true"></span><span class="weight-cell" data-cell="34" aria-hidden="true"></span><span class="weight-cell" data-cell="35" aria-hidden="true"></span><span class="weight-cell" data-cell="36" aria-hidden="true"></span><span class="weight-cell" data-cell="37" aria-hidden="true"></span><span class="weight-cell" data-cell="38" aria-hidden="true"></span><span class="weight-cell" data-cell="39" aria-hidden="true"></span><span class="weight-cell" data-cell="40" aria-hidden="true"></span><span class="weight-cell" data-cell="41" aria-hidden="true"></span><span class="weight-cell" data-cell="42" aria-hidden="true"></span><span class="weight-cell" data-cell="43" aria-hidden="true"></span><span class="weight-cell" data-cell="44" aria-hidden="true"></span><span class="weight-cell" data-cell="45" aria-hidden="true"></span><span class="weight-cell" data-cell="46" aria-hidden="true"></span><span class="weight-cell" data-cell="47" aria-hidden="true"></span><span class="weight-cell" data-cell="48" aria-hidden="true"></span><span class="weight-cell" data-cell="49" aria-hidden="true"></span><span class="weight-cell" data-cell="50" aria-hidden="true"></span><span class="weight-cell" data-cell="51" aria-hidden="true"></span><span class="weight-cell" data-cell="52" aria-hidden="true"></span><span class="weight-cell" data-cell="53" aria-hidden="true"></span><span class="weight-cell" data-cell="54" aria-hidden="true"></span><span class="weight-cell" data-cell="55" aria-hidden="true"></span><span class="weight-cell" data-cell="56" aria-hidden="true"></span><span class="weight-cell" data-cell="57" aria-hidden="true"></span><span class="weight-cell" data-cell="58" aria-hidden="true"></span><span class="weight-cell" data-cell="59" aria-hidden="true"></span><span class="weight-cell" data-cell="60" aria-hidden="true"></span><span class="weight-cell" data-cell="61" aria-hidden="true"></span><span class="weight-cell" data-cell="62" aria-hidden="true"></span><span class="weight-cell" data-cell="63" aria-hidden="true"></span></div>
+      <div class="matrix-legend"><span><i class="legend-low"></i> Low</span><span><i class="legend-mid"></i> Mid</span><span><i class="legend-high"></i> High</span><span class="matrix-dim">8 × 8</span></div>
+      <button type="button" class="system-action system-action-secondary" id="loadWeightsButton">Load demo weights <span aria-hidden="true">↓</span></button>
+    </section>
+    <section class="workbench-panel execution-panel" aria-labelledby="executionPanelTitle">
+      <div class="workbench-panel-head"><span class="step-kicker">03 / EXECUTE</span><span class="panel-state" id="executionState">IDLE</span></div>
+      <h3 id="executionPanelTitle">Data path</h3>
+      <p>Step through a demo MAC operation, RISC-V orchestration, and output visualization.</p>
+      <div class="pipeline-mini" aria-label="Inference pipeline"><div class="pipeline-node is-current" data-pipeline-step="0"><span>1</span><strong>Image</strong></div><i aria-hidden="true"></i><div class="pipeline-node" data-pipeline-step="1"><span>2</span><strong>IMC</strong></div><i aria-hidden="true"></i><div class="pipeline-node" data-pipeline-step="2"><span>3</span><strong>RISC-V</strong></div><i aria-hidden="true"></i><div class="pipeline-node" data-pipeline-step="3"><span>4</span><strong>Output</strong></div></div>
+      <div class="execution-readout" id="executionReadout" aria-live="polite">Load an image and demo weights to begin.</div>
+      <div class="execution-actions"><button type="button" class="system-action system-action-primary" id="runPipelineButton" disabled>Run pipeline <span aria-hidden="true">▶</span></button><button type="button" class="system-action system-action-secondary" id="stepPipelineButton" disabled>Step</button><button type="button" class="system-action system-action-secondary" id="resetPipelineButton">Reset</button></div>
+    </section>
+    <section class="workbench-panel output-panel" aria-labelledby="outputPanelTitle">
+      <div class="workbench-panel-head"><span class="step-kicker">04 / RESULT</span><span class="panel-state" id="outputState">NO RESULT</span></div>
+      <h3 id="outputPanelTitle">Output display</h3><p>Demo output scores are calculated from the sampled image colour features and synthetic weights.</p>
+      <div class="output-screen"><div class="output-screen-top"><span>CLASSIFIER OUTPUT</span><span id="outputModeLabel">DEMO</span></div><div id="outputScores" class="output-scores"><div class="output-empty">Run the pipeline to generate illustrative scores.</div></div></div>
+      <p class="system-disclaimer">Research visualization only — not a trained neural network or measured silicon performance.</p>
+    </section>
+  </div>
+  <div class="system-controls"><button aria-pressed="true" class="control-button" id="autoRotate"><span class="control-glyph">↻</span><span>Auto-rotate</span></button><button class="control-button" id="resetView"><span class="control-glyph">⌖</span><span>Reset view</span></button><span class="mono scene-version">3D / IMC + RISC-V</span></div>
 </div>
-<div class="scene-controls"><button aria-pressed="true" class="control-button" id="autoRotate"><span class="control-glyph">↻</span><span>Auto-rotate</span></button><button class="control-button" id="resetView"><span class="control-glyph">⌖</span><span>Reset view</span></button><span class="mono scene-version">3D / WEBGL</span></div>
 <div class="visual-corner corner-tl"></div><div class="visual-corner corner-br"></div>
-</div>
-</section>
+</div></section>
 <section class="section about section-grid" id="about">
 <div class="section-index reveal"><span>01</span><i></i> ABOUT</div>
 <div class="about-main">
