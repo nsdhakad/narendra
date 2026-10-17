@@ -19,55 +19,6 @@
   if (missing.length) {
     console.error('[System Explorer] Missing controls:', missing.join(', '));
     const readout = id('executionReadout');
-  const flowOverlay = id('systemFlowOverlay');
-  const flowImage = id('systemFlowImage');
-  const flowImagePlaceholder = id('systemFlowImagePlaceholder');
-  const flowMemoryCells = all('[data-flow-mem-cell]');
-  const flowWeightCells = all('[data-flow-weight-cell]');
-  const flowOutputBars = all('[data-flow-output-bar]');
-  const flowStateText = id('systemFlowInputState');
-  const flowWeightState = id('systemFlowWeightState');
-  const flowTransferState = id('systemFlowTransferState');
-  const flowOutputLabel = id('systemFlowOutputLabel');
-  const flowOutputState = id('systemFlowOutputState');
-
-  const stageOrder = ['input','weights','imc','riscv','output'];
-  function setFlowStage(stage) {
-    if (!flowOverlay) return;
-    flowOverlay.dataset.flowState = stage || 'idle';
-    const stageIndex = stageOrder.indexOf(stage);
-    all('[data-flow-node]').forEach(node => {
-      const nodeIndex = stageOrder.indexOf(node.dataset.flowNode);
-      node.classList.toggle('is-flow-active', node.dataset.flowNode === stage);
-      node.classList.toggle('is-flow-done', nodeIndex >= 0 && stageIndex > nodeIndex);
-    });
-    const activeEdges = {
-      'input': ['input-imc'],
-      'weights': ['weights-imc'],
-      'imc': ['input-imc','weights-imc','imc-riscv'],
-      'riscv': ['imc-riscv','riscv-output'],
-      'output': ['riscv-output']
-    }[stage] || [];
-    all('[data-flow-edge]').forEach(edge => edge.classList.toggle('is-flowing', activeEdges.includes(edge.dataset.flowEdge)));
-  }
-
-  function paintFlowWeights() {
-    if (!weights) return;
-    const flat = weights.flat();
-    const sampleIndexes = [0,7,16,23,32,39,48,63];
-    flowWeightCells.forEach((cell,index) => {
-      const n = Math.max(0,Math.min(1,(flat[sampleIndexes[index]]+1)/2));
-      cell.style.background = 'hsl(' + (245-n*70) + ' 58% ' + (18+n*38) + '%)';
-      cell.style.borderColor = n > .68 ? '#a59bff' : n > .34 ? '#4db9af' : '#365568';
-    });
-    flowMemoryCells.forEach((cell,index) => {
-      const value = flat[(Math.floor(index/4)*2)*8 + (index%4)*2];
-      const n = Math.max(0,Math.min(1,(value+1)/2));
-      cell.style.background = 'hsl(' + (245-n*70) + ' 58% ' + (18+n*38) + '%)';
-      cell.style.boxShadow = '0 0 5px hsla(' + (245-n*70) + ',78%,65%,.18)';
-    });
-  }
-
     if (readout) readout.textContent = 'The system explorer is missing required controls. Refresh the page after the latest site deployment.';
     return;
   }
@@ -88,6 +39,52 @@
   const components = all('.system-component');
   const scoresNode = id('outputScores');
   const readout = id('executionReadout');
+
+  const flowOverlay = id('systemFlowOverlay');
+  const flowImage = id('systemFlowImage');
+  const flowImagePlaceholder = id('systemFlowImagePlaceholder');
+  const flowMemoryCells = all('[data-flow-mem-cell]');
+  const flowWeightCells = all('[data-flow-weight-cell]');
+  const flowOutputBars = all('[data-flow-output-bar]');
+  const flowStateText = id('systemFlowInputState');
+  const flowWeightState = id('systemFlowWeightState');
+  const flowTransferState = id('systemFlowTransferState');
+  const flowOutputLabel = id('systemFlowOutputLabel');
+  const flowOutputState = id('systemFlowOutputState');
+  const stageOrder = ['input','weights','imc','riscv','output'];
+  function setFlowStage(stage) {
+    if (!flowOverlay) return;
+    flowOverlay.dataset.flowState = stage || 'idle';
+    const stageIndex = stageOrder.indexOf(stage);
+    all('[data-flow-node]').forEach(node => {
+      const nodeIndex = stageOrder.indexOf(node.dataset.flowNode);
+      node.classList.toggle('is-flow-active', node.dataset.flowNode === stage);
+      node.classList.toggle('is-flow-done', nodeIndex >= 0 && stageIndex > nodeIndex);
+    });
+    const activeEdges = {
+      input: ['input-imc'], weights: ['weights-imc'],
+      imc: ['input-imc','weights-imc','imc-riscv'],
+      riscv: ['imc-riscv','riscv-output'], output: ['riscv-output']
+    }[stage] || [];
+    all('[data-flow-edge]').forEach(edge => edge.classList.toggle('is-flowing', activeEdges.includes(edge.dataset.flowEdge)));
+  }
+  function paintFlowWeights() {
+    if (!weights) return;
+    const flat = weights.flat();
+    const sampleIndexes = [0,7,16,23,32,39,48,63];
+    flowWeightCells.forEach((cell,index) => {
+      const n = Math.max(0,Math.min(1,(flat[sampleIndexes[index]]+1)/2));
+      cell.style.background = 'hsl(' + (245-n*70) + ' 58% ' + (18+n*38) + '%)';
+      cell.style.borderColor = n > .68 ? '#a59bff' : n > .34 ? '#4db9af' : '#365568';
+    });
+    flowMemoryCells.forEach((cell,index) => {
+      const value = flat[(Math.floor(index/4)*2)*8 + (index%4)*2];
+      const n = Math.max(0,Math.min(1,(value+1)/2));
+      cell.style.background = 'hsl(' + (245-n*70) + ' 58% ' + (18+n*38) + '%)';
+      cell.style.boxShadow = '0 0 5px hsla(' + (245-n*70) + ',78%,65%,.18)';
+    });
+  }
+
 
   let imageElement = null;
   let objectUrl = null;
