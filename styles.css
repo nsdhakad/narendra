@@ -743,3 +743,37 @@ html[data-theme="light"] .flow-weight-lane{border-top-color:#d0e0e8}
 @media(max-width:390px){.system-stage{height:354px}.system-flow-main{grid-template-columns:minmax(40px,1fr) 9px minmax(40px,1fr) 9px minmax(40px,1fr) 9px minmax(40px,1fr);gap:1px}.flow-image-visual,.flow-memory-visual,.flow-riscv-visual,.flow-output-visual{width:28px;height:27px}.flow-riscv-visual i{box-shadow:31px 0 #7164d4}.flow-node-head{font-size:5px}.flow-node-title{font-size:6px}.flow-node-subtitle{font-size:5px}.flow-connector>span{display:none}.flow-weight-lane{grid-template-columns:94px minmax(0,1fr);gap:5px}.flow-transfer-caption{font-size:5px}}
 @media(prefers-reduced-motion:reduce){.flow-node,.flow-mini-matrix i,.flow-output-visual i,.flow-weight-packets i{animation:none!important;transition:none!important}.flow-connector.is-flowing>i:after{animation:none!important}}
 
+
+/* Distinct Architecture and Inference modes */
+.system-mode-description{margin:0 12px 10px;min-height:14px;color:#8299ae;font-size:9px;line-height:1.6}
+.system-component-bar{grid-template-columns:repeat(4,minmax(0,1fr))}
+.architecture-details{display:none;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:14px;align-items:center;margin:0 0 10px;padding:15px;border:1px solid #263d50;border-radius:6px;background:linear-gradient(135deg,#0b1724,#0f202d)}
+.architecture-detail-intro h3{font-size:14px;margin:5px 0 6px;color:#e6f2fb}
+.architecture-detail-intro p{margin:0;color:#91a7bb;font-size:10px;line-height:1.7;max-width:48ch}
+.architecture-specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.architecture-spec{min-width:0;display:flex;flex-direction:column;gap:6px;padding:10px 8px;border:1px solid #293f52;border-radius:4px;background:#081521}
+.architecture-spec small{font:7px var(--mono);letter-spacing:.07em;color:#6f899e}
+.architecture-spec strong{font-size:9px;font-weight:600;line-height:1.45;color:#c9d9e7;overflow-wrap:anywhere}
+.component-token.token-input{background:#183a45;color:#8de7ed}
+.system-explorer[data-mode="architecture"] .system-flow-overlay,
+.system-explorer[data-mode="architecture"] .system-workbench{display:none!important}
+.system-explorer[data-mode="architecture"] .system-component-bar{display:grid}
+.system-explorer[data-mode="architecture"] .architecture-details{display:grid}
+.system-explorer[data-mode="architecture"] .system-stage-callout{bottom:24px;left:12px;right:12px}
+.system-explorer[data-mode="architecture"] #explodeSystem{display:inline-flex}
+.system-explorer[data-mode="inference"] .system-component-bar,
+.system-explorer[data-mode="inference"] .architecture-details{display:none!important}
+.system-explorer[data-mode="inference"] .system-flow-overlay{display:block}
+.system-explorer[data-mode="inference"] .system-workbench{display:grid}
+.system-explorer[data-mode="inference"] #explodeSystem{display:none}
+.system-explorer[data-mode="inference"] .system-stage{background:radial-gradient(ellipse at 48% 46%,#143c4580,transparent 66%),linear-gradient(140deg,#081620,#10242c)}
+.system-explorer[data-mode="inference"] .system-mode-description{color:#8cb7c1}
+html[data-theme="light"] .system-mode-description{color:#63798b}
+html[data-theme="light"] .architecture-details{background:linear-gradient(135deg,#f4f8fc,#eaf3f7);border-color:#cbdce6}
+html[data-theme="light"] .architecture-detail-intro h3{color:#243b50}
+html[data-theme="light"] .architecture-detail-intro p{color:#60778c}
+html[data-theme="light"] .architecture-spec{background:#f9fbfd;border-color:#d3e0e8}
+html[data-theme="light"] .architecture-spec strong{color:#344f64}
+html[data-theme="light"] .architecture-spec small{color:#748a9c}
+@media(max-width:760px){.system-component-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.architecture-details{grid-template-columns:1fr}.architecture-specs{grid-template-columns:repeat(3,minmax(0,1fr))}.architecture-spec{padding:8px 6px}}
+@media(max-width:420px){.architecture-specs{grid-template-columns:1fr}.architecture-spec{flex-direction:row;align-items:center;justify-content:space-between}.architecture-spec strong{text-align:right}.system-mode-description{margin:0 8px 8px}}
