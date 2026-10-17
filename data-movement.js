@@ -277,8 +277,7 @@
             '<div class="dm-result-metric"><span>FEWER WORDS MOVED</span><b>' + wordSave.toFixed(1) + '%</b></div>' +
             '<div class="dm-result-metric"><span>RELATIVE ENERGY REDUCTION</span><b>' + energySave.toFixed(1) + '%</b></div>' +
             '<div class="dm-result-metric"><span>CONVENTIONAL / IMC ENERGY</span><b>' + (m.conv.e / m.imc.e).toFixed(1) + '×</b></div>' +
-          '</div>' +
-
+          '</div>';
       }
     }
     function stop() {
