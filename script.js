@@ -252,7 +252,7 @@
   // System package: independent IMC array, RISC-V control core, image input and output display.
   const imcGroup=new THREE.Group(),riscvGroup=new THREE.Group(),inputGroup=new THREE.Group(),outputGroup=new THREE.Group();
   boardGroup.add(imcGroup,riscvGroup,inputGroup,outputGroup);
-  imcGroup.position.set(-.53,.448,0);riscvGroup.position.set(.54,.448,0);inputGroup.position.set(-1.95,.12,0);outputGroup.position.set(1.95,.12,0);inputGroup.scale.setScalar(2);outputGroup.scale.setScalar(2);
+  imcGroup.position.set(-.53,.448,0);riscvGroup.position.set(.54,.448,0);inputGroup.position.set(-2.95,.12,0);outputGroup.position.set(2.95,.12,0);inputGroup.scale.setScalar(2);outputGroup.scale.setScalar(2);
   const imcBaseMat=mat(0x102a37,.25,.48,0x092c31,.22),riscvBaseMat=mat(0x221f43,.25,.5,0x2a1f6c,.22),inputBaseMat=mat(0x102333,.3,.42,0x0e3a4a,.28),outputBaseMat=mat(0x1b2835,.3,.48,0x123a4c,.28);
   const imcFrameMat=mat(0x1b4b52,.25,.45,0x176b70,.35),riscvFrameMat=mat(0x463b7c,.25,.45,0x5544b7,.38),inputFrameMat=mat(0x2c6674,.25,.4,0x217a84,.48),outputFrameMat=mat(0x2d5c67,.25,.4,0x267f80,.5);
   const imcFrame=box(.99,.065,1.29,imcBaseMat,0,0,0,imcGroup);box(.95,.025,1.25,imcFrameMat,0,.045,0,imcGroup);
@@ -286,11 +286,11 @@
     ctx.clearRect(0,0,w,h);
     ctx.fillStyle='#041019'; ctx.fillRect(0,0,w,h);
     ctx.fillStyle='#50d6cd'; ctx.fillRect(18,18,5,22);
-    ctx.fillStyle='#a5fff4'; ctx.font='bold 18px monospace'; ctx.textAlign='left';
-    ctx.fillText('INPUT IMAGE',32,34);
-    ctx.fillStyle='#476e7e'; ctx.font='11px monospace';
-    ctx.fillText('LOCAL PIXEL SOURCE',20,55);
-    const x=20,y=72,dw=400,dh=380;
+    ctx.fillStyle='#d2fff8'; ctx.font='bold 30px monospace'; ctx.textAlign='left';
+    ctx.fillText('INPUT IMAGE',32,43);
+    ctx.fillStyle='#9bc5d5'; ctx.font='bold 19px monospace';
+    ctx.fillText('LOCAL PIXEL SOURCE',20,69);
+    const x=20,y=82,dw=400,dh=356;
     ctx.fillStyle='#0b2632'; ctx.fillRect(x,y,dw,dh);
     if(image && image.naturalWidth && image.naturalHeight) {
       const scale=Math.max(dw/image.naturalWidth,dh/image.naturalHeight);
@@ -303,18 +303,18 @@
       ctx.strokeStyle='rgba(100,245,226,.24)';ctx.lineWidth=1;
       for(let yy=y+6;yy<y+dh;yy+=8){ctx.beginPath();ctx.moveTo(x,yy);ctx.lineTo(x+dw,yy);ctx.stroke();}
       ctx.strokeStyle='#55ddd1';ctx.strokeRect(x+.5,y+.5,dw-1,dh-1);
-      ctx.fillStyle='rgba(5,17,26,.82)';ctx.fillRect(24,dh+y-28,178,21);
-      ctx.fillStyle='#b8fff1';ctx.font='12px monospace';ctx.fillText('IMAGE LOADED',32,dh+y-13);
-      ctx.fillStyle='#7894a6';ctx.font='11px monospace';ctx.fillText(image.naturalWidth+' × '+image.naturalHeight+' PX',20,478);
+      ctx.fillStyle='rgba(5,17,26,.94)';ctx.fillRect(24,dh+y-39,242,31);
+      ctx.fillStyle='#d2fff8';ctx.font='bold 19px monospace';ctx.fillText('IMAGE LOADED',34,dh+y-18);
+      ctx.fillStyle='#b4cbd9';ctx.font='bold 17px monospace';ctx.fillText(image.naturalWidth+' × '+image.naturalHeight+' PX',20,478);
       ctx.fillStyle='#55ddd1';ctx.fillRect(20,491,Math.min(400,Math.max(12,image.naturalWidth/image.naturalHeight*42)),3);
     } else {
       ctx.strokeStyle='#123f50';ctx.lineWidth=1;
       for(let gx=x+20;gx<x+dw;gx+=40){ctx.beginPath();ctx.moveTo(gx,y);ctx.lineTo(gx,y+dh);ctx.stroke();}
       for(let gy=y+20;gy<y+dh;gy+=40){ctx.beginPath();ctx.moveTo(x,gy);ctx.lineTo(x+dw,gy);ctx.stroke();}
       ctx.strokeStyle='#2b817f';ctx.strokeRect(x+94,y+100,212,168);
-      ctx.fillStyle='#4a9a9b';ctx.font='bold 32px monospace';ctx.textAlign='center';ctx.fillText('IMG',w/2,y+182);
-      ctx.fillStyle='#7795a8';ctx.font='13px monospace';ctx.fillText('WAITING FOR IMAGE',w/2,y+211);
-      ctx.textAlign='left';ctx.fillStyle='#466b7b';ctx.font='11px monospace';ctx.fillText('UPLOAD OR SELECT SAMPLE',20,478);
+      ctx.fillStyle='#71eee2';ctx.font='bold 48px monospace';ctx.textAlign='center';ctx.fillText('IMG',w/2,y+182);
+      ctx.fillStyle='#b9d8e5';ctx.font='bold 21px monospace';ctx.fillText('WAITING FOR IMAGE',w/2,y+220);
+      ctx.textAlign='left';ctx.fillStyle='#a9cbd8';ctx.font='bold 17px monospace';ctx.fillText('UPLOAD OR SELECT SAMPLE',20,478);
       ctx.fillStyle='#173b4c';ctx.fillRect(20,491,400,3);
     }
     if(inputScreenTexture)inputScreenTexture.needsUpdate=true;
@@ -346,9 +346,9 @@
     ctx.clearRect(0,0,w,h);
     ctx.fillStyle='#030e16';ctx.fillRect(0,0,w,h);
     ctx.fillStyle='#51d7ce';ctx.fillRect(18,18,5,22);
-    ctx.fillStyle='#a5fff4';ctx.font='bold 18px monospace';ctx.textAlign='left';ctx.fillText('OUTPUT DISPLAY',32,34);
-    ctx.fillStyle='#547789';ctx.font='11px monospace';ctx.fillText(items?'INFERENCE SCORES':'ILLUSTRATIVE PREVIEW',20,56);
-    for(let gx=24;gx<=416;gx+=49){ctx.strokeStyle='#15303d';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(gx,78);ctx.lineTo(gx,335);ctx.stroke();}
+    ctx.fillStyle='#d2fff8';ctx.font='bold 28px monospace';ctx.textAlign='left';ctx.fillText('OUTPUT DISPLAY',32,43);
+    ctx.fillStyle='#9bc5d5';ctx.font='bold 17px monospace';ctx.fillText(items?'INFERENCE SCORES':'ILLUSTRATIVE PREVIEW',20,67);
+    for(let gx=24;gx<=416;gx+=49){ctx.strokeStyle='#244656';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(gx,80);ctx.lineTo(gx,344);ctx.stroke();}
     const preview=[
       {label:'TEAL PATTERN',score:.64},
       {label:'VIOLET PATTERN',score:.43},
@@ -356,20 +356,20 @@
     ];
     const rows=(items&&items.length?items:preview).slice(0,3);
     rows.forEach((row,index)=>{
-      const y=85+index*87;
-      ctx.fillStyle='#9ab3c2';ctx.font='12px monospace';ctx.textAlign='left';
-      ctx.fillText(String(row.label).toUpperCase().slice(0,17),20,y+14);
+      const y=82+index*90;
+      ctx.fillStyle='#e0f3fb';ctx.font='bold 21px monospace';ctx.textAlign='left';
+      ctx.fillText(String(row.label).toUpperCase().slice(0,17),20,y+20);
       ctx.textAlign='right';ctx.fillStyle=items?'#d9edf5':'#688393';
-      ctx.fillText(items?Math.round(row.score*100)+'%':'PREVIEW',420,y+14);
-      ctx.fillStyle='#10232f';ctx.fillRect(20,y+25,400,17);
+      ctx.fillText(items?Math.round(row.score*100)+'%':'PREVIEW',420,y+20);
+      ctx.fillStyle='#10232f';ctx.fillRect(20,y+29,400,25);
       ctx.fillStyle=outputScreenColors[index]||'#42d5c9';
       const barWidth=Math.max(5,Math.min(400,row.score*400));
-      ctx.fillRect(20,y+25,barWidth,17);
-      ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(20,y+25,barWidth,2);
+      ctx.fillRect(20,y+29,barWidth,25);
+      ctx.fillStyle='rgba(255,255,255,.2)';ctx.fillRect(20,y+29,barWidth,3);
       ctx.textAlign='left';
     });
     ctx.fillStyle='#335365';ctx.fillRect(20,354,400,1);
-    ctx.fillStyle='#7190a2';ctx.font='10px monospace';ctx.fillText(items?'DEMO SCORES · BROWSER-SIDE':'RUN DEMO FOR LIVE SCORES',20,375);
+    ctx.fillStyle='#b4cbd9';ctx.font='bold 15px monospace';ctx.fillText(items?'DEMO SCORES · BROWSER-SIDE':'RUN DEMO FOR LIVE SCORES',20,375);
     if(outputScreenTexture)outputScreenTexture.needsUpdate=true;
   }
   drawOutputScreen(null);
@@ -387,7 +387,7 @@
   outputBars.forEach(bar=>{bar.visible=false;});
 
   const busMat=mat(0x3d9eac,.22,.35,0x2bc4c5,.9);
-  lineBar(-1.37,0,-1.03,0,.22,.035,busMat,boardGroup);lineBar(-.02,0,.035,0,.50,.04,busMat,boardGroup);lineBar(1.03,0,1.37,0,.22,.035,busMat,boardGroup);
+  lineBar(-2.42,0,-1.03,0,.22,.035,busMat,boardGroup);lineBar(-.02,0,.035,0,.50,.04,busMat,boardGroup);lineBar(1.03,0,2.42,0,.22,.035,busMat,boardGroup);
   const dataPackets=[];for(let i=0;i<3;i++){const packet=new THREE.Mesh(new THREE.SphereGeometry(.045,12,10),i===1?violetMat:glowMat);packet.visible=false;boardGroup.add(packet);dataPackets.push(packet);}
   const basePositions={input:inputGroup.position.clone(),imc:imcGroup.position.clone(),riscv:riscvGroup.position.clone(),output:outputGroup.position.clone()};
   let selectedModule='imc',demoStep=-1,exploded=false,visualizationMode='architecture';
@@ -471,14 +471,14 @@
     [[inputGroup,new THREE.Vector3(basePositions.input.x-.25*shift,basePositions.input.y+.10*shift,basePositions.input.z)],[imcGroup,new THREE.Vector3(basePositions.imc.x-.28*shift,basePositions.imc.y+.24*shift,basePositions.imc.z-.12*shift)],[riscvGroup,new THREE.Vector3(basePositions.riscv.x+.28*shift,basePositions.riscv.y+.24*shift,basePositions.riscv.z+.12*shift)],[outputGroup,new THREE.Vector3(basePositions.output.x+.25*shift,basePositions.output.y+.10*shift,basePositions.output.z)]].forEach(([group,target])=>group.position.lerp(target,.09));
     // Architecture mode is for hardware inspection; only Inference animates the active data-path leg.
     const flow = visualizationMode === 'inference' && demoStep >= 1;
-    let pathStart = new THREE.Vector3(-1.57,.22,0);
+    let pathStart = new THREE.Vector3(-2.42,.22,0);
     let pathEnd = new THREE.Vector3(-.53,.54,0);
     if (demoStep === 2) {
       pathStart = new THREE.Vector3(-.53,.54,0);
       pathEnd = new THREE.Vector3(.54,.54,0);
     } else if (demoStep >= 3) {
       pathStart = new THREE.Vector3(.54,.54,0);
-      pathEnd = new THREE.Vector3(1.57,.22,0);
+      pathEnd = new THREE.Vector3(2.42,.22,0);
     }
     dataPackets.forEach((packet,i)=>{
       packet.visible=flow;
