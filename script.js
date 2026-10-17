@@ -152,7 +152,8 @@
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0x0b1624, 0.035);
   const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
-  camera.position.set(6.4, 5.1, 7.2);
+  // Frame the package larger so it is clearly visible in the open upper part of the explorer.
+  camera.position.set(4.3, 3.7, 6.3);
   const root = new THREE.Group();
   const boardGroup = new THREE.Group();
   root.add(boardGroup);
@@ -187,6 +188,25 @@
   };
 
   // Floating floor grid, gives the chip a sense of scale without distracting from it.
+  // Subtle floating telemetry particles around the package. This animated object is
+  // intentionally defined here because the render loop updates its rotation every frame.
+  const particles = new THREE.Group();
+  const particleMaterial = new THREE.MeshBasicMaterial({
+    color: 0x5bcfc8, transparent: true, opacity: 0.36, depthWrite: false
+  });
+  for (let i = 0; i < 42; i++) {
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.014 + (i % 3) * 0.004, 6, 5), particleMaterial);
+    const angle = i * 2.399963229728653;
+    const radius = 2.7 + (i % 7) * 0.31;
+    dot.position.set(
+      Math.cos(angle) * radius,
+      -0.1 + ((i * 7) % 17) * 0.105,
+      Math.sin(angle) * radius * 0.62
+    );
+    particles.add(dot);
+  }
+  scene.add(particles);
+
   const floorGrid = new THREE.GridHelper(15, 34, 0x315063, 0x22374a);
   floorGrid.position.y = -1.23; floorGrid.material.transparent = true; floorGrid.material.opacity = .25; scene.add(floorGrid);
   const floor = new THREE.Mesh(new THREE.CircleGeometry(5.6, 80), new THREE.MeshBasicMaterial({ color: 0x0c1926, transparent: true, opacity: .42 }));
@@ -262,7 +282,7 @@
     setStep(step){demoStep=step;selectedModule=step<0?'imc':step===0?'input':step===1?'imc':step===2?'riscv':'output';setFrameHighlights();inputPixels.forEach((pixel,i)=>{pixel.material.emissive.setHex(step===0&&i%3===0?0x42e7ec:0x174e5c);pixel.material.emissiveIntensity=step===0?1:.25;});outputBars.forEach((bar,i)=>{bar.scale.y=step===3?[1.2,2,.85][i]:1;bar.material.emissiveIntensity=step===3?1.2:.6;});},
     explode(open){exploded=Boolean(open);},
     setMode(mode){visualizationMode=mode==='inference'?'inference':'architecture';},
-    reset(){exploded=false;demoStep=-1;visualizationMode='architecture';selectedModule='imc';root.rotation.set(defaultRot.x,defaultRot.y,defaultRot.z);targetRotX=defaultRot.x;targetRotY=defaultRot.y;targetCamZ=7.8;setFrameHighlights();}
+    reset(){exploded=false;demoStep=-1;visualizationMode='architecture';selectedModule='imc';root.rotation.set(defaultRot.x,defaultRot.y,defaultRot.z);targetRotX=defaultRot.x;targetRotY=defaultRot.y;targetCamZ=6.3;setFrameHighlights();}
   };
   setFrameHighlights();
 
@@ -271,7 +291,7 @@
   let autoRotate = !reduceMotion;
   let dragging = false, moved = false, pointerX = 0, pointerY = 0;
   let targetRotX = defaultRot.x, targetRotY = defaultRot.y;
-  let targetCamZ = 7.8;
+  let targetCamZ = 6.3;
   const clock = new THREE.Clock();
 
   function resize() {
@@ -310,11 +330,11 @@
     autoButton.setAttribute('aria-pressed', String(autoRotate));
   });
   resetButton.addEventListener('click', () => {
-    targetRotX = defaultRot.x; targetRotY = defaultRot.y; targetCamZ = 7.8;
+    targetRotX = defaultRot.x; targetRotY = defaultRot.y; targetCamZ = 6.3;
   });
   sceneWrap.addEventListener('wheel', event => {
     if (Math.abs(event.deltaY) < 2) return;
-    targetCamZ = Math.max(6.2, Math.min(10.0, targetCamZ + event.deltaY * .006));
+    targetCamZ = Math.max(5.2, Math.min(8.8, targetCamZ + event.deltaY * .006));
   }, { passive: true });
 
   function animate() {
@@ -324,7 +344,7 @@
     root.rotation.x += (targetRotX - root.rotation.x) * .065;
     root.rotation.y += (targetRotY - root.rotation.y) * .065;
     root.rotation.z += (defaultRot.z - root.rotation.z) * .035;
-    root.position.y = Math.sin(elapsed * .7) * .045;
+    root.position.y = 0.18 + Math.sin(elapsed * .7) * .035;
     camera.position.z += (targetCamZ - camera.position.z) * .06;
     camera.lookAt(0,0,0);
     particles.rotation.y=elapsed*.012;particles.position.y=Math.sin(elapsed*.23)*.08;
