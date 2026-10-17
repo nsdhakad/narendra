@@ -494,10 +494,11 @@
       return;
     }
 
-    // A resumed run continues with its current matrix. Every new test gets fresh weights.
+    // A paused or manually stepped test keeps its current matrix. Only a new
+    // sequence (before step 1 or after a completed test) gets fresh random weights.
     if (!pipelinePaused) {
       if (pipelineStep >= 3) resetOutput();
-      if (!generateFreshWeights('test')) return;
+      if (pipelineStep < 0 && !generateFreshWeights('test')) return;
     }
     pipelinePaused = false;
     running = true;
