@@ -104,9 +104,9 @@
   };
   const updateReady = () => {
     const ready = Boolean(imageElement && weights);
-    runButton.disabled = !ready || running;
+    runButton.disabled = !ready; // Keep enabled while running so it can pause.
     stepButton.disabled = !ready || running;
-    panel('executionState', ready ? 'READY' : imageElement ? 'WAITING FOR WEIGHTS' : 'WAITING', ready);
+    panel('executionState', running ? 'RUNNING' : ready ? 'READY' : imageElement ? 'WAITING FOR WEIGHTS' : 'WAITING', ready);
   };
   const releaseObjectUrl = () => {
     if (objectUrl) URL.revokeObjectURL(objectUrl);
@@ -346,17 +346,23 @@
   weightButton.addEventListener('click', loadWeights);
 
   const componentInfo = {
-    imc: { title: 'IMC memory array', detail: '64 synthetic signed weights in an 8 × 8 matrix. The browser demo combines image features and weights in a small multiply-accumulate calculation.' },
-    riscv: { title: 'RISC-V control core', detail: 'Architectural visualization of control sequencing. This demo does not execute the RISC-V instruction set.' },
-    output: { title: 'Output display', detail: 'Illustrative ranking from sampled image colours and synthetic weights, not a trained classifier.' }
+    input: { title: 'Image input interface', detail: 'The input module represents the image source. The selected image is sampled locally into a compact 16 × 16 feature vector.', facts: ['IMAGE SOURCE', '16 × 16 sample', 'Browser-side only'] },
+    imc: { title: 'IMC memory array', detail: 'The array holds 64 synthetic signed weights in an 8 × 8 grid. These values support an illustrative browser-side multiply-accumulate step.', facts: ['MEMORY + MAC', '8 × 8 demo matrix', 'Synthetic values'] },
+    riscv: { title: 'RISC-V control core', detail: 'This block represents orchestration and control between the memory array and output. No RISC-V instruction set is executed in this visualization.', facts: ['CONTROL CORE', 'Data-path stages', 'ISA not executed'] },
+    output: { title: 'Output display', detail: 'The output block presents three illustrative scores based on image colour features and synthetic weights; they are not trained-model predictions.', facts: ['OUTPUT DISPLAY', '3 demo categories', 'Not trained inference'] }
   };
   function selectComponent(name) {
+    const info = componentInfo[name];
+    if (!info) return;
     components.forEach(button => {
       const selected = button.dataset.component === name;
       button.classList.toggle('is-selected', selected);
       button.setAttribute('aria-pressed', String(selected));
     });
-    callout.textContent = componentInfo[name].title + ' · ' + componentInfo[name].detail;
+    id('architectureDetailTitle').textContent = info.title;
+    id('architectureDetailCopy').textContent = info.detail;
+    info.facts.forEach((fact,index) => { id('architectureFact'+(index+1)).textContent = fact; });
+    callout.textContent = info.title + ' · ' + info.detail;
     setStatus('INSPECTING · ' + name.toUpperCase());
     if (window.systemArchitectureScene && window.systemArchitectureScene.highlight) window.systemArchitectureScene.highlight(name);
   }
@@ -444,12 +450,25 @@
   }
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   async function runPipeline() {
-    if (running || !imageElement || !weights) return;
+    if (running) {
+      ++runToken;
+      running = false;
+      runButton.innerHTML = 'Resume pipeline <span aria-hidden="true">▶</span>';
+      readout.textContent = 'Pipeline paused. Resume to continue, or use Step to advance manually.';
+      setStatus('PIPELINE PAUSED');
+      updateReady();
+      return;
+    }
+    if (!imageElement || !weights) {
+      readout.textContent = 'Load an image and demo weights before starting the pipeline.';
+      return;
+    }
+    if (pipelineStep >= 3) resetOutput();
     running = true;
     const token = ++runToken;
     updateReady();
-    runButton.textContent = 'Running…';
-    if (pipelineStep >= 3) resetOutput();
+    runButton.innerHTML = 'Pause pipeline <span aria-hidden="true">Ⅱ</span>';
+    setStatus('PIPELINE RUNNING');
     try {
       while (pipelineStep < 3 && token === runToken) {
         executeStep();
@@ -458,7 +477,9 @@
     } finally {
       if (token === runToken) {
         running = false;
-        runButton.innerHTML = 'Run pipeline <span aria-hidden="true">▶</span>';
+        runButton.innerHTML = pipelineStep >= 3
+          ? 'Run again <span aria-hidden="true">↻</span>'
+          : 'Resume pipeline <span aria-hidden="true">▶</span>';
         updateReady();
       }
     }
@@ -474,20 +495,52 @@
     runButton.innerHTML = 'Run pipeline <span aria-hidden="true">▶</span>';
   });
 
-  function setMode(mode) {
-    const architecture = mode === 'architecture';
+  function setMode(mode, initializing = false) {
+    const normalizedMode = mode === 'inference' ? 'inference' : 'architecture';
+    const architecture = normalizedMode === 'architecture';
+    const previousMode = explorer.dataset.mode || 'architecture';
+
+    if (!initializing && previousMode !== normalizedMode) {
+      ++runToken;
+      running = false;
+      resetOutput(); // Keep image and weights; clear stale pipeline/result highlights.
+      runButton.innerHTML = 'Run pipeline <span aria-hidden="true">▶</span>';
+    }
+
+    explorer.dataset.mode = normalizedMode;
     id('architectureMode').classList.toggle('is-active', architecture);
     id('architectureMode').setAttribute('aria-selected', String(architecture));
     id('inferenceMode').classList.toggle('is-active', !architecture);
     id('inferenceMode').setAttribute('aria-selected', String(!architecture));
-    explorer.dataset.mode = mode;
-    if (window.systemArchitectureScene && window.systemArchitectureScene.setMode) window.systemArchitectureScene.setMode(mode);
+    id('systemModeDescription').textContent = architecture
+      ? 'Explore the hardware: select a component below or use Exploded view to inspect the package.'
+      : 'Run the data path: load an image and demo weights, then run, pause, resume, or step through the pipeline.';
+    if (window.systemArchitectureScene && window.systemArchitectureScene.setMode) window.systemArchitectureScene.setMode(normalizedMode);
     id('memoryPanelTitle').textContent = architecture ? 'IMC weight array' : 'Active inference array';
     id('executionPanelTitle').textContent = architecture ? 'Data path' : 'Execution trace';
     id('outputPanelTitle').textContent = architecture ? 'Output display' : 'Inference output';
+    id('explodeSystem').setAttribute('aria-pressed', 'false');
+    id('explodeSystem').innerHTML = 'Exploded view <span aria-hidden="true">↗</span>';
+    explorer.dataset.exploded = 'false';
+    if (window.systemArchitectureScene && window.systemArchitectureScene.explode) {
+      window.systemArchitectureScene.explode(false);
+    }
+
+    if (architecture) {
+      setStatus('ARCHITECTURE · EXPLORE HARDWARE');
+      selectComponent('imc');
+    } else {
+      setStatus(imageElement && weights ? 'INFERENCE READY · IMC + RISC-V' : 'INFERENCE · LOAD INPUT + WEIGHTS');
+      callout.textContent = 'Inference mode · watch image features and weights move through the system.';
+      readout.textContent = imageElement && weights
+        ? 'Image and demo weights are ready. Run the pipeline or use Step to advance one stage at a time.'
+        : 'Upload an image and load demo weights to enable Run pipeline and Step.';
+    }
   }
   id('architectureMode').addEventListener('click', () => setMode('architecture'));
   id('inferenceMode').addEventListener('click', () => setMode('inference'));
+  setMode('architecture', true);
+  selectComponent('imc');
   id('explodeSystem').addEventListener('click', event => {
     const button = event.currentTarget;
     const open = button.getAttribute('aria-pressed') !== 'true';
