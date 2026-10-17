@@ -777,3 +777,10 @@ html[data-theme="light"] .architecture-spec strong{color:#344f64}
 html[data-theme="light"] .architecture-spec small{color:#748a9c}
 @media(max-width:760px){.system-component-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.architecture-details{grid-template-columns:1fr}.architecture-specs{grid-template-columns:repeat(3,minmax(0,1fr))}.architecture-spec{padding:8px 6px}}
 @media(max-width:420px){.architecture-specs{grid-template-columns:1fr}.architecture-spec{flex-direction:row;align-items:center;justify-content:space-between}.architecture-spec strong{text-align:right}.system-mode-description{margin:0 8px 8px}}
+
+/* Homepage layout after moving the IMC + RISC-V explorer below Research */
+.hero{min-height:auto;grid-template-columns:minmax(0,1fr);align-items:center;padding-top:68px;padding-bottom:58px}
+.hero-copy{max-width:780px}
+.system-showcase{padding-top:8px;padding-bottom:76px}
+.system-showcase .hero-visual{width:100%;min-height:510px}
+@media(max-width:760px){.hero{padding-top:48px;padding-bottom:42px}.system-showcase{padding-bottom:52px}.system-showcase .hero-visual{min-height:470px}}
