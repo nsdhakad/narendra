@@ -352,9 +352,24 @@
     particles.rotation.y=elapsed*.012;particles.position.y=Math.sin(elapsed*.23)*.08;
     const shift=exploded?1:0;
     [[inputGroup,new THREE.Vector3(basePositions.input.x-.25*shift,basePositions.input.y+.10*shift,basePositions.input.z)],[imcGroup,new THREE.Vector3(basePositions.imc.x-.28*shift,basePositions.imc.y+.24*shift,basePositions.imc.z-.12*shift)],[riscvGroup,new THREE.Vector3(basePositions.riscv.x+.28*shift,basePositions.riscv.y+.24*shift,basePositions.riscv.z+.12*shift)],[outputGroup,new THREE.Vector3(basePositions.output.x+.25*shift,basePositions.output.y+.10*shift,basePositions.output.z)]].forEach(([group,target])=>group.position.lerp(target,.09));
-    const seg=visualizationMode==='inference'?Math.max(0,demoStep):demoStep,flow=visualizationMode==='inference'||demoStep>=1;
-    const pts=seg<=1?[new THREE.Vector3(-1.57,.22,0),new THREE.Vector3(-.53,.54,0)]:seg===2?[new THREE.Vector3(-.53,.54,0),new THREE.Vector3(.54,.54,0)]:[new THREE.Vector3(.54,.54,0),new THREE.Vector3(1.57,.22,0)];
-    dataPackets.forEach((packet,i)=>{packet.visible=flow;if(!flow)return;const t=(elapsed*.35+i*.29)%1;packet.position.lerpVectors(pts[0],pts[1],t);packet.position.y+=Math.sin(t*Math.PI)*.07;});
+    // Architecture mode is for hardware inspection; only Inference animates the active data-path leg.
+    const flow = visualizationMode === 'inference' && demoStep >= 1;
+    let pathStart = new THREE.Vector3(-1.57,.22,0);
+    let pathEnd = new THREE.Vector3(-.53,.54,0);
+    if (demoStep === 2) {
+      pathStart = new THREE.Vector3(-.53,.54,0);
+      pathEnd = new THREE.Vector3(.54,.54,0);
+    } else if (demoStep >= 3) {
+      pathStart = new THREE.Vector3(.54,.54,0);
+      pathEnd = new THREE.Vector3(1.57,.22,0);
+    }
+    dataPackets.forEach((packet,i)=>{
+      packet.visible=flow;
+      if(!flow)return;
+      const t=(elapsed*.42+i*.28)%1;
+      packet.position.lerpVectors(pathStart,pathEnd,t);
+      packet.position.y+=Math.sin(t*Math.PI)*.07;
+    });
     renderer.render(scene,camera);
   }
   animate();
