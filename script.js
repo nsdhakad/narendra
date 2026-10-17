@@ -206,43 +206,56 @@ document.querySelectorAll('.abstract-button').forEach((button) => {
 });
 
 
-// Mouse-responsive research hero: gentle parallax follows the pointer without moving the text.
+// Mouse-responsive research hero: pointer position drives the chip, labels, grid, and PDK flow.
 (() => {
   const visual = document.getElementById('heroVisual');
-  if (!visual) return;
+  if (!visual || visual.dataset.pointerReady === 'true') return;
+  visual.dataset.pointerReady = 'true';
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-  if (reduceMotion || !finePointer) return;
-  const chip = visual.querySelector('.hero-chip-wrap');
-  const tags = visual.querySelectorAll('[data-depth]');
-  let frame = 0;
-  let targetX = 0, targetY = 0;
-  let currentX = 0, currentY = 0;
+  if (reduceMotion) return;
+  const layers = visual.querySelectorAll('[data-depth]');
+  let frame = 0, targetX = 0, targetY = 0, currentX = 0, currentY = 0;
   const render = () => {
-    currentX += (targetX - currentX) * 0.12;
-    currentY += (targetY - currentY) * 0.12;
-    visual.style.setProperty('--hero-shift-x', (currentX * 8).toFixed(2) + 'px');
-    visual.style.setProperty('--hero-shift-y', (currentY * 8).toFixed(2) + 'px');
-    visual.style.setProperty('--hero-x', (currentX * 8).toFixed(2) + 'deg');
-    visual.style.setProperty('--hero-y', (currentY * -7).toFixed(2) + 'deg');
-    tags.forEach((tag) => {
-      const depth = Number(tag.dataset.depth) || 18;
-      tag.style.translate = (currentX * depth * 0.18).toFixed(2) + 'px ' + (currentY * depth * 0.18).toFixed(2) + 'px';
+    currentX += (targetX - currentX) * 0.16;
+    currentY += (targetY - currentY) * 0.16;
+    visual.style.setProperty('--hero-shift-x', (currentX * 14).toFixed(2) + 'px');
+    visual.style.setProperty('--hero-shift-y', (currentY * 14).toFixed(2) + 'px');
+    visual.style.setProperty('--hero-x', (currentX * 13).toFixed(2) + 'deg');
+    visual.style.setProperty('--hero-y', (currentY * -11).toFixed(2) + 'deg');
+    visual.style.setProperty('--hero-glow-x', (50 + currentX * 18) + '%');
+    visual.style.setProperty('--hero-glow-y', (48 + currentY * 16) + '%');
+    layers.forEach((layer) => {
+      const depth = Number(layer.dataset.depth) || 18;
+      layer.style.setProperty('--layer-x', (currentX * depth * 0.38).toFixed(2) + 'px');
+      layer.style.setProperty('--layer-y', (currentY * depth * 0.38).toFixed(2) + 'px');
     });
-    if (Math.abs(targetX - currentX) > 0.002 || Math.abs(targetY - currentY) > 0.002) {
-      frame = requestAnimationFrame(render);
-    } else {
-      frame = 0;
-    }
+    if (Math.abs(targetX-currentX) > 0.001 || Math.abs(targetY-currentY) > 0.001) frame = requestAnimationFrame(render);
+    else frame = 0;
   };
-  visual.addEventListener('pointermove', (event) => {
+  const move = (event) => {
     const rect = visual.getBoundingClientRect();
-    targetX = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - 0.5) * 2));
-    targetY = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - 0.5) * 2));
+    if (!rect.width || !rect.height) return;
+    targetX = Math.max(-1, Math.min(1, ((event.clientX-rect.left)/rect.width-.5)*2));
+    targetY = Math.max(-1, Math.min(1, ((event.clientY-rect.top)/rect.height-.5)*2));
     if (!frame) frame = requestAnimationFrame(render);
-  });
-  visual.addEventListener('pointerleave', () => {
+  };
+  const reset = () => {
     targetX = 0; targetY = 0;
     if (!frame) frame = requestAnimationFrame(render);
-  });
+  };
+  visual.addEventListener('pointermove', move, {passive:true});
+  visual.addEventListener('pointerleave', reset, {passive:true});
+  // Also listen on the hero section so the visual starts reacting as soon as the cursor enters the hero.
+  const hero = visual.closest('.hero');
+  if (hero) {
+    hero.addEventListener('pointermove', (event) => {
+      if (event.target.closest('a,button')) return;
+      const rect = visual.getBoundingClientRect();
+      const px = (event.clientX - (rect.left + rect.width/2)) / Math.max(rect.width/2,1);
+      const py = (event.clientY - (rect.top + rect.height/2)) / Math.max(rect.height/2,1);
+      targetX = Math.max(-1,Math.min(1,px));
+      targetY = Math.max(-1,Math.min(1,py));
+      if (!frame) frame = requestAnimationFrame(render);
+    }, {passive:true});
+  }
 })();
