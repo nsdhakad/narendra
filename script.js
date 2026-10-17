@@ -206,56 +206,57 @@ document.querySelectorAll('.abstract-button').forEach((button) => {
 });
 
 
-// Mouse-responsive research hero: pointer position drives the chip, labels, grid, and PDK flow.
+// Always-on animated research hero with pointer-reactive parallax.
 (() => {
-  const visual = document.getElementById('heroVisual');
-  if (!visual || visual.dataset.pointerReady === 'true') return;
-  visual.dataset.pointerReady = 'true';
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) return;
-  const layers = visual.querySelectorAll('[data-depth]');
-  let frame = 0, targetX = 0, targetY = 0, currentX = 0, currentY = 0;
-  const render = () => {
-    currentX += (targetX - currentX) * 0.16;
-    currentY += (targetY - currentY) * 0.16;
-    visual.style.setProperty('--hero-shift-x', (currentX * 14).toFixed(2) + 'px');
-    visual.style.setProperty('--hero-shift-y', (currentY * 14).toFixed(2) + 'px');
-    visual.style.setProperty('--hero-x', (currentX * 13).toFixed(2) + 'deg');
-    visual.style.setProperty('--hero-y', (currentY * -11).toFixed(2) + 'deg');
-    visual.style.setProperty('--hero-glow-x', (50 + currentX * 18) + '%');
-    visual.style.setProperty('--hero-glow-y', (48 + currentY * 16) + '%');
-    layers.forEach((layer) => {
-      const depth = Number(layer.dataset.depth) || 18;
-      layer.style.setProperty('--layer-x', (currentX * depth * 0.38).toFixed(2) + 'px');
-      layer.style.setProperty('--layer-y', (currentY * depth * 0.38).toFixed(2) + 'px');
-    });
-    if (Math.abs(targetX-currentX) > 0.001 || Math.abs(targetY-currentY) > 0.001) frame = requestAnimationFrame(render);
-    else frame = 0;
-  };
-  const move = (event) => {
-    const rect = visual.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    targetX = Math.max(-1, Math.min(1, ((event.clientX-rect.left)/rect.width-.5)*2));
-    targetY = Math.max(-1, Math.min(1, ((event.clientY-rect.top)/rect.height-.5)*2));
-    if (!frame) frame = requestAnimationFrame(render);
-  };
-  const reset = () => {
-    targetX = 0; targetY = 0;
-    if (!frame) frame = requestAnimationFrame(render);
-  };
-  visual.addEventListener('pointermove', move, {passive:true});
-  visual.addEventListener('pointerleave', reset, {passive:true});
-  // Also listen on the hero section so the visual starts reacting as soon as the cursor enters the hero.
-  const hero = visual.closest('.hero');
-  if (hero) {
-    hero.addEventListener('pointermove', (event) => {
-      if (event.target.closest('a,button')) return;
+  const init = () => {
+    const visual = document.querySelector('.hero-visual.hero-parallax#heroVisual');
+    if (!visual || visual.dataset.pointerReady === 'true') return;
+    visual.dataset.pointerReady = 'true';
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+    const layers = visual.querySelectorAll('[data-depth]');
+    let frame = 0, targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+    let pointerActive = false;
+    const render = () => {
+      // Gentle autonomous drift means the scene stays visibly alive before any interaction.
+      const t = performance.now() / 1000;
+      const idleX = pointerActive ? 0 : Math.sin(t * 0.65) * 0.14;
+      const idleY = pointerActive ? 0 : Math.cos(t * 0.48) * 0.12;
+      const x = targetX + idleX, y = targetY + idleY;
+      currentX += (x - currentX) * 0.085;
+      currentY += (y - currentY) * 0.085;
+      visual.style.setProperty('--hero-shift-x', (currentX * 19).toFixed(2) + 'px');
+      visual.style.setProperty('--hero-shift-y', (currentY * 19).toFixed(2) + 'px');
+      visual.style.setProperty('--hero-x', (currentX * 17).toFixed(2) + 'deg');
+      visual.style.setProperty('--hero-y', (currentY * -14).toFixed(2) + 'deg');
+      visual.style.setProperty('--hero-glow-x', (50 + currentX * 23) + '%');
+      visual.style.setProperty('--hero-glow-y', (48 + currentY * 20) + '%');
+      layers.forEach((layer) => {
+        const depth = Number(layer.dataset.depth) || 18;
+        layer.style.setProperty('--layer-x', (currentX * depth * 0.55).toFixed(2) + 'px');
+        layer.style.setProperty('--layer-y', (currentY * depth * 0.55).toFixed(2) + 'px');
+      });
+      // Keep animating for idle drift as well as while easing toward the cursor.
+      frame = requestAnimationFrame(render);
+    };
+    const setPointer = (event) => {
       const rect = visual.getBoundingClientRect();
-      const px = (event.clientX - (rect.left + rect.width/2)) / Math.max(rect.width/2,1);
-      const py = (event.clientY - (rect.top + rect.height/2)) / Math.max(rect.height/2,1);
-      targetX = Math.max(-1,Math.min(1,px));
-      targetY = Math.max(-1,Math.min(1,py));
+      if (!rect.width || !rect.height) return;
+      pointerActive = true;
+      targetX = Math.max(-0.9, Math.min(0.9, ((event.clientX - rect.left) / rect.width - 0.5) * 1.8));
+      targetY = Math.max(-0.9, Math.min(0.9, ((event.clientY - rect.top) / rect.height - 0.5) * 1.8));
       if (!frame) frame = requestAnimationFrame(render);
-    }, {passive:true});
-  }
+    };
+    const resetPointer = () => { pointerActive = false; targetX = 0; targetY = 0; };
+    visual.addEventListener('pointermove', setPointer, { passive: true });
+    visual.addEventListener('pointerleave', resetPointer, { passive: true });
+    const hero = visual.closest('.hero');
+    if (hero) hero.addEventListener('pointermove', (event) => {
+      if (event.target.closest('a,button')) return;
+      setPointer(event);
+    }, { passive: true });
+    frame = requestAnimationFrame(render);
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
 })();
