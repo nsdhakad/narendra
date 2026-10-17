@@ -764,7 +764,13 @@ html[data-theme="light"] .flow-weight-lane{border-top-color:#d0e0e8}
 .system-explorer[data-mode="inference"] .system-component-bar,
 .system-explorer[data-mode="inference"] .architecture-details{display:none!important}
 .system-explorer[data-mode="inference"] .system-flow-overlay{display:block}
-.system-explorer[data-mode="inference"] .system-workbench{display:grid}
+.system-explorer[data-mode="inference"] .system-workbench{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto auto auto;align-items:stretch}
+.system-explorer[data-mode="inference"] .input-panel{grid-column:1;grid-row:1}
+.system-explorer[data-mode="inference"] .execution-panel{grid-column:1;grid-row:2}
+.system-explorer[data-mode="inference"] .output-panel{grid-column:1;grid-row:3}
+.system-explorer[data-mode="inference"] .memory-panel{grid-column:2;grid-row:1 / 4;display:flex;flex-direction:column}
+.system-explorer[data-mode="inference"] .memory-panel .weight-matrix{flex:1;align-content:start}
+@media(max-width:760px){.system-explorer[data-mode="inference"] .system-workbench{grid-template-columns:minmax(0,1fr)}.system-explorer[data-mode="inference"] .input-panel,.system-explorer[data-mode="inference"] .memory-panel,.system-explorer[data-mode="inference"] .execution-panel,.system-explorer[data-mode="inference"] .output-panel{grid-column:1;grid-row:auto}.system-explorer[data-mode="inference"] .memory-panel .weight-matrix{flex:initial}}
 .system-explorer[data-mode="inference"] #explodeSystem{display:none}
 .system-explorer[data-mode="inference"] .system-stage{background:radial-gradient(ellipse at 48% 46%,#143c4580,transparent 66%),linear-gradient(140deg,#081620,#10242c)}
 .system-explorer[data-mode="inference"] .system-mode-description{color:#8cb7c1}
