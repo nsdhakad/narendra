@@ -463,7 +463,8 @@
     root.rotation.x += (targetRotX - root.rotation.x) * .065;
     root.rotation.y += (targetRotY - root.rotation.y) * .065;
     root.rotation.z += (defaultRot.z - root.rotation.z) * .035;
-    root.position.y = 0.92 + Math.sin(elapsed * .7) * .018;
+    root.position.y = (visualizationMode === 'architecture' ? 0.48 : 0.92) + Math.sin(elapsed * .7) * .018;
+    root.scale.setScalar(visualizationMode === 'architecture' ? 0.72 : 0.60);
     camera.position.z += (targetCamZ - camera.position.z) * .06;
     camera.lookAt(0,0,0);
     particles.rotation.y=elapsed*.012;particles.position.y=Math.sin(elapsed*.23)*.08;
