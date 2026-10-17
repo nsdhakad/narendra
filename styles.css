@@ -944,3 +944,18 @@ html[data-theme="light"] .hero-float-tag small{color:#557887}
 @media(max-width:760px){.hero-visual.hero-parallax{height:390px;min-height:390px;max-height:none;margin-top:2px}.hero-chip-wrap{width:min(65%,290px)}.hero-float-tag{padding:8px;gap:7px}.tag-rram{left:3%;top:20%}.tag-sram{right:2%;top:39%}.tag-edge{left:4%;bottom:18%}.hero-visual-top,.hero-visual-bottom{left:13px;right:13px;font-size:7px}}
 @media(max-width:420px){.hero-visual.hero-parallax{height:330px;min-height:330px}.hero-chip-wrap{width:68%}.hero-float-tag{padding:6px;gap:5px}.hero-float-tag b{font-size:6px}.hero-float-tag small{font-size:7px}.tag-symbol{width:24px;height:24px}.tag-rram{top:18%}.tag-edge{bottom:16%}}
 @media(prefers-reduced-motion:reduce){.hero-visual.hero-parallax *, .hero-visual.hero-parallax{animation:none!important;transition:none!important}}
+
+
+/* Stronger cursor-reactive depth and a dedicated PDK-development layer. */
+.hero-visual.hero-parallax{background:radial-gradient(ellipse at var(--hero-glow-x,50%) var(--hero-glow-y,48%),#1a5360 0%,#0d1e30 43%,#091320 79%);cursor:crosshair}
+.hero-visual-grid{transform:translate3d(calc(var(--hero-shift-x) * -.65),calc(var(--hero-shift-y) * -.65),-20px) rotateX(calc(58deg + var(--hero-y) * -.35)) rotateY(calc(var(--hero-x) * -.35)) scale(1.4);transition:background-position .12s}
+.hero-chip-wrap{transform:translate(-50%,-50%) translate3d(var(--hero-shift-x),var(--hero-shift-y),0) rotateX(calc(8deg + var(--hero-y))) rotateY(var(--hero-x))}
+.hero-float-tag{transform:translate3d(var(--layer-x,0px),var(--layer-y,0px),0)}
+.pdk-die-mark{position:absolute;right:7%;bottom:20%;z-index:3;display:grid;grid-template-columns:repeat(2,auto);gap:4px;padding:7px;border:1px solid #b6a2fa66;border-radius:4px;background:#17172ce8;box-shadow:0 10px 28px #0004;transform:translate3d(var(--layer-x,0px),var(--layer-y,0px),0);transition:transform .15s ease-out}
+.pdk-die-mark span{padding:4px 5px;border:1px solid #a79af84d;color:#c7c4ff;font:6px var(--mono);letter-spacing:.06em}
+.tag-pdk{right:5%;top:17%;border-color:#9589db9c}
+.tag-pdk .pdk-symbol{width:34px;background:#29254b;border-color:#a59bf7;color:#d1cbff;font-size:8px}
+html[data-theme="light"] .pdk-die-mark{background:#f7f6ff;border-color:#d0c9f4;box-shadow:0 10px 28px #24365b14}
+html[data-theme="light"] .pdk-die-mark span{color:#4c438f;border-color:#d8d1f7}
+@media(max-width:760px){.pdk-die-mark{right:4%;bottom:7%;transform:scale(.88);transform-origin:bottom right}.tag-pdk{right:2%;top:9%}.tag-edge{bottom:24%}}
+@media(max-width:420px){.pdk-die-mark{bottom:7%;right:2%;gap:2px;padding:4px}.pdk-die-mark span{font-size:5px;padding:3px}.tag-pdk{top:8%}}
