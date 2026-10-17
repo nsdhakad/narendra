@@ -121,6 +121,9 @@
     });
     components.forEach(button => button.classList.remove('is-pulsing'));
     scoresNode.innerHTML = '<div class="output-empty">Run the pipeline to generate illustrative scores.</div>';
+    if (window.systemArchitectureScene && window.systemArchitectureScene.setScores) {
+      window.systemArchitectureScene.setScores(null);
+    }
     flowOutputLabel.textContent = 'Display ready';
     flowOutputState.textContent = 'Awaiting result';
     flowOutputBars.forEach((bar,i)=>{bar.style.height = [25,48,34][i]+'%';bar.style.background='';});
@@ -158,6 +161,10 @@
         contrast: Math.min(1, contrast / 240),
         grayscale
       };
+      // Mirror the very same decoded image onto the independent 3D input monitor.
+      if (window.systemArchitectureScene && window.systemArchitectureScene.setInputImage) {
+        window.systemArchitectureScene.setInputImage(img);
+      }
       preview.src = img.src;
       preview.hidden = false;
       flowImage.src = img.src;
@@ -192,6 +199,9 @@
     imageElement = null;
     features = null;
     preview.hidden = true;
+    if (window.systemArchitectureScene && window.systemArchitectureScene.setInputImage) {
+      window.systemArchitectureScene.setInputImage(null);
+    }
     panel('inputState', 'LOADING');
     readout.textContent = 'Loading ' + (fileName || 'image') + '…';
     setStatus('LOADING IMAGE');
@@ -370,6 +380,10 @@
 
   function renderScores(items) {
     scoresNode.replaceChildren();
+    // Send the same ordered scores to the 3D output monitor and the HTML chart.
+    if (window.systemArchitectureScene && window.systemArchitectureScene.setScores) {
+      window.systemArchitectureScene.setScores(items);
+    }
     items.forEach((item,index)=>{ if(flowOutputBars[index]) { flowOutputBars[index].style.height = Math.max(12,Math.round(item.score*100))+'%'; flowOutputBars[index].style.background = ['#3d908e','#7d70dc','#c69b65'][index]; } });
     if(flowOutputLabel && items[0]) flowOutputLabel.textContent = items[0].label;
     if(flowOutputState) flowOutputState.textContent = 'Top score ' + (items[0] ? Math.round(items[0].score*100) + '%' : 'ready');

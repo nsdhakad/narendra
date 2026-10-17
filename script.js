@@ -271,6 +271,121 @@
   box(.24,.018,.045,glowMat,0,.064,.33,inputGroup);
   box(.58,.055,.76,outputBaseMat,0,0,0,outputGroup);box(.52,.025,.69,outputFrameMat,0,.04,0,outputGroup);box(.35,.018,.32,darkMat,0,.064,-.08,outputGroup);
   const outputBars=[],barMats=[traceMat,violetMat,goldMat];for(let i=0;i<3;i++)outputBars.push(box(.065,.026,.055,barMats[i],(i-1)*.11,.082,.01,outputGroup));box(.31,.018,.045,glowMat,0,.064,.31,outputGroup);
+
+  // Independent screen surfaces on the side modules: the input screen mirrors the
+  // user's image, while the output screen renders the same score data as the UI chart.
+  const inputScreenCanvas=document.createElement('canvas');
+  inputScreenCanvas.width=440; inputScreenCanvas.height=512;
+  const inputScreenContext=inputScreenCanvas.getContext('2d');
+  let inputScreenTexture=null;
+
+  function drawInputScreen(image=null) {
+    const ctx=inputScreenContext;
+    if(!ctx)return;
+    const w=inputScreenCanvas.width,h=inputScreenCanvas.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#041019'; ctx.fillRect(0,0,w,h);
+    ctx.fillStyle='#50d6cd'; ctx.fillRect(18,18,5,22);
+    ctx.fillStyle='#a5fff4'; ctx.font='bold 18px monospace'; ctx.textAlign='left';
+    ctx.fillText('INPUT IMAGE',32,34);
+    ctx.fillStyle='#476e7e'; ctx.font='11px monospace';
+    ctx.fillText('LOCAL PIXEL SOURCE',20,55);
+    const x=20,y=72,dw=400,dh=380;
+    ctx.fillStyle='#0b2632'; ctx.fillRect(x,y,dw,dh);
+    if(image && image.naturalWidth && image.naturalHeight) {
+      const scale=Math.max(dw/image.naturalWidth,dh/image.naturalHeight);
+      const sw=dw/scale,sh=dh/scale;
+      const sx=(image.naturalWidth-sw)/2,sy=(image.naturalHeight-sh)/2;
+      ctx.save();ctx.beginPath();ctx.rect(x,y,dw,dh);ctx.clip();
+      ctx.drawImage(image,sx,sy,sw,sh,x,y,dw,dh);
+      ctx.restore();
+      ctx.fillStyle='rgba(4,16,25,.18)';ctx.fillRect(x,y,dw,dh);
+      ctx.strokeStyle='rgba(100,245,226,.24)';ctx.lineWidth=1;
+      for(let yy=y+6;yy<y+dh;yy+=8){ctx.beginPath();ctx.moveTo(x,yy);ctx.lineTo(x+dw,yy);ctx.stroke();}
+      ctx.strokeStyle='#55ddd1';ctx.strokeRect(x+.5,y+.5,dw-1,dh-1);
+      ctx.fillStyle='rgba(5,17,26,.82)';ctx.fillRect(24,dh+y-28,178,21);
+      ctx.fillStyle='#b8fff1';ctx.font='12px monospace';ctx.fillText('IMAGE LOADED',32,dh+y-13);
+      ctx.fillStyle='#7894a6';ctx.font='11px monospace';ctx.fillText(image.naturalWidth+' × '+image.naturalHeight+' PX',20,478);
+      ctx.fillStyle='#55ddd1';ctx.fillRect(20,491,Math.min(400,Math.max(12,image.naturalWidth/image.naturalHeight*42)),3);
+    } else {
+      ctx.strokeStyle='#123f50';ctx.lineWidth=1;
+      for(let gx=x+20;gx<x+dw;gx+=40){ctx.beginPath();ctx.moveTo(gx,y);ctx.lineTo(gx,y+dh);ctx.stroke();}
+      for(let gy=y+20;gy<y+dh;gy+=40){ctx.beginPath();ctx.moveTo(x,gy);ctx.lineTo(x+dw,gy);ctx.stroke();}
+      ctx.strokeStyle='#2b817f';ctx.strokeRect(x+94,y+100,212,168);
+      ctx.fillStyle='#4a9a9b';ctx.font='bold 32px monospace';ctx.textAlign='center';ctx.fillText('IMG',w/2,y+182);
+      ctx.fillStyle='#7795a8';ctx.font='13px monospace';ctx.fillText('WAITING FOR IMAGE',w/2,y+211);
+      ctx.textAlign='left';ctx.fillStyle='#466b7b';ctx.font='11px monospace';ctx.fillText('UPLOAD OR SELECT SAMPLE',20,478);
+      ctx.fillStyle='#173b4c';ctx.fillRect(20,491,400,3);
+    }
+    if(inputScreenTexture)inputScreenTexture.needsUpdate=true;
+  }
+  drawInputScreen(null);
+  inputScreenTexture=new THREE.CanvasTexture(inputScreenCanvas);
+  if(THREE.SRGBColorSpace)inputScreenTexture.colorSpace=THREE.SRGBColorSpace;
+  inputScreenTexture.minFilter=THREE.LinearFilter;
+  inputScreenTexture.magFilter=THREE.LinearFilter;
+  const inputScreenMesh=new THREE.Mesh(
+    new THREE.PlaneGeometry(.43,.50),
+    new THREE.MeshBasicMaterial({map:inputScreenTexture,side:THREE.DoubleSide,toneMapped:false})
+  );
+  // Tilt the monitor toward the viewer so it reads as a separate display, not a flat tile.
+  inputScreenMesh.rotation.x=-.48;
+  inputScreenMesh.position.set(0,.27,0);
+  inputGroup.add(inputScreenMesh);
+  inputPixels.forEach(pixel=>{pixel.visible=false;});
+
+  const outputScreenCanvas=document.createElement('canvas');
+  outputScreenCanvas.width=440; outputScreenCanvas.height=400;
+  const outputScreenContext=outputScreenCanvas.getContext('2d');
+  let outputScreenTexture=null;
+  const outputScreenColors=['#42d5c9','#9787ff','#d9ad70'];
+  function drawOutputScreen(items=null) {
+    const ctx=outputScreenContext;
+    if(!ctx)return;
+    const w=outputScreenCanvas.width,h=outputScreenCanvas.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#030e16';ctx.fillRect(0,0,w,h);
+    ctx.fillStyle='#51d7ce';ctx.fillRect(18,18,5,22);
+    ctx.fillStyle='#a5fff4';ctx.font='bold 18px monospace';ctx.textAlign='left';ctx.fillText('OUTPUT DISPLAY',32,34);
+    ctx.fillStyle='#547789';ctx.font='11px monospace';ctx.fillText(items?'INFERENCE SCORES':'ILLUSTRATIVE PREVIEW',20,56);
+    for(let gx=24;gx<=416;gx+=49){ctx.strokeStyle='#15303d';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(gx,78);ctx.lineTo(gx,335);ctx.stroke();}
+    const preview=[
+      {label:'TEAL PATTERN',score:.64},
+      {label:'VIOLET PATTERN',score:.43},
+      {label:'WARM PATTERN',score:.27}
+    ];
+    const rows=(items&&items.length?items:preview).slice(0,3);
+    rows.forEach((row,index)=>{
+      const y=85+index*87;
+      ctx.fillStyle='#9ab3c2';ctx.font='12px monospace';ctx.textAlign='left';
+      ctx.fillText(String(row.label).toUpperCase().slice(0,17),20,y+14);
+      ctx.textAlign='right';ctx.fillStyle=items?'#d9edf5':'#688393';
+      ctx.fillText(items?Math.round(row.score*100)+'%':'PREVIEW',420,y+14);
+      ctx.fillStyle='#10232f';ctx.fillRect(20,y+25,400,17);
+      ctx.fillStyle=outputScreenColors[index]||'#42d5c9';
+      const barWidth=Math.max(5,Math.min(400,row.score*400));
+      ctx.fillRect(20,y+25,barWidth,17);
+      ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(20,y+25,barWidth,2);
+      ctx.textAlign='left';
+    });
+    ctx.fillStyle='#335365';ctx.fillRect(20,354,400,1);
+    ctx.fillStyle='#7190a2';ctx.font='10px monospace';ctx.fillText(items?'DEMO SCORES · BROWSER-SIDE':'RUN DEMO FOR LIVE SCORES',20,375);
+    if(outputScreenTexture)outputScreenTexture.needsUpdate=true;
+  }
+  drawOutputScreen(null);
+  outputScreenTexture=new THREE.CanvasTexture(outputScreenCanvas);
+  if(THREE.SRGBColorSpace)outputScreenTexture.colorSpace=THREE.SRGBColorSpace;
+  outputScreenTexture.minFilter=THREE.LinearFilter;
+  outputScreenTexture.magFilter=THREE.LinearFilter;
+  const outputScreenMesh=new THREE.Mesh(
+    new THREE.PlaneGeometry(.37,.34),
+    new THREE.MeshBasicMaterial({map:outputScreenTexture,side:THREE.DoubleSide,toneMapped:false})
+  );
+  outputScreenMesh.rotation.x=-.48;
+  outputScreenMesh.position.set(0,.25,-.03);
+  outputGroup.add(outputScreenMesh);
+  outputBars.forEach(bar=>{bar.visible=false;});
+
   const busMat=mat(0x3d9eac,.22,.35,0x2bc4c5,.9);
   lineBar(-1.25,0,-1.03,0,.22,.035,busMat,boardGroup);lineBar(-.02,0,.035,0,.50,.04,busMat,boardGroup);lineBar(1.05,0,1.27,0,.22,.035,busMat,boardGroup);
   const dataPackets=[];for(let i=0;i<3;i++){const packet=new THREE.Mesh(new THREE.SphereGeometry(.045,12,10),i===1?violetMat:glowMat);packet.visible=false;boardGroup.add(packet);dataPackets.push(packet);}
@@ -279,6 +394,8 @@
   const setFrameHighlights=()=>{imcFrame.material.emissive.setHex(selectedModule==='imc'?0x24b9ab:0x092c31);imcFrame.material.emissiveIntensity=selectedModule==='imc'?1.15:.22;riscvFrame.material.emissive.setHex(selectedModule==='riscv'?0x8c7aff:0x2a1f6c);riscvFrame.material.emissiveIntensity=selectedModule==='riscv'?1.15:.22;inputFrameMat.emissive.setHex(selectedModule==='input'?0x27d2e3:0x217a84);outputFrameMat.emissive.setHex(selectedModule==='output'?0x36e0c1:0x267f80);};
   window.systemArchitectureScene={
     highlight(name){selectedModule=name;setFrameHighlights();memoryCellMeshes.forEach(cell=>{cell.material.emissiveIntensity=name==='imc'?.78:.18;});},
+    setInputImage(image){drawInputScreen(image||null);},
+    setScores(items){drawOutputScreen(Array.isArray(items)&&items.length?items:null);},
     setStep(step){demoStep=step;selectedModule=step<0?'imc':step===0?'input':step===1?'imc':step===2?'riscv':'output';setFrameHighlights();inputPixels.forEach((pixel,i)=>{pixel.material.emissive.setHex(step===0&&i%3===0?0x42e7ec:0x174e5c);pixel.material.emissiveIntensity=step===0?1:.25;});outputBars.forEach((bar,i)=>{bar.scale.y=step===3?[1.2,2,.85][i]:1;bar.material.emissiveIntensity=step===3?1.2:.6;});},
     explode(open){exploded=Boolean(open);},
     setMode(mode){visualizationMode=mode==='inference'?'inference':'architecture';},
