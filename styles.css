@@ -784,3 +784,10 @@ html[data-theme="light"] .architecture-spec small{color:#748a9c}
 .system-showcase{padding-top:8px;padding-bottom:76px}
 .system-showcase .hero-visual{width:100%;min-height:510px}
 @media(max-width:760px){.hero{padding-top:48px;padding-bottom:42px}.system-showcase{padding-bottom:52px}.system-showcase .hero-visual{min-height:470px}}
+
+
+/* Compact the hardware-inspection canvas when the inference pipeline is hidden. */
+.system-explorer[data-mode="architecture"] .system-stage{height:300px}
+@media(max-width:1180px){.system-explorer[data-mode="architecture"] .system-stage{height:280px}}
+@media(max-width:760px){.system-explorer[data-mode="architecture"] .system-stage{height:255px}}
+@media(max-width:420px){.system-explorer[data-mode="architecture"] .system-stage{height:230px}}
