@@ -34,6 +34,11 @@
 <p class="hero-role reveal"><strong>EDA Tools Hardware Engineer</strong> <span class="role-at">at</span> Intel Foundry <span class="role-place">/ Bengaluru, India</span></p>
 <p class="hero-description reveal">Exploring how memory architectures and efficient circuit design can bring computation closer to data — and help build better AI hardware.</p>
 <div class="hero-actions reveal"><a class="button button-primary" href="#research">Explore research <span>↘</span></a><a class="button button-ghost" href="contact.html">Contact me <span>↗</span></a></div>
+<nav class="hero-profile-links reveal" aria-label="Professional profile links">
+<a href="https://drive.google.com/file/d/1qeqBAtDC7scM4g_XJN9V8f343eNprD7w/view" target="_blank" rel="noopener noreferrer">View CV <span aria-hidden="true">↗</span></a>
+<a href="https://scholar.google.com/citations?hl=en&amp;user=F0ZcWaMAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar <span aria-hidden="true">↗</span></a>
+<a href="https://orcid.org/0000-0003-2848-1785" target="_blank" rel="noopener noreferrer">ORCID <span aria-hidden="true">↗</span></a>
+</nav>
 </div>
 </section>
 <section class="section about section-grid" id="about">
@@ -72,6 +77,13 @@
 <button aria-pressed="false" class="research-card reveal" data-research="edge"><span class="card-number">03 / EMERGING TECHNOLOGIES</span><div aria-hidden="true" class="card-art edge-art"><svg viewbox="0 0 300 100"><path d="M0 51H38l14-25 15 48 17-35 18 12h36l12-24 17 48 18-30h27l10 9h38" fill="none" stroke="currentColor" stroke-width="2"></path><path d="M0 70H300 M0 33H300" opacity=".18" stroke="currentColor" stroke-dasharray="3 6"></path><circle cx="84" cy="39" fill="currentColor" r="3"></circle><circle cx="167" cy="75" fill="currentColor" r="3"></circle></svg><span class="edge-chip">e·AI</span></div><span class="card-title">Emerging Memory &amp; Edge AI <span>↗</span></span><span class="card-summary">Emerging memory technologies and efficient AI algorithms for edge devices.</span><span class="card-chip-list"><i>RRAM</i><i>FeFET</i><i>Edge AI</i></span></button>
 </div>
 <div aria-live="polite" class="research-detail reveal" id="researchDetail"><div class="detail-symbol">↳</div><div><span class="detail-label">SELECTED FOCUS</span><h3 id="detailTitle">In-/Near-Memory Computing</h3><p id="detailText">Exploring 6T SRAM, 10T SRAM, and configurable multi-port memory architectures that support computing where data lives.</p></div><a aria-label="Explore research page" href="research.html" id="detailLink">Explore <span>↗</span></a></div>
+<div class="featured-work">
+<div class="featured-work-heading"><span class="detail-label">SELECTED PROJECTS</span><p>Three examples of the path from memory circuits to AI-computing systems.</p></div>
+<div class="featured-project-grid">
+<article class="featured-project-card"><div class="featured-project-topline"><span class="card-label">01 / SYSTEM INTEGRATION</span><span class="featured-project-tag">IMC + RISC-V</span></div><h3>In-memory computing with RISC-V control</h3><p>An interactive system concept connecting an in-memory compute array with a RISC-V core for control and orchestration.</p><div class="featured-project-proof"><span>Focus</span><strong>SoC integration · data path</strong></div><div class="featured-project-links"><a href="#system-showcase">Explore model ↘</a><a href="chip-gallery.html">Chip gallery ↗</a></div></article>
+<article class="featured-project-card"><div class="featured-project-topline"><span class="card-label">02 / DOCTORAL RESEARCH</span><span class="featured-project-tag">SRAM · AI</span></div><h3>SRAM-based in-memory computing for AI</h3><p>Research across circuit, architecture, and algorithm levels, including content-addressable memory, binary neural networks, and hierarchical CNN classification.</p><div class="featured-project-proof"><span>Focus</span><strong>Compute near data · AI hardware</strong></div><div class="featured-project-links"><a href="education.html">Thesis details ↗</a><a href="projects.html">Related projects ↗</a></div></article>
+<article class="featured-project-card"><div class="featured-project-topline"><span class="card-label">03 / MEMORY ARCHITECTURE</span><span class="featured-project-tag">SRAM MACRO</span></div><h3>Configurable multi-port memory</h3><p>A configurable memory architecture exploring 1-, 2-, 3-, or 4-port read/write access using a single-port SRAM macro.</p><div class="featured-project-proof"><span>Focus</span><strong>Memory access · reconfigurability</strong></div><div class="featured-project-links"><a href="projects.html">Project details ↗</a><a href="publications.html">Publications ↗</a></div></article>
+</div></div>
 <a class="button button-outline reveal" href="chip-gallery.html">Browse chip gallery <span>↗</span></a>
 </div>
 </section>
@@ -87,7 +99,13 @@
     <button type="button" class="system-small-button" id="explodeSystem" aria-pressed="false">Exploded view <span aria-hidden="true">↗</span></button>
   </div>
   <p class="system-mode-description" id="systemModeDescription">Explore the hardware: select a component below or use Exploded view to inspect the package.</p>
-  <div class="system-stage" id="systemStage">
+<p class="system-demo-note"><strong>Demo scope:</strong> the 3D package is an interactive concept view. Inference uses sampled image features and synthetic weights—not a trained neural network or measured silicon performance.</p>
+<details class="system-howto"><summary>How to explore this demo</summary><div class="system-howto-body">
+<p><strong>Architecture:</strong> select a component to inspect it, or use <em>Exploded view</em> to separate the package layers.</p>
+<p><strong>Inference:</strong> upload an image or choose the sample, load demo weights, then use <em>Run pipeline</em> or <em>Step</em> to follow the illustrative data path.</p>
+<p id="systemKeyboardHelp"><strong>Keyboard:</strong> focus the 3D view; use arrow keys to rotate, <kbd>+</kbd>/<kbd>−</kbd> to zoom, and <kbd>R</kbd> to reset the view.</p>
+</div></details>
+  <div class="system-stage" id="systemStage" tabindex="0" aria-describedby="systemKeyboardHelp" aria-label="Interactive 3D system model. Use arrow keys to rotate, plus or minus to zoom, and R to reset.">
     <canvas aria-label="Interactive three-dimensional IMC memory array, RISC-V core, image input and output display. Drag to rotate." id="chipCanvas" role="img"></canvas>
     <div aria-hidden="true" class="scene-fallback" id="sceneFallback"><div class="fallback-chip"><span>IMC</span><small>+ RISC-V</small></div></div>
     <div class="system-stage-badge stage-badge-imc"><span class="system-badge-dot"></span><span><strong>IMC ARRAY</strong><small>Weight storage + MAC demo</small></span></div>
@@ -198,7 +216,7 @@
       <p class="system-disclaimer">Research visualization only — not a trained neural network or measured silicon performance.</p>
     </section>
   </div>
-  <div class="system-controls"><button aria-pressed="true" class="control-button" id="autoRotate"><span class="control-glyph">↻</span><span>Auto-rotate</span></button><button class="control-button" id="resetView"><span class="control-glyph">⌖</span><span>Reset view</span></button><span class="mono scene-version">3D / IMC + RISC-V</span></div>
+  <div class="system-controls"><button aria-pressed="true" class="control-button" id="autoRotate"><span class="control-glyph">↻</span><span>Auto-rotate</span></button><button class="control-button" id="resetView"><span class="control-glyph">⌖</span><span>Reset 3D view</span></button><span class="mono scene-version">3D / IMC + RISC-V</span></div>
 </div>
 <div class="visual-corner corner-tl"></div><div class="visual-corner corner-br"></div>
 </div>
