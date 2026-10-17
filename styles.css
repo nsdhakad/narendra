@@ -820,3 +820,49 @@ html[data-theme="light"] .architecture-spec small{color:#748a9c}
   transform: none;
   pointer-events: auto;
 }
+
+
+/* Performance and discoverability: keep professional links close to the introduction. */
+.hero-profile-links{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin-top:17px}
+.hero-profile-links a{display:inline-flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid #38536c;color:var(--muted);font:9px var(--mono);text-decoration:none;transition:color .2s,border-color .2s}
+.hero-profile-links a:hover,.hero-profile-links a:focus-visible{color:var(--teal);border-color:var(--teal);outline:none}
+.hero-profile-links a span{color:var(--teal)}
+/* Selected work emphasizes contribution without unsupported performance claims. */
+.featured-work{margin:30px 0 25px}
+.featured-work-heading{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:14px}
+.featured-work-heading p{margin:0;color:var(--muted);font-size:10px;line-height:1.7;max-width:43ch}
+.featured-project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.featured-project-card{display:flex;flex-direction:column;gap:11px;min-width:0;min-height:260px;padding:17px;border:1px solid var(--line);border-radius:8px;background:linear-gradient(145deg,#101c2c,#0b1422);transition:border-color .2s,transform .2s,background .2s}
+.featured-project-card:hover{border-color:#426979;transform:translateY(-2px)}
+.featured-project-topline{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.featured-project-topline .card-label{color:var(--teal);font:8px var(--mono);letter-spacing:.05em}
+.featured-project-tag{padding:3px 5px;border:1px solid #2b4356;border-radius:3px;color:#9aacc1;font:7px var(--mono)}
+.featured-project-card h3{margin:0;font-size:14px;line-height:1.45;letter-spacing:-.025em}
+.featured-project-card p{margin:0;color:var(--muted);font-size:10px;line-height:1.85}
+.featured-project-proof{display:flex;flex-direction:column;gap:2px;margin-top:auto;padding-top:9px;border-top:1px solid var(--line)}
+.featured-project-proof span{color:var(--dim);font:7px var(--mono);letter-spacing:.07em;text-transform:uppercase}
+.featured-project-proof strong{color:var(--ink);font-size:9px;font-weight:600;line-height:1.6}
+.featured-project-links{display:flex;flex-wrap:wrap;gap:7px 14px;margin-top:3px}
+.featured-project-links a{color:var(--teal);font:8px var(--mono);text-decoration:none}
+.featured-project-links a:hover,.featured-project-links a:focus-visible{text-decoration:underline;text-underline-offset:3px}
+html[data-theme="light"] .featured-project-card{background:linear-gradient(145deg,#fff,#f5f8fc);border-color:#d5deea}
+html[data-theme="light"] .featured-project-tag{border-color:#d5deea;color:#526176}
+html[data-theme="light"] .featured-project-proof strong{color:#24364b}
+html[data-theme="light"] .hero-profile-links a{border-color:#c9d7e3}
+/* Collapsed guide and keyboard-operable controls for the IMC + RISC-V demo. */
+.system-demo-note{margin:0 12px 8px;color:#8ca1b6;font-size:9px;line-height:1.7}
+.system-demo-note strong{color:var(--teal);font-weight:700}
+.system-howto{margin:0 12px 10px;border:1px solid #22384b;border-radius:5px;background:#0b1724;color:#a6bacb;font-size:9px}
+.system-howto summary{padding:7px 9px;cursor:pointer;color:var(--teal);font:8px var(--mono);list-style-position:inside}
+.system-howto summary:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.system-howto-body{padding:0 12px 9px}
+.system-howto-body p{margin:7px 0 0;line-height:1.75}
+.system-howto-body strong{color:var(--ink)}
+.system-howto-body kbd{display:inline-block;padding:1px 4px;border:1px solid #385168;border-radius:3px;background:#101f30;color:var(--teal);font:8px var(--mono)}
+.system-stage:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+html[data-theme="light"] .system-demo-note{color:#526b7c}
+html[data-theme="light"] .system-howto{background:#f5f9fc;border-color:#cbdce6;color:#526176}
+html[data-theme="light"] .system-howto-body strong{color:#243950}
+html[data-theme="light"] .system-howto-body kbd{background:#fff;border-color:#cbdce6;color:#167e77}
+@media(max-width:900px){.featured-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featured-project-card:last-child{grid-column:1/-1;min-height:220px}}
+@media(max-width:760px){.featured-project-grid{grid-template-columns:1fr}.featured-project-card,.featured-project-card:last-child{grid-column:auto;min-height:0}.featured-work-heading{display:block}.featured-work-heading p{margin-top:7px}.system-demo-note,.system-howto{margin-left:8px;margin-right:8px}.hero-profile-links{gap:8px 15px}}
