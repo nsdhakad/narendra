@@ -23,7 +23,7 @@
 .dm-controls{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;margin-bottom:20px}\
 .dm-controls label{font:500 12px/1 "DM Mono",monospace;letter-spacing:.08em}\
 .dm-controls input[type=range]{width:min(260px,70vw);vertical-align:middle;accent-color:#3dd6c6}\
-.dm-btn{font:600 14px/1.2 inherit;padding:11px 18px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}\
+.dm-btn{font:600 14px/1.2 Manrope,system-ui,sans-serif;padding:11px 18px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}\
 .dm-btn:hover,.dm-btn:focus-visible{background:rgba(61,214,198,.18);outline:2px solid #3dd6c6;outline-offset:2px}\
 .dm-lanes{display:grid;grid-template-columns:1fr 1fr;gap:18px}\
 @media(max-width:760px){.dm-lanes{grid-template-columns:1fr}}\
@@ -129,7 +129,7 @@
       if (fill) { g.fillStyle = fill; g.fill(); }
       if (stroke) { g.strokeStyle = stroke; g.stroke(); }
     }
-    function drawMemory(g, x, y, w, h, n, activeFraction, compute, d) {
+    function drawMemory(g, x, y, w, h, n, activeFraction, mode, d) {
       rounded(g, x, y, w, h, 7, '#0c1b29', '#2b465b');
       var cols = n >= 128 ? 12 : n >= 64 ? 10 : 8;
       var rows = Math.max(4, Math.min(7, Math.ceil(cols * .55)));
@@ -138,8 +138,9 @@
       g.fillText('MEMORY ARRAY  ' + n + '×' + n, x + 8, y + 15);
       for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
         var idx = r * cols + c, frac = idx / (rows * cols);
-        var on = compute && frac <= activeFraction;
-        g.fillStyle = on ? '#3dd6c6' : 'rgba(120,151,175,.19)';
+        var on = mode === 'compute' && frac <= activeFraction;
+        var sent = mode === 'transfer' && frac <= activeFraction;
+        g.fillStyle = on ? '#3dd6c6' : sent ? 'rgba(61,214,198,.42)' : 'rgba(120,151,175,.19)';
         rounded(g, x + 8 + c * (cellW + gap), y + 24 + r * (cellH + gap), cellW, cellH, 2, g.fillStyle, null);
         if (on) {
           g.fillStyle = 'rgba(61,214,198,.16)';
@@ -160,16 +161,16 @@
         g.fillRect(xx, by + 3, Math.max(2, bw / count - 2), Math.max(3, bh - 6));
       }
     }
-    function drawBus(g, x1, x2, y, phaseP, active, d) {
+    function drawBus(g, x1, x2, y, phaseP, active, direction, d) {
       g.strokeStyle = '#30465a'; g.lineWidth = 1.5;
       g.beginPath(); g.moveTo(x1, y); g.lineTo(x2, y); g.stroke();
       g.fillStyle = '#8ba1b7'; g.font = '9px "DM Mono",monospace'; g.textAlign = 'center';
-      g.fillText('MEMORY BUS', (x1 + x2) / 2, y - 9); g.textAlign = 'start';
+      g.fillText(direction === 'reverse' ? 'CPU → MEMORY' : 'MEMORY → CPU', (x1 + x2) / 2, y - 9); g.textAlign = 'start';
       if (!active) return;
       var count = 12;
       for (var i = 0; i < count; i++) {
         var q = (phaseP * count * 1.8 + i / count) % 1;
-        var x = x1 + q * (x2 - x1);
+        var x = direction === 'reverse' ? x2 - q * (x2 - x1) : x1 + q * (x2 - x1);
         g.fillStyle = '#3dd6c6';
         g.shadowBlur = 7 * d; g.shadowColor = '#3dd6c6';
         rounded(g, x - 2.5, y - 3, 5, 6, 1.5, '#3dd6c6', null);
@@ -182,17 +183,24 @@
       var pad = 12, memX = pad, memY = 36, memW = w * .27, memH = h - 61;
       var cpuW = w * .22, cpuX = w - cpuW - pad, cpuY = 36, cpuH = memH;
       var busX1 = memX + memW + 7, busX2 = cpuX - 7, busY = h * .57;
-      var transferP = Math.min(1, p / .52);
-      var computeP = p <= .52 ? 0 : Math.min(1, (p - .52) / .48);
-      g.fillStyle = '#8da6bb'; g.font = '9px "DM Mono",monospace'; g.fillText('WEIGHTS', memX, 24);
-      drawMemory(g, memX, memY, memW, memH, n, transferP, false, d);
+      var transferP = Math.min(1, p / .45);
+      var computeP = p <= .45 ? 0 : Math.min(1, (p - .45) / .40);
+      var outputP = p <= .85 ? 0 : Math.min(1, (p - .85) / .15);
+      var transferActive = p > 0 && p <= .45;
+      var outputActive = p > .85 && p < 1;
+      g.fillStyle = '#8da6bb'; g.font = '9px "DM Mono",monospace'; g.fillText('WEIGHTS + INPUT', memX, 24);
+      drawMemory(g, memX, memY, memW, memH, n, transferP, 'transfer', d);
       drawCpu(g, cpuX, cpuY, cpuW, cpuH, n, computeP > 0, computeP);
-      drawBus(g, busX1, busX2, busY, transferP, p > 0 && p <= .52, d);
-      if (p >= .52) {
+      drawBus(g, busX1, busX2, busY, transferP, transferActive, 'forward', d);
+      if (outputActive) drawBus(g, busX1, busX2, busY, outputP, true, 'reverse', d);
+      if (p >= .85) {
+        g.fillStyle = '#3dd6c6'; g.font = '10px "DM Mono",monospace';
+        g.fillText(outputP >= 1 ? 'OUTPUT VECTOR RETURNED' : 'SENDING N RESULTS…', memX, h - 10);
+      } else if (p >= .45) {
         g.fillStyle = '#a78bfa'; g.font = '10px "DM Mono",monospace';
         g.fillText(computeP >= 1 ? 'COMPUTE COMPLETE' : 'COMPUTING IN CPU…', cpuX - 1, h - 10);
       } else if (p > 0) {
-        g.fillStyle = '#3dd6c6'; g.font = '10px "DM Mono",monospace'; g.fillText('TRANSFERRING WEIGHTS…', memX, h - 10);
+        g.fillStyle = '#3dd6c6'; g.font = '10px "DM Mono",monospace'; g.fillText('TRANSFERRING N² WEIGHTS + INPUTS…', memX, h - 10);
       } else {
         g.fillStyle = '#61788d'; g.font = '10px "DM Mono",monospace'; g.fillText('READY', memX, h - 10);
       }
@@ -200,31 +208,44 @@
     function drawImc(p, n) {
       var c = $('dmImc'), f = dims(c), g = f.ctx, w = f.w, h = f.h, d = f.d;
       g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, w, h);
-      var memX = 12, memY = 31, memW = w - 24, memH = h - 53;
-      var inputP = Math.min(1, p / .12);
-      var computeP = p <= .12 ? 0 : Math.min(1, (p - .12) / .88);
+      var memX = 12, memY = 31, memW = w * .66, memH = h - 53;
+      var outputX = memX + memW + 9, outputW = Math.max(44, w - outputX - 12);
+      var inputP = Math.min(1, p / .10);
+      var computeP = p <= .10 ? 0 : Math.min(1, (p - .10) / .75);
+      var outputP = p <= .85 ? 0 : Math.min(1, (p - .85) / .15);
       g.fillStyle = '#8da6bb'; g.font = '9px "DM Mono",monospace'; g.fillText('INPUT VECTOR → ARRAY', 12, 15);
-      // Brief input arrival, then only the memory array animates during computation.
       if (inputP < 1 && p > 0) {
-        g.strokeStyle = '#30465a'; g.beginPath(); g.moveTo(13, 23); g.lineTo(w - 13, 23); g.stroke();
-        var ix = 13 + (w - 26) * inputP;
+        g.strokeStyle = '#30465a'; g.beginPath(); g.moveTo(13, 23); g.lineTo(w * .65, 23); g.stroke();
+        var ix = 13 + (w * .65 - 13) * inputP;
         g.fillStyle = '#a78bfa'; rounded(g, ix - 3, 19, 6, 8, 2, '#a78bfa', null);
       }
-      drawMemory(g, memX, memY, memW, memH, n, computeP, true, d);
-      g.fillStyle = computeP > 0 ? '#3dd6c6' : '#8da6bb'; g.font = '10px "DM Mono",monospace';
-      g.fillText(p <= .12 ? (p > 0 ? 'LOADING INPUTS…' : 'WEIGHTS STAY IN PLACE') : (computeP >= 1 ? 'IN-ARRAY MAC COMPLETE' : 'COMPUTING IN ARRAY…'), 12, h - 10);
+      drawMemory(g, memX, memY, memW, memH, n, computeP, 'compute', d);
+      rounded(g, outputX, memY, outputW, memH, 7, '#101928', '#2b465b');
+      g.fillStyle = '#9fb3c7'; g.font = '9px "DM Mono",monospace'; g.fillText('OUTPUT', outputX + 6, memY + 15);
+      var rows = Math.max(3, Math.min(7, Math.round(n / 16)));
+      var gap = 4, cellH = (memH - 30 - (rows - 1) * gap) / rows;
+      for (var i = 0; i < rows; i++) {
+        var reached = outputP > (i / rows);
+        g.fillStyle = reached ? '#3dd6c6' : 'rgba(120,151,175,.19)';
+        rounded(g, outputX + 6, memY + 23 + i * (cellH + gap), outputW - 12, Math.max(3, cellH), 2, g.fillStyle, null);
+      }
+      g.fillStyle = outputP > 0 ? '#3dd6c6' : '#8da6bb'; g.font = '10px "DM Mono",monospace';
+      g.fillText(p <= .10 ? (p > 0 ? 'LOADING INPUTS…' : 'WEIGHTS STAY IN PLACE') : p < .85 ? (computeP >= 1 ? 'IN-ARRAY MAC COMPLETE' : 'COMPUTING IN ARRAY…') : (outputP >= 1 ? 'OUTPUT VECTOR READY' : 'READING N RESULTS…'), 12, h - 10);
     }
     function render(p) {
       var n = N(), m = model(n);
-      var transferP = Math.min(1, p / .52);
-      var cpuP = p <= .52 ? 0 : Math.min(1, (p - .52) / .48);
-      // Conventional path moves all matrix words before CPU compute; IMC moves only vectors.
-      var convMoved = m.conv.moved * transferP;
-      var convEnergy = m.conv.transferE * transferP + (m.conv.e - m.conv.transferE) * cpuP;
-      var imcP = Math.min(1, p / .12);
-      var imcComputeP = p <= .12 ? 0 : Math.min(1, (p - .12) / .88);
-      var imcMoved = m.imc.moved * imcP;
-      var imcEnergy = (2 * n * E_MOVE) * imcP + (m.imc.e - 2 * n * E_MOVE) * imcComputeP;
+      var transferP = Math.min(1, p / .45);
+      var cpuP = p <= .45 ? 0 : Math.min(1, (p - .45) / .40);
+      var outputP = p <= .85 ? 0 : Math.min(1, (p - .85) / .15);
+      // Transfer weights + inputs, execute CPU arithmetic, then return the output vector.
+      var convMoved = (n * n + n) * transferP + n * outputP;
+      var convEnergy = (n * n + n) * E_MOVE * transferP + n * n * E_MAC * cpuP + n * E_MOVE * outputP;
+      var imcInputP = Math.min(1, p / .10);
+      var imcComputeP = p <= .10 ? 0 : Math.min(1, (p - .10) / .75);
+      var imcOutputP = p <= .85 ? 0 : Math.min(1, (p - .85) / .15);
+      var imcMoved = n * imcInputP + n * imcOutputP;
+      var imcEnergy = n * E_MOVE * imcInputP + n * n * E_IMC_MAC * imcComputeP +
+        (n * E_MOVE + n * E_IMC_OUT) * imcOutputP;
 
       drawConventional(p, n);
       drawImc(p, n);
@@ -240,10 +261,10 @@
       $('dmImcProgress').style.width = (p * 100) + '%';
 
       var convLane = $('dmConvLane'), imcLane = $('dmImcLane');
-      var convPhase = p <= 0 ? 'Ready to transfer weights' : p < .52 ? 'Phase 1/2 · Memory → CPU data transfer' : p < 1 ? 'Phase 2/2 · Matrix multiply in CPU' : 'Complete · transfer + CPU compute';
-      var imcPhase = p <= 0 ? 'Ready for in-array compute' : p < .12 ? 'Moving input vector only' : p < 1 ? 'Computing in place · weights stay put' : 'Complete · compute in memory array';
-      convLane.setAttribute('data-state', p <= 0 ? 'idle' : p < .52 ? 'transfer' : p < 1 ? 'compute' : 'done');
-      imcLane.setAttribute('data-state', p <= 0 ? 'idle' : p < .12 ? 'transfer' : p < 1 ? 'compute' : 'done');
+      var convPhase = p <= 0 ? 'Ready to transfer weights' : p < .45 ? 'Phase 1/3 · Memory → CPU transfer' : p < .85 ? 'Phase 2/3 · Matrix multiply in CPU' : p < 1 ? 'Phase 3/3 · CPU → memory output transfer' : 'Complete · transfer + CPU compute + output';
+      var imcPhase = p <= 0 ? 'Ready for in-array compute' : p < .10 ? 'Moving input vector into array' : p < .85 ? 'Computing in place · weights stay put' : p < 1 ? 'Reading output vector from array' : 'Complete · compute in memory array';
+      convLane.setAttribute('data-state', p <= 0 ? 'idle' : (p < .45 || (p >= .85 && p < 1)) ? 'transfer' : p < 1 ? 'compute' : 'done');
+      imcLane.setAttribute('data-state', p <= 0 ? 'idle' : (p < .10 || (p >= .85 && p < 1)) ? 'transfer' : p < 1 ? 'compute' : 'done');
       $('dmConvPhase').textContent = convPhase;
       $('dmImcPhase').textContent = imcPhase;
 
