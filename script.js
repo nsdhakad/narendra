@@ -448,8 +448,37 @@
     autoRotate = !autoRotate;
     autoButton.setAttribute('aria-pressed', String(autoRotate));
   });
-  resetButton.addEventListener('click', () => {
-    targetRotX = defaultRot.x; targetRotY = defaultRot.y; targetCamZ = 7.25;
+  const resetCameraView = () => {
+    targetRotX = defaultRot.x;
+    targetRotY = defaultRot.y;
+    targetCamZ = 7.25;
+    autoRotate = false;
+    autoButton.setAttribute('aria-pressed', 'false');
+  };
+  resetButton.addEventListener('click', resetCameraView);
+  sceneWrap.addEventListener('keydown', event => {
+    const key = event.key;
+    let handled = true;
+    switch (key) {
+      case 'ArrowLeft': targetRotY -= 0.22; break;
+      case 'ArrowRight': targetRotY += 0.22; break;
+      case 'ArrowUp': targetRotX = Math.max(-0.75, targetRotX - 0.16); break;
+      case 'ArrowDown': targetRotX = Math.min(0.55, targetRotX + 0.16); break;
+      default:
+        if (key === '+' || key === '=' || event.code === 'NumpadAdd') {
+          targetCamZ = Math.max(5.2, targetCamZ - 0.35);
+        } else if (key === '-' || key === '_' || event.code === 'NumpadSubtract') {
+          targetCamZ = Math.min(8.8, targetCamZ + 0.35);
+        } else if (key.toLowerCase() === 'r') {
+          resetCameraView();
+        } else {
+          handled = false;
+        }
+    }
+    if (!handled) return;
+    event.preventDefault();
+    autoRotate = false;
+    autoButton.setAttribute('aria-pressed', 'false');
   });
   sceneWrap.addEventListener('wheel', event => {
     if (Math.abs(event.deltaY) < 2) return;
