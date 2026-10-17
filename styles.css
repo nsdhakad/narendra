@@ -20,7 +20,7 @@
 /* Static subpages share the same responsive dark/editorial system as the 3D landing page. */
 .subpage-main{max-width:var(--max);min-height:70vh;margin:0 auto;padding:38px 30px 70px}
 .subpage-hero{position:relative;overflow:hidden;padding:56px 0 45px;border-bottom:1px solid var(--line);margin-bottom:25px}
-.subpage-hero:after{content:attr(data-code);position:absolute;right:0;bottom:10px;color:rgba(117,227,211,.055);font:800 clamp(55px,10vw,130px)/.9 Manrope,sans-serif;letter-spacing:-.08em;pointer-events:none}
+
 .subpage-eyebrow{font:9px var(--mono);letter-spacing:.13em;color:var(--teal);margin-bottom:16px}
 .subpage-hero h1{position:relative;z-index:1;font-size:clamp(38px,6vw,65px);line-height:1.06;letter-spacing:-.065em;margin:0 0 16px}
 .subpage-hero p{position:relative;z-index:1;max-width:760px;color:var(--muted);font-size:14px;line-height:1.9;margin:0}
