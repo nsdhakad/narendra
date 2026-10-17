@@ -204,3 +204,45 @@ document.querySelectorAll('.abstract-button').forEach((button) => {
     }
   });
 });
+
+
+// Mouse-responsive research hero: gentle parallax follows the pointer without moving the text.
+(() => {
+  const visual = document.getElementById('heroVisual');
+  if (!visual) return;
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  if (reduceMotion || !finePointer) return;
+  const chip = visual.querySelector('.hero-chip-wrap');
+  const tags = visual.querySelectorAll('[data-depth]');
+  let frame = 0;
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+  const render = () => {
+    currentX += (targetX - currentX) * 0.12;
+    currentY += (targetY - currentY) * 0.12;
+    visual.style.setProperty('--hero-shift-x', (currentX * 8).toFixed(2) + 'px');
+    visual.style.setProperty('--hero-shift-y', (currentY * 8).toFixed(2) + 'px');
+    visual.style.setProperty('--hero-x', (currentX * 8).toFixed(2) + 'deg');
+    visual.style.setProperty('--hero-y', (currentY * -7).toFixed(2) + 'deg');
+    tags.forEach((tag) => {
+      const depth = Number(tag.dataset.depth) || 18;
+      tag.style.translate = (currentX * depth * 0.18).toFixed(2) + 'px ' + (currentY * depth * 0.18).toFixed(2) + 'px';
+    });
+    if (Math.abs(targetX - currentX) > 0.002 || Math.abs(targetY - currentY) > 0.002) {
+      frame = requestAnimationFrame(render);
+    } else {
+      frame = 0;
+    }
+  };
+  visual.addEventListener('pointermove', (event) => {
+    const rect = visual.getBoundingClientRect();
+    targetX = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - 0.5) * 2));
+    targetY = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - 0.5) * 2));
+    if (!frame) frame = requestAnimationFrame(render);
+  });
+  visual.addEventListener('pointerleave', () => {
+    targetX = 0; targetY = 0;
+    if (!frame) frame = requestAnimationFrame(render);
+  });
+})();
