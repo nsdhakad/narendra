@@ -153,7 +153,7 @@
   scene.fog = new THREE.FogExp2(0x0b1624, 0.035);
   const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
   // Frame the package larger so it is clearly visible in the open upper part of the explorer.
-  camera.position.set(4.3, 3.7, 6.3);
+  camera.position.set(4.3, 3.7, 7.25);
   const root = new THREE.Group();
   const boardGroup = new THREE.Group();
   root.add(boardGroup);
@@ -282,16 +282,18 @@
     setStep(step){demoStep=step;selectedModule=step<0?'imc':step===0?'input':step===1?'imc':step===2?'riscv':'output';setFrameHighlights();inputPixels.forEach((pixel,i)=>{pixel.material.emissive.setHex(step===0&&i%3===0?0x42e7ec:0x174e5c);pixel.material.emissiveIntensity=step===0?1:.25;});outputBars.forEach((bar,i)=>{bar.scale.y=step===3?[1.2,2,.85][i]:1;bar.material.emissiveIntensity=step===3?1.2:.6;});},
     explode(open){exploded=Boolean(open);},
     setMode(mode){visualizationMode=mode==='inference'?'inference':'architecture';},
-    reset(){exploded=false;demoStep=-1;visualizationMode='architecture';selectedModule='imc';root.rotation.set(defaultRot.x,defaultRot.y,defaultRot.z);targetRotX=defaultRot.x;targetRotY=defaultRot.y;targetCamZ=6.3;setFrameHighlights();}
+    reset(){exploded=false;demoStep=-1;visualizationMode='architecture';selectedModule='imc';root.rotation.set(defaultRot.x,defaultRot.y,defaultRot.z);targetRotX=defaultRot.x;targetRotY=defaultRot.y;targetCamZ=7.25;setFrameHighlights();}
   };
   setFrameHighlights();
 
   const defaultRot = { x: -0.18, y: -0.5, z: 0.02 };
   root.rotation.set(defaultRot.x, defaultRot.y, defaultRot.z);
+  // Scale the complete assembly and lift it into the unobstructed area above the pipeline overlay.
+  root.scale.setScalar(0.82);
   let autoRotate = !reduceMotion;
   let dragging = false, moved = false, pointerX = 0, pointerY = 0;
   let targetRotX = defaultRot.x, targetRotY = defaultRot.y;
-  let targetCamZ = 6.3;
+  let targetCamZ = 7.25;
   const clock = new THREE.Clock();
 
   function resize() {
@@ -330,7 +332,7 @@
     autoButton.setAttribute('aria-pressed', String(autoRotate));
   });
   resetButton.addEventListener('click', () => {
-    targetRotX = defaultRot.x; targetRotY = defaultRot.y; targetCamZ = 6.3;
+    targetRotX = defaultRot.x; targetRotY = defaultRot.y; targetCamZ = 7.25;
   });
   sceneWrap.addEventListener('wheel', event => {
     if (Math.abs(event.deltaY) < 2) return;
@@ -344,7 +346,7 @@
     root.rotation.x += (targetRotX - root.rotation.x) * .065;
     root.rotation.y += (targetRotY - root.rotation.y) * .065;
     root.rotation.z += (defaultRot.z - root.rotation.z) * .035;
-    root.position.y = 0.18 + Math.sin(elapsed * .7) * .035;
+    root.position.y = 0.62 + Math.sin(elapsed * .7) * .025;
     camera.position.z += (targetCamZ - camera.position.z) * .06;
     camera.lookAt(0,0,0);
     particles.rotation.y=elapsed*.012;particles.position.y=Math.sin(elapsed*.23)*.08;
