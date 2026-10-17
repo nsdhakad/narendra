@@ -321,24 +321,6 @@
     $('dmReset').addEventListener('click', reset);
     window.addEventListener('resize', function () { render(0); });
 
-    // Show this section only in the default Architecture view; hide it for Inference.
-    var explorer = document.querySelector('#system-showcase .system-explorer');
-    function syncSectionVisibility() {
-      var architectureSelected = !explorer || explorer.getAttribute('data-mode') !== 'inference';
-      sec.hidden = !architectureSelected;
-      sec.setAttribute('aria-hidden', architectureSelected ? 'false' : 'true');
-      if (!architectureSelected) stop();
-    }
-    syncSectionVisibility();
-    if (explorer && 'MutationObserver' in window) {
-      var modeObserver = new MutationObserver(syncSectionVisibility);
-      modeObserver.observe(explorer, { attributes: true, attributeFilter: ['data-mode'] });
-      var inferenceTab = document.getElementById('inferenceMode');
-      var architectureTab = document.getElementById('architectureMode');
-      if (inferenceTab) inferenceTab.addEventListener('click', syncSectionVisibility);
-      if (architectureTab) architectureTab.addEventListener('click', syncSectionVisibility);
-    }
-
     // First paint when close to viewport; animation begins only on user action.
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
