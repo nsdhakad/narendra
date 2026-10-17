@@ -18,7 +18,7 @@
 .dm-kicker{font:500 12px/1 "DM Mono",monospace;letter-spacing:.14em;color:var(--muted,#8ea3b9);margin:0 0 14px}\
 .dm-title{font-family:inherit;font-size:clamp(22px,2.8vw,32px);line-height:1.12;margin:0 0 9px;font-weight:700;letter-spacing:-.035em;color:inherit}\
 .dm-title em{font-style:italic;color:var(--accent,#3dd6c6);opacity:1}\
-.dm-sub{max-width:68ch;color:var(--muted,inherit);margin:0 0 18px;line-height:1.6;font-size:14px}\
+.dm-sub{max-width:none;width:100%;box-sizing:border-box;color:var(--muted,inherit);margin:0 0 18px;line-height:1.55;font-size:13px}\
 .dm-card{border:1px solid rgba(127,140,160,.35);border-radius:14px;padding:clamp(12px,2vw,18px);background:rgba(127,140,160,.07)}\
 .dm-controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:14px}\
 .dm-controls label{font:500 12px/1 "DM Mono",monospace;letter-spacing:.08em}\
