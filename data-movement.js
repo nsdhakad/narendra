@@ -47,6 +47,18 @@
 .dm-result-metric{padding:8px;border-radius:8px;background:rgba(127,140,160,.08)}\
 .dm-result-metric span{display:block;font:10px/1.4 "DM Mono",monospace;color:#8ea3b9}\
 .dm-result-metric b{display:block;font-size:16px;margin-top:3px}\
+.dm-latency{margin-top:14px;padding:12px;border:1px solid rgba(61,214,198,.28);border-radius:10px;background:rgba(8,14,24,.34)}\
+.dm-latency-title{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:10px}\
+.dm-latency-title small{font:10px/1.4 "DM Mono",monospace;color:#8ea3b9;font-weight:400}\
+.dm-latency-row{display:grid;grid-template-columns:minmax(94px,130px) minmax(0,1fr) auto;gap:9px;align-items:center;margin:10px 0}\
+.dm-latency-name{font:10px/1.3 "DM Mono",monospace;color:#9fb3c7}\
+.dm-latency-track{height:15px;border-radius:4px;background:rgba(127,140,160,.16);overflow:hidden;position:relative}\
+.dm-latency-fill{height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,#a78bfa,#6e64d8);transition:width .08s linear;position:relative;min-width:0}\
+.dm-latency-row[data-kind="imc"] .dm-latency-fill{background:linear-gradient(90deg,#3dd6c6,#80f0ce)}\
+.dm-latency-value{font:600 11px/1.3 "DM Mono",monospace;white-space:nowrap;color:#d9e6f2}\
+.dm-latency-speedup{margin-top:10px;font-size:12px;color:#75e3d3;font-weight:700}\
+.dm-latency-note{margin:5px 0 0;font-size:10px;line-height:1.5;color:#8ea3b9}\
+@media(max-width:520px){.dm-latency-row{grid-template-columns:90px minmax(0,1fr);gap:6px}.dm-latency-value{grid-column:2}.dm-latency-title{align-items:flex-start}}\
 @media(max-width:520px){.dm-result-grid{grid-template-columns:1fr}.dm-stats strong{font-size:17px}}\
 .dm-note{margin-top:9px;font-size:11px;opacity:.65}\
 @media(prefers-reduced-motion:reduce){.dm-progress span{transition:none}}\
@@ -96,6 +108,13 @@
             '<div class="dm-progress" aria-hidden="true"><span id="dmImcProgress"></span></div>' +
             '<div class="dm-stats"><div class="dm-stat">WORDS MOVED<strong id="dmImcMoved">0</strong><small id="dmImcMovedDetail">inputs + outputs only</small></div><div class="dm-stat">REL. ENERGY<strong id="dmImcE">0</strong><small id="dmImcEDetail">illustrative units</small></div></div></div>' +
         '</div>' +
+        '<div class="dm-latency" aria-label="Illustrative latency comparison">' +
+          '<div class="dm-latency-title">LATENCY COMPARISON <small>illustrative relative time units</small></div>' +
+          '<div class="dm-latency-row" data-kind="conv"><span class="dm-latency-name">CONVENTIONAL</span><div class="dm-latency-track"><div class="dm-latency-fill" id="dmConvLatencyBar"></div></div><span class="dm-latency-value" id="dmConvLatency">—</span></div>' +
+          '<div class="dm-latency-row" data-kind="imc"><span class="dm-latency-name">IN-MEMORY</span><div class="dm-latency-track"><div class="dm-latency-fill" id="dmImcLatencyBar"></div></div><span class="dm-latency-value" id="dmImcLatency">—</span></div>' +
+          '<div class="dm-latency-speedup" id="dmLatencySpeedup">Run the comparison to animate the latency difference.</div>' +
+          '<p class="dm-latency-note">Bar length compares modeled end-to-end latency; the sweep animates progress. This conceptual model assumes weight-transfer latency scales with N² for the CPU path, while in-array MACs execute in parallel. Actual latency depends on memory technology, array size, converters, precision, and implementation.</p>' +
+        '</div>' +
         '<div class="dm-result" id="dmResult" aria-live="polite">Choose a matrix size, then press <b>Run comparison</b>. Watch the transfer phase finish before CPU computation starts.</div>' +
         '<p class="dm-note" id="dmNote">Illustrative model only—not measured silicon data. This simplified model counts N² weights plus 2N input/output words for the conventional path, and 2N input/output words for in-memory computing. Relative energy uses compute = 1, word transfer = 20, in-array MAC = 1.5, and readout = 6 per output. Real results depend on architecture, precision, data reuse, and peripheral circuits.</p>' +
       '</div>';
@@ -109,9 +128,13 @@
     function N() { return Math.pow(2, +size.value); }
     function model(n) {
       var macs = n * n;
+      // Simplified latency model: moving N² weights dominates the conventional path;
+      // IMC performs the array MACs in parallel, with input and output transfer overhead.
+      var convLatency = macs * 1.0 + n * n * 0.12 + n * 0.5;
+      var imcLatency = n * 0.5 + 8 + n * 0.5;
       return {
-        conv: { moved: macs + 2 * n, e: macs * E_MAC + (macs + 2 * n) * E_MOVE, transferE: macs * E_MOVE },
-        imc: { moved: 2 * n, e: macs * E_IMC_MAC + n * E_IMC_OUT + 2 * n * E_MOVE }
+        conv: { moved: macs + 2 * n, e: macs * E_MAC + (macs + 2 * n) * E_MOVE, transferE: macs * E_MOVE, latency: convLatency },
+        imc: { moved: 2 * n, e: macs * E_IMC_MAC + n * E_IMC_OUT + 2 * n * E_MOVE, latency: imcLatency }
       };
     }
     function dims(canvas) {
@@ -257,6 +280,14 @@
       $('dmImcMovedDetail').textContent = fmt(m.imc.moved) + ' total (input + output)';
       $('dmImcE').textContent = fmt(imcEnergy);
       $('dmImcEDetail').textContent = 'of ' + fmt(m.imc.e) + ' total units';
+      var latencyRatio = m.conv.latency / m.imc.latency;
+      // Keep even the shorter IMC bar clearly visible while preserving a strong visual contrast.
+      var imcLatencyWidth = Math.max(8, 100 * m.imc.latency / m.conv.latency);
+      $('dmConvLatency').textContent = fmt(m.conv.latency) + ' units';
+      $('dmImcLatency').textContent = fmt(m.imc.latency) + ' units';
+      $('dmConvLatencyBar').style.width = (100 * p) + '%';
+      $('dmImcLatencyBar').style.width = (imcLatencyWidth * p) + '%';
+      $('dmLatencySpeedup').textContent = p >= 1 ? 'MODELED LATENCY REDUCTION: ' + (100 * (1 - m.imc.latency / m.conv.latency)).toFixed(1) + '% · ' + latencyRatio.toFixed(1) + '× lower latency with IMC' : 'Modeled end-to-end latency: IMC is ' + latencyRatio.toFixed(1) + '× lower; bars animate during the run.';
       $('dmConvProgress').style.width = (p * 100) + '%';
       $('dmImcProgress').style.width = (p * 100) + '%';
 
@@ -271,12 +302,13 @@
       if (p >= 1) {
         var wordSave = 100 * (1 - m.imc.moved / m.conv.moved);
         var energySave = 100 * (1 - m.imc.e / m.conv.e);
+        var latencySave = 100 * (1 - m.imc.latency / m.conv.latency);
         $('dmResult').innerHTML =
           '<b>' + n + ' × ' + n + ' matrix comparison</b>' +
           '<div class="dm-result-grid">' +
             '<div class="dm-result-metric"><span>FEWER WORDS MOVED</span><b>' + wordSave.toFixed(1) + '%</b></div>' +
             '<div class="dm-result-metric"><span>RELATIVE ENERGY REDUCTION</span><b>' + energySave.toFixed(1) + '%</b></div>' +
-            '<div class="dm-result-metric"><span>CONVENTIONAL / IMC ENERGY</span><b>' + (m.conv.e / m.imc.e).toFixed(1) + '×</b></div>' +
+            '<div class="dm-result-metric"><span>MODELED LATENCY REDUCTION</span><b>' + latencySave.toFixed(1) + '%</b><span>' + (m.conv.latency / m.imc.latency).toFixed(1) + '× lower latency</span></div>' +
           '</div>';
       }
     }
